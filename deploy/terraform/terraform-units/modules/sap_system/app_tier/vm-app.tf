@@ -102,7 +102,6 @@ resource "azurerm_linux_virtual_machine" "app" {
       caching              = disk.value.caching
       storage_account_type = disk.value.disk_type
       disk_size_gb         = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
     }
   }
 
@@ -115,6 +114,7 @@ resource "azurerm_linux_virtual_machine" "app" {
       offer     = local.app_os.offer
       sku       = local.app_os.sku
       version   = local.app_os.version
+      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
     }
   }
 
@@ -165,31 +165,11 @@ resource "azurerm_windows_virtual_machine" "app" {
   admin_username = local.sid_auth_username
   admin_password = local.sid_auth_password
 
-  dynamic "os_disk" {
-    iterator = disk
-    for_each = flatten(
-      [
-        for storage_type in local.app_sizing.storage : [
-          for disk_count in range(storage_type.count) :
-          {
-            name      = storage_type.name,
-            id        = disk_count,
-            disk_type = storage_type.disk_type,
-            size_gb   = storage_type.size_gb,
-            caching   = storage_type.caching
-          }
-        ]
-        if storage_type.name == "os"
-      ]
-    )
-
-    content {
-      name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.app_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
-      caching              = disk.value.caching
-      storage_account_type = disk.value.disk_type
-      disk_size_gb         = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
-    }
+  os_disk {
+    name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.app_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
   }
 
   source_image_id = local.app_custom_image ? local.app_os.source_image_id : null
@@ -222,7 +202,7 @@ resource "azurerm_managed_disk" "app" {
   storage_account_type = local.app_data_disks[count.index].storage_account_type
   disk_size_gb         = local.app_data_disks[count.index].disk_size_gb
   disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
-  
+
   zones = local.app_zonal_deployment && (local.application_server_count == local.app_zone_count) ? (
     upper(local.app_ostype) == "LINUX" ? (
       [azurerm_linux_virtual_machine.app[local.app_data_disks[count.index].vm_index].zone]) : (
