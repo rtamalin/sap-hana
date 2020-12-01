@@ -50,9 +50,9 @@ resource "azurerm_linux_virtual_machine" "observer" {
   disable_password_authentication = true
 
   os_disk {
-    name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+    caching                = "ReadWrite"
+    storage_account_type   = "Standard_LRS"
     disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
   }
 
@@ -109,9 +109,9 @@ resource "azurerm_windows_virtual_machine" "observer" {
   admin_password = local.observer_authentication.password
 
   os_disk {
-    name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+    caching                = "ReadWrite"
+    storage_account_type   = "Standard_LRS"
     disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
   }
 

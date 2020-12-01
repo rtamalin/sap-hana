@@ -73,11 +73,31 @@ resource "azurerm_linux_virtual_machine" "web" {
   disable_password_authentication = ! local.enable_auth_password
   admin_password                  = local.sid_auth_password
 
-  os_disk {
-    name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-    disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+  dynamic "os_disk" {
+    iterator = disk
+    for_each = flatten(
+      [
+        for storage_type in local.web_sizing.storage : [
+          for disk_count in range(storage_type.count) :
+          {
+            name      = storage_type.name,
+            id        = disk_count,
+            disk_type = storage_type.disk_type,
+            size_gb   = storage_type.size_gb,
+            caching   = storage_type.caching
+          }
+        ]
+        if storage_type.name == "os"
+      ]
+    )
+
+    content {
+      name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+      caching                = disk.value.caching
+      storage_account_type   = disk.value.disk_type
+      disk_size_gb           = disk.value.size_gb
+      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+    }
   }
 
   source_image_id = local.web_custom_image ? local.web_os.source_image_id : null
@@ -157,10 +177,10 @@ resource "azurerm_windows_virtual_machine" "web" {
     )
 
     content {
-      name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
-      caching              = disk.value.caching
-      storage_account_type = disk.value.disk_type
-      disk_size_gb         = disk.value.size_gb
+      name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+      caching                = disk.value.caching
+      storage_account_type   = disk.value.disk_type
+      disk_size_gb           = disk.value.size_gb
       disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
     }
   }
@@ -186,15 +206,15 @@ resource "azurerm_windows_virtual_machine" "web" {
 
 # Creates managed data disk
 resource "azurerm_managed_disk" "web" {
-  count                = local.enable_deployment ? length(local.web_data_disks) : 0
-  name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.web_data_disks[count.index].suffix)
-  location             = var.resource_group[0].location
-  resource_group_name  = var.resource_group[0].name
-  create_option        = "Empty"
-  storage_account_type = local.web_data_disks[count.index].storage_account_type
-  disk_size_gb         = local.web_data_disks[count.index].disk_size_gb
+  count                  = local.enable_deployment ? length(local.web_data_disks) : 0
+  name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.web_data_disks[count.index].suffix)
+  location               = var.resource_group[0].location
+  resource_group_name    = var.resource_group[0].name
+  create_option          = "Empty"
+  storage_account_type   = local.web_data_disks[count.index].storage_account_type
+  disk_size_gb           = local.web_data_disks[count.index].disk_size_gb
   disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
-  
+
   zones = local.web_zonal_deployment && (local.webdispatcher_count == local.web_zone_count) ? (
     upper(local.web_ostype) == "LINUX" ? (
       [azurerm_linux_virtual_machine.web[local.web_data_disks[count.index].vm_index].zone]) : (
