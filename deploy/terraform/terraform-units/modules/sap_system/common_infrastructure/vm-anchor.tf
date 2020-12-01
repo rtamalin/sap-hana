@@ -88,10 +88,17 @@ resource "azurerm_windows_virtual_machine" "anchor" {
   admin_password = local.anchor_authentication.password
 
   os_disk {
+<<<<<<< HEAD
     name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.anchor_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
     caching                = "ReadWrite"
     storage_account_type   = "Standard_LRS"
     disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
+=======
+    name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.anchor_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+>>>>>>> Support disk encryption with customer managed keys
   }
 
   source_image_id = local.anchor_custom_image ? local.anchor_os.source_image_id : null

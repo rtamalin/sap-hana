@@ -177,11 +177,19 @@ resource "azurerm_windows_virtual_machine" "web" {
     )
 
     content {
+<<<<<<< HEAD
       name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
       caching                = disk.value.caching
       storage_account_type   = disk.value.disk_type
       disk_size_gb           = disk.value.size_gb
       disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
+=======
+      name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
+      caching              = disk.value.caching
+      storage_account_type = disk.value.disk_type
+      disk_size_gb         = disk.value.size_gb
+      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+>>>>>>> Support disk encryption with customer managed keys
     }
   }
 
@@ -206,6 +214,7 @@ resource "azurerm_windows_virtual_machine" "web" {
 
 # Creates managed data disk
 resource "azurerm_managed_disk" "web" {
+<<<<<<< HEAD
   count                  = local.enable_deployment ? length(local.web_data_disks) : 0
   name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.web_data_disks[count.index].suffix)
   location               = var.resource_group[0].location
@@ -215,6 +224,17 @@ resource "azurerm_managed_disk" "web" {
   disk_size_gb           = local.web_data_disks[count.index].disk_size_gb
   disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
 
+=======
+  count                = local.enable_deployment ? length(local.web_data_disks) : 0
+  name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.web_data_disks[count.index].suffix)
+  location             = var.resource_group[0].location
+  resource_group_name  = var.resource_group[0].name
+  create_option        = "Empty"
+  storage_account_type = local.web_data_disks[count.index].storage_account_type
+  disk_size_gb         = local.web_data_disks[count.index].disk_size_gb
+  disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+  
+>>>>>>> Support disk encryption with customer managed keys
   zones = local.web_zonal_deployment && (local.webdispatcher_count == local.web_zone_count) ? (
     upper(local.web_ostype) == "LINUX" ? (
       [azurerm_linux_virtual_machine.web[local.web_data_disks[count.index].vm_index].zone]) : (
