@@ -53,6 +53,7 @@ resource "azurerm_linux_virtual_machine" "observer" {
     name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
   }
 
   source_image_id = local.observer_custom_image ? local.observer_custom_image_id : null
@@ -111,6 +112,7 @@ resource "azurerm_windows_virtual_machine" "observer" {
     name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.observer_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
   }
 
   source_image_id = local.observer_custom_image ? local.observer_os.source_image_id : null
