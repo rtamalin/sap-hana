@@ -21,8 +21,8 @@ locals {
 
   // Resource group and location
   region  = try(var.infrastructure.region, "")
-  prefix  = try(var.infrastructure.resource_group.name, var.naming.prefix.DEPLOYER)
-  rg_name = try(var.infrastructure.resource_group.name, format("%s%s", local.prefix, local.resource_suffixes.deployer_rg))
+  prefix  = var.infrastructure.resource_group.name != "" ? var.infrastructure.resource_group.name : var.naming.prefix.DEPLOYER
+  rg_name = var.infrastructure.resource_group.name != "" ? var.infrastructure.resource_group.name : format("%s%s", local.prefix, local.resource_suffixes.deployer_rg)
 
   // Post fix for all deployed resources
   postfix = random_id.deployer.hex
@@ -31,14 +31,14 @@ locals {
   vnet_mgmt        = try(var.infrastructure.vnets.management, {})
   vnet_mgmt_arm_id = try(local.vnet_mgmt.arm_id, "")
   vnet_mgmt_exists = length(local.vnet_mgmt_arm_id) > 0 ? true : false
-  vnet_mgmt_name   = local.vnet_mgmt_exists ? split("/", local.vnet_mgmt_arm_id)[8] : try(local.vnet_mgmt.name, format("%s-vnet", local.prefix))
-  vnet_mgmt_addr   = local.vnet_mgmt_exists ? "" : try(local.vnet_mgmt.address_space, "")
+  vnet_mgmt_name   = local.vnet_mgmt_exists ? split("/", local.vnet_mgmt_arm_id)[8] : (local.vnet_mgmt.name != "" ? local.vnet_mgmt.name : format("%s-vnet", local.prefix))
+  vnet_mgmt_addr   = local.vnet_mgmt_exists ? "" : (local.vnet_mgmt.address_space != "" ? local.vnet_mgmt.address_space : "")
 
   // Management subnet
   sub_mgmt          = try(local.vnet_mgmt.subnet_mgmt, {})
   sub_mgmt_arm_id   = try(local.sub_mgmt.arm_id, "")
   sub_mgmt_exists   = length(local.sub_mgmt_arm_id) > 0 ? true : false
-  sub_mgmt_name     = local.sub_mgmt_exists ? split("/", local.sub_mgmt_arm_id)[10] : try(local.sub_mgmt.name, format("%s_deployment-subnet", local.prefix))
+  sub_mgmt_name     = local.sub_mgmt_exists ? split("/", local.sub_mgmt_arm_id)[10] : (local.sub_mgmt.name != "" ? local.sub_mgmt.name  : format("%s_deployment-subnet", local.prefix))
   sub_mgmt_prefix   = local.sub_mgmt_exists ? "" : try(local.sub_mgmt.prefix, "")
   sub_mgmt_deployed = try(local.sub_mgmt_exists ? data.azurerm_subnet.subnet_mgmt[0] : azurerm_subnet.subnet_mgmt[0], null)
 
@@ -46,8 +46,8 @@ locals {
   sub_mgmt_nsg             = try(local.sub_mgmt.nsg, {})
   sub_mgmt_nsg_arm_id      = try(local.sub_mgmt_nsg.arm_id, "")
   sub_mgmt_nsg_exists      = length(local.sub_mgmt_nsg_arm_id) > 0 ? true : false
-  sub_mgmt_nsg_name        = local.sub_mgmt_nsg_exists ? split("/", local.sub_mgmt_nsg_arm_id)[8] : try(local.sub_mgmt_nsg.name, format("%s%s", local.prefix, local.resource_suffixes.deployer_subnet_nsg))
-  sub_mgmt_nsg_allowed_ips = local.sub_mgmt_nsg_exists ? [] : try(local.sub_mgmt_nsg.allowed_ips, ["0.0.0.0/0"])
+  sub_mgmt_nsg_name        = local.sub_mgmt_nsg_exists ? split("/", local.sub_mgmt_nsg_arm_id)[8] : (local.sub_mgmt_nsg.name != "" ? local.sub_mgmt_nsg.name : format("%s%s", local.prefix, local.resource_suffixes.deployer_subnet_nsg))
+  sub_mgmt_nsg_allowed_ips = local.sub_mgmt_nsg_exists ? [] : (local.sub_mgmt_nsg.allowed_ips != [] ? local.sub_mgmt_nsg.allowed_ips : ["0.0.0.0/0"])
   sub_mgmt_nsg_deployed    = try(local.sub_mgmt_nsg_exists ? data.azurerm_network_security_group.nsg_mgmt[0] : azurerm_network_security_group.nsg_mgmt[0], null)
 
   // Deployer(s) information from input

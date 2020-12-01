@@ -1,0 +1,56 @@
+/*
+
+  Mandatory inputs
+
+*/
+
+// infrastructure
+environment = "NP"
+location = "eastus"
+
+// deployer management vnet
+deployer_vnet_address_space = "10.0.0.0/26"
+deployer_subnet_prefix = "10.0.0.16/28"
+
+
+/*
+
+  Optional inputs
+
+*/
+
+// deployer_rg_name = ""
+
+// [management vnet]
+// vnet_mgmt_name = ""
+// vnet_mgmt_arm_id = ""
+
+// [management subnet]
+// sub_mgmt_name = ""
+// sub_mgmt_arm_id = ""
+// sub_mgmt_nsg_arm_id = ""
+// sub_mgmt_nsg_name = ""
+// sub_mgmt_nsg_allowed_ips = []
+
+// [deployer]
+// deployer_size = "Standard_D2s_v3"
+// deployer_disk_type = "StandardSSD_LRS"
+
+// deployer_os_source_image_id = ""
+/*
+deployer_os = {
+  "publisher" = "Canonical"
+  "offer"     = "UbuntuServer"
+  "sku"       = "18.04-LTS"
+  "version"   = "latest"
+}
+*/
+// deployer_authentication_type = "key"
+// deployer_authentication_username = "azureadm"
+// deployer_authentication_password = ""
+// deployer_sshkey_path_to_public_key = ""
+// deployer_sshkey_path_to_private_key = ""
+// deployer_private_ip_address = []
+
+// [Disk options]
+// enable_secure_transfer = ""

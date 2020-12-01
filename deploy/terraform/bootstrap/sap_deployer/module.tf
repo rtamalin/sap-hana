@@ -5,12 +5,12 @@ Description:
 */
 module "sap_deployer" {
   source                  = "../../terraform-units/modules/sap_deployer"
-  infrastructure          = var.infrastructure
-  deployers               = var.deployers
-  options                 = var.options
-  ssh-timeout             = var.ssh-timeout
-  sshkey                  = var.sshkey
-  key_vault               = var.key_vault
+  infrastructure          = local.infrastructure
+  deployers               = local.deployers
+  options                 = local.options
+  ssh-timeout             = local.ssh-timeout
+  sshkey                  = local.sshkey
+  key_vault               = local.key_vault
   naming                  = module.sap_namegenerator.naming
 }
 
