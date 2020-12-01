@@ -127,6 +127,7 @@ resource "azurerm_linux_virtual_machine" "vm_dbnode" {
       caching              = disk.value.caching
       storage_account_type = disk.value.disk_type
       disk_size_gb         = disk.value.size_gb
+      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
     }
   }
 
@@ -171,6 +172,8 @@ resource "azurerm_managed_disk" "data_disk" {
   create_option        = "Empty"
   storage_account_type = local.data_disk_list[count.index].storage_account_type
   disk_size_gb         = local.data_disk_list[count.index].disk_size_gb
+  disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+  
   zones = local.enable_ultradisk || local.db_server_count == local.db_zone_count ? (
     [azurerm_linux_virtual_machine.vm_dbnode[local.data_disk_list[count.index].vm_index].zone]) : (
     null
