@@ -5,6 +5,68 @@ Description:
 */
 
 // Create managed resource group for sap deployer with CanNotDelete lock
+
+
+/*
+*---------------------------------------+---------------------------------------*
+*                                                                               *
+*                                RESOURCE GROUPS                                *
+*                                                                               *
+*---------------------------------------4---------------------------------------8
+Function:
+  Creates a Resorce Group.
+
+Description:
+  Resorce Group in which to group all the Resources that are deployed for the
+  Deployer in this unit of execution.
+
+Usage:
+  Variable                   : local.enable_deployers [true|false]
+    - Derived from           : local.deployer_input as [true|false] based on legnth greater than zero
+      Variable               : local.deployer_input
+      - Derived from         : var.deployers as object copy
+        Variable             : var.deployers
+        - Derived from       : Defined empty, passed in from module call
+          Variable           : var.deployers
+          - Derived from     : var.deployers in module caller
+            Variable         : var.deployers
+            - Derived from   : Passed in if present
+              Variable       : var.deployers
+              - Derived from : Defined as empty List Map
+
+
+  Variable            : local.enable_deployers [true|false] derived from local.deployer_input based on legnth greater than zero
+    Variable          : local.deployer_input is a copy of var.defaults
+      Variable        : var.defaults defined empty
+        Module Caller : Pass var.deployers object into module
+          Input       : Any overrides are inserted (JSON or TFVARS)
+            Main      : Defines empty var.deployers object [{}]
+
+
+  Variable            : local.rg_name derived from default format("%s%s", local.prefix, local.resource_suffixes.deployer_rg) or overridden with var.infrastructure.resource_group.name
+    Variable          : var.infrastructure defined empty
+      Module Caller   : Pass var.infrastructure object into module
+          Input       : Any overrides are inserted (JSON or TFVARS)
+            Main      : Defines empty var.infrastructure object {}
+    Variable            : local.prefix derived from 
+      Variable          : local.deployer_input is a copy of var.defaults
+        Variable        : var.defaults defined empty
+          Module Caller : Pass var.deployers object into module
+            Input       : Any overrides are inserted (JSON or TFVARS)
+              Main      : Defines empty var.deployers object [{}]
+    Variable            : local.resource_suffixes.deployer_rg derived from 
+      Variable          : local.deployer_input is a copy of var.defaults
+        Variable        : var.defaults defined empty
+          Module Caller : Pass var.deployers object into module
+            Input       : Any overrides are inserted (JSON or TFVARS)
+              Main      : Defines empty var.deployers object [{}]
+
+
+local.region
+
+
+*/
+
 resource "azurerm_resource_group" "deployer" {
   count    = local.enable_deployers ? 1 : 0
   name     = local.rg_name

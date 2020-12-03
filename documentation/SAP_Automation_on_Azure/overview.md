@@ -21,9 +21,6 @@ which run different roles to configure and VMs and install SAP HANA and required
 
 - [Usage](#usage)
 - [Terraform Deployment Units](#terraform-deployment-units)
-- [Contributions](#contributions)
-- [License & Copyright](#license--copyright)
-- [Contact](#contact)
 
 <br/>
 

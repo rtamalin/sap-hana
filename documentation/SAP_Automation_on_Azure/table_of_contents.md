@@ -20,5 +20,12 @@
 3. [Execution]
 4. [Operations]
 5. [Workshops](Software_Documentation/Product_Documentation/User_Documentation/End_User/Workshops/workshops.md)
+6. Appendix
+   1. [FAQ](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/faq.md)
+   2. [Troubleshooting Guides](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/troubleshooting_guides.md)
+
+
 
 <br/><br/>
+
+

@@ -58,7 +58,8 @@ Environment
 
 
 ## SDU
-![Block5]()
+![Block5a](assets/Block5a.png)
+![Block5b](assets/Block5b.png)
 
 <br/><br/><br/><br/>
 

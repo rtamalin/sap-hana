@@ -1,8 +1,23 @@
 TODO
 
+- Infrastructure as Code
+  - Terraform
+  - Modular Deployment
+  - Custom naming
+  - [Key Vault](key_vault.md)
+  - HA Ready Infrastructure
+  - Custom Images
+  - IP Adressing
+  - Availability Zones
+  - Network Security Groups
+  - DHCP
+  - DNS
 
-- Custom Images
-- [Key Vault](key_vault.md)
-- HA Ready Infrastructure
-- Custom naming
-- IP Adressing
+- Configuration as Code
+  - HANA Install
+  - HSR
+  - Pacemaker Config for HANA
+  - 
+
+
+
