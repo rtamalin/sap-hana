@@ -10,7 +10,7 @@ variable "auto-deploy-version" {
 
 variable "scenario" {
   description = "Deployment Scenario"
-  default     = "sap_deployer"
+  default     = "sap_system"
 }
 
 variable "max_timeout" {
@@ -19,17 +19,17 @@ variable "max_timeout" {
 }
 
 // Registers the current deployment state with Azure's Metadata Service (IMDS)
-resource "azurerm_virtual_machine_extension" "deployer" {
-  count                = length(local.deployers)
+resource "azurerm_virtual_machine_extension" "dbserver_linux" {
+  count                = local.enable_deployment ? length(local.hdb_vms) : 0
   name                 = "IMDS"
-  virtual_machine_id   = azurerm_linux_virtual_machine.deployer[count.index].id
+  virtual_machine_id   = azurerm_linux_virtual_machine.vm_dbnode[0].id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.0"
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=${var.scenario}; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}"
+        "commandToExecute": "curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=hdb_linux; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}"
     }
 SETTINGS
 

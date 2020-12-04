@@ -19,9 +19,18 @@ variable "max_timeout" {
 }
 
 // Registers the current deployment state with Azure's Metadata Service (IMDS)
-resource "null_resource" "IMDS" {
-  provisioner "local-exec" {
-    command    = "curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=${var.scenario}; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}"
-    on_failure = continue
-  }
+resource "azurerm_virtual_machine_extension" "iscsi" {
+  count                = local.iscsi_count
+  name                 = "IMDS"
+  virtual_machine_id   = azurerm_linux_virtual_machine.iscsi[count.index].id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+    {
+        "commandToExecute": "curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=iscsi; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}"
+    }
+SETTINGS
+
 }
