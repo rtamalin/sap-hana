@@ -95,11 +95,11 @@ resource "azurerm_linux_virtual_machine" "dbserver" {
     iterator = disk
     for_each = flatten([for storage_type in lookup(local.sizes, local.anydb_size).storage : [for disk_count in range(storage_type.count) : { name = storage_type.name, id = disk_count, disk_type = storage_type.disk_type, size_gb = storage_type.size_gb, caching = storage_type.caching }] if storage_type.name == "os"])
     content {
-      name                 = format("%s%s", local.anydb_vms[count.index].name, local.resource_suffixes.osdisk)
-      caching              = disk.value.caching
-      storage_account_type = disk.value.disk_type
-      disk_size_gb         = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+      name                   = format("%s%s", local.anydb_vms[count.index].name, local.resource_suffixes.osdisk)
+      caching                = disk.value.caching
+      storage_account_type   = disk.value.disk_type
+      disk_size_gb           = disk.value.size_gb
+      disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
     }
   }
 
@@ -171,11 +171,11 @@ resource "azurerm_windows_virtual_machine" "dbserver" {
     iterator = disk
     for_each = flatten([for storage_type in lookup(local.sizes, local.anydb_size).storage : [for disk_count in range(storage_type.count) : { name = storage_type.name, id = disk_count, disk_type = storage_type.disk_type, size_gb = storage_type.size_gb, caching = storage_type.caching }] if storage_type.name == "os"])
     content {
-      name                 = format("%s%s", local.anydb_vms[count.index].name, local.resource_suffixes.osdisk)
-      caching              = disk.value.caching
-      storage_account_type = disk.value.disk_type
-      disk_size_gb         = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+      name                   = format("%s%s", local.anydb_vms[count.index].name, local.resource_suffixes.osdisk)
+      caching                = disk.value.caching
+      storage_account_type   = disk.value.disk_type
+      disk_size_gb           = disk.value.size_gb
+      disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
     }
   }
 
@@ -195,6 +195,7 @@ resource "azurerm_windows_virtual_machine" "dbserver" {
 
 // Creates managed data disks
 resource "azurerm_managed_disk" "disks" {
+<<<<<<< HEAD
   count                = local.enable_deployment ? length(local.anydb_disks) : 0
   name                 = local.anydb_disks[count.index].name
   location             = var.resource_group[0].location
@@ -203,6 +204,16 @@ resource "azurerm_managed_disk" "disks" {
   storage_account_type = local.anydb_disks[count.index].storage_account_type
   disk_size_gb         = local.anydb_disks[count.index].disk_size_gb
   disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+=======
+  count                  = local.enable_deployment ? length(local.anydb_disks) : 0
+  name                   = local.anydb_disks[count.index].name
+  location               = var.resource_group[0].location
+  resource_group_name    = var.resource_group[0].name
+  create_option          = "Empty"
+  storage_account_type   = local.anydb_disks[count.index].storage_account_type
+  disk_size_gb           = local.anydb_disks[count.index].disk_size_gb
+  disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
+>>>>>>> Move disk encription set to options
 
   zones = local.enable_ultradisk || local.db_server_count == local.db_zone_count ? (
     upper(local.anydb_ostype) == "LINUX" ? (

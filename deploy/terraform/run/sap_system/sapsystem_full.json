@@ -9,7 +9,6 @@
       "is_existing": "false",
       "arm_id": ""
     },
-    "disk_encryption_set_id" : "",
     "anchor_vms": {
       "sku": "Standard_D4s_v4",
       "authentication": {
@@ -107,6 +106,7 @@
   "options": {
     "enable_secure_transfer": true,
     "enable_prometheus": true,
-    "resource_offset" : 0
+    "resource_offset" : 0,
+    "disk_encryption_set_id" : ""
   }
 }
