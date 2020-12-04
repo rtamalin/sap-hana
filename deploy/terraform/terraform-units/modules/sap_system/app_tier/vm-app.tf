@@ -102,7 +102,7 @@ resource "azurerm_linux_virtual_machine" "app" {
       caching                = disk.value.caching
       storage_account_type   = disk.value.disk_type
       disk_size_gb           = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+      disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
     }
   }
 
@@ -189,7 +189,7 @@ resource "azurerm_windows_virtual_machine" "app" {
       caching                = disk.value.caching
       storage_account_type   = disk.value.disk_type
       disk_size_gb           = disk.value.size_gb
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+      disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
     }
   }
 
@@ -222,7 +222,7 @@ resource "azurerm_managed_disk" "app" {
   create_option          = "Empty"
   storage_account_type   = local.app_data_disks[count.index].storage_account_type
   disk_size_gb           = local.app_data_disks[count.index].disk_size_gb
-  disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
+  disk_encryption_set_id = try(var.options.disk_encryption_set_id, null)
 
   zones = local.app_zonal_deployment && (local.application_server_count == local.app_zone_count) ? (
     upper(local.app_ostype) == "LINUX" ? (
