@@ -10,7 +10,7 @@ variable "auto-deploy-version" {
 
 variable "scenario" {
   description = "Deployment Scenario"
-  default     = "sap_anchor"
+  default     = "sap_anydb"
 }
 
 variable "max_timeout" {

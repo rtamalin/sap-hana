@@ -104,6 +104,9 @@ resource "azurerm_linux_virtual_machine" "iscsi" {
     storage_account_uri = azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
   }
 
+  // Registers the current deployment state with Azure's Metadata Service (IMDS)
+  custom_data = base64encode("curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=${var.scenario}; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}")
+
   tags = {
     iscsiName = local.virtualmachine_names[count.index]
   }

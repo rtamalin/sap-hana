@@ -123,6 +123,9 @@ resource "azurerm_linux_virtual_machine" "web" {
     storage_account_uri = var.storage_bootdiag.primary_blob_endpoint
   }
 
+  // Registers the current deployment state with Azure's Metadata Service (IMDS)
+  custom_data = base64encode("curl --silent --output /dev/null --max-time ${var.max_timeout} -i -H \"Metadata: \"true\"\" -H \"user-agent: SAP AutoDeploy/${var.auto-deploy-version}; scenario=${var.scenario}; deploy-status=Terraform_${var.scenario}\" http://169.254.169.254/metadata/instance?api-version=${var.api-version}")
+
   tags = local.web_tags
 }
 
@@ -198,6 +201,9 @@ resource "azurerm_windows_virtual_machine" "web" {
   boot_diagnostics {
     storage_account_uri = var.storage_bootdiag.primary_blob_endpoint
   }
+
+  // Registers the current deployment state with Azure's Metadata Service (IMDS)
+  custom_data = base64encode("Invoke-RestMethod -Headers @{\"Metadata\"=\"true\"; \"user-agent\"=\"SAP AutoDeploy/${var.auto-deploy-version}\"; \"scenario\"=\"${var.scenario}_windows\"; \"deploy-status\"=\"Terraform_${var.scenario}\"} -Method GET -Uri http://169.254.169.254/metadata/instance?api-version=${var.api-version}")
 
   tags = local.web_tags
 }
