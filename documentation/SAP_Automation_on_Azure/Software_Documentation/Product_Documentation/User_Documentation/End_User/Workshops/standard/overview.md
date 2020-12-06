@@ -19,7 +19,7 @@
 
 ## Steps
 1. [Bootstrap - Deployer](01-bootstrap-deployer.md)
-2. [SPN](02-spn.md)
+2. [Bootstrap - SPN](02-spn.md)
 3. [Bootstrap - SAP Library](03-bootstrap-library.md)
 4. [Bootstrap - Reinitialize](04-reinitialize.md)
 5. [Deploy SAP Workload VNET](05-workload-vnet.md)

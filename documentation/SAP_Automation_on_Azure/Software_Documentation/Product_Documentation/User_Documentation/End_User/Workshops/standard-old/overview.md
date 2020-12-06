@@ -1,5 +1,7 @@
-### <img src="../../../../documentation/SAP_Automation_on_Azure/assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Automation > V1.x.x <!-- omit in toc -->
-# SDU - SAP Deployment Unit <!-- omit in toc -->
+### <img src="../../../../../../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
+<br/><br/>
+
+# Deployment Workshop <!-- omit in toc -->
 
 <br/>
 
@@ -17,7 +19,7 @@
 
 ## Steps
 1. [Bootstrap - Deployer](01-bootstrap-deployer.md)
-2. [Bootstrap - SPN](02-spn.md)
+2. [SPN](02-spn.md)
 3. [Bootstrap - SAP Library](03-bootstrap-library.md)
 4. [Bootstrap - Reinitialize](04-reinitialize.md)
 5. [Deploy SAP Workload VNET](05-workload-vnet.md)

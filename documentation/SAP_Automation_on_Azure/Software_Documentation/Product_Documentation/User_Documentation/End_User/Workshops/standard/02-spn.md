@@ -9,6 +9,7 @@
 
 - [Overview](#overview)
 - [Procedure](#procedure)
+  - [Bootstrap - SPN Creation](#bootstrap---spn-creation)
 
 <br/>
 
@@ -24,7 +25,7 @@ This allows for mapping of an environment to a subscription, along with credenti
 | ---------------- | ------------ |
 | Duration of Task | `5 minutes`  |
 | Steps            | `4`          |
-| Runtime          | `1 minutes`  |
+| Runtime          | `3 minutes`  |
 
 <br/>
 
@@ -34,16 +35,17 @@ This allows for mapping of an environment to a subscription, along with credenti
 
 ## Procedure
 
+### Bootstrap - SPN Creation
+
 <br/>
 
 1. Create SPN<br/>
     From a privilaged account, create an SPN.<br/>
-    The Subscription ID that you are deploying into are reqired.
+    The Subscription ID that you are deploying into is reqired.
     ```
     az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" --name="Deployment Account-NP"
     ```
-
-<br/><br/>
+    <br/><br/>
 
 2. Record the credential outputs.<br/>
    The pertinant fields are:
@@ -59,18 +61,21 @@ This allows for mapping of an environment to a subscription, along with credenti
       "tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx""
     }
     ```
-
-<br/><br/>
+    <br/><br/>
 
 3. Add Role Assignment to SPN.
     ```
     az role assignment create --assignee <appId> --role "User Access Administrator"
     ```
-
-<br/><br/>
+    <br/><br/>
 
 4. Add keys for SPN to KeyVault.
-   - Where <ENV> is the environment.
+   - Where `<ENV>` is the environment.
+   - Where `<User_KV_name>`
+   - Where `<subscription-id>`
+   - Where `<appId>`
+   - Where `<password>`
+   - Where `<tenant>`
     ```
     az keyvault secret set --name "<ENV>-subscription-id" --vault-name "<User_KV_name>" --value "<subscription-id>";
     az keyvault secret set --name "<ENV>-client-id"       --vault-name "<User_KV_name>" --value "<appId>";
