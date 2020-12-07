@@ -2,6 +2,8 @@
 Remove files and maintain here in documentation
 deploy/terraform/bootstrap/sap_deployer/deployer_full.json
 deploy/terraform/bootstrap/sap_deployer/deployer.json
+deploy/terraform/run/sap_deployer/deployer_full.json
+deploy/terraform/run/sap_deployer/deployer.json
 -->
 ### <img src="../../../../../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
 <br/><br/>
@@ -35,7 +37,7 @@ JSON structure
     "region"                          : "eastus2",                                <-- Required Parameter
     "vnets": {
       "management": {
-        "name"                        : "NP-EUS2-DEP00-vnet",                     <-- Override Name
+        "name"                        : "DEP00",                                  <-- Required Parameter
         "address_space"               : "10.0.0.0/26",                            <-- Required Parameter
         "subnet_mgmt": {
           "prefix"                    : "10.0.0.16/28"                            <-- Required Parameter
@@ -62,7 +64,7 @@ JSON structure
 | --------- | ---- | ----------- |
 | infrastructure.`environment`                          | **required**  | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
 | infrastructure.`region`                               | **required**  | This specifies the Azure Region in which to deploy |
-| infrastructure.vnets.management.`name`                | override      | This allows for the Resource Group name to be specified. Omitting defaults to the standard naming convention. |
+| infrastructure.vnets.management.`name`                | **required**  | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
 | infrastructure.vnets.management.`address_space`       | **required**  | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
 | infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
 | options.`enable_secure_transfer`                      | optional      | | <!-- TODO: Yunzi -->
@@ -92,6 +94,7 @@ JSON structure
     "region"                          : "eastus2",
     "vnets": {
       "management": {
+        "name"                        : "DEP00",
         "address_space"               : "10.0.0.0/26",
         "subnet_mgmt": {
           "prefix"                    : "10.0.0.16/28"
