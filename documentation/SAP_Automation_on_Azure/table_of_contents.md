@@ -17,10 +17,15 @@
    5. [SDU -SAP Deployment Unit](Software_Documentation/Product_Documentation/sap_deployment_unit.md)
    6. [Features](Software_Documentation/Product_Documentation/features.md)
       1. [Detail 1]()
-3. [Execution]
-4. [Operations]
-5. [Workshops](Software_Documentation/Product_Documentation/User_Documentation/End_User/Workshops/workshops.md)
-6. Appendix
+3. [Configuration](Software_Documentation/Product_Documentation/User_Documentation/End_User/configuration/configuration.md)
+   1. [Deployer](Software_Documentation/Product_Documentation/User_Documentation/End_User/configuration/config_deployer.md)
+   2. [SAP Library](Software_Documentation/Product_Documentation/User_Documentation/End_User/configuration/config_sap_library.md)
+   3. [SAP Workload VNET](Software_Documentation/Product_Documentation/User_Documentation/End_User/configuration/config_sap_workload_vnet.md)
+   4. [SDU - SAP Deployment Unit](Software_Documentation/Product_Documentation/User_Documentation/End_User/configuration/config_sap_deployment_unit.md)
+4. [Execution]
+5. [Operations]
+6. [Workshops](Software_Documentation/Product_Documentation/User_Documentation/End_User/Workshops/workshops.md)
+7. Appendix
    1. [FAQ](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/faq.md)
    2. [Troubleshooting Guides](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/troubleshooting_guides.md)
 
