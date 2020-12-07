@@ -12,5 +12,6 @@
         "kv_user_id": "",
         "kv_prvt_id": "",
         "kv_spn_id": ""
-    }
+    },
+    "tfstate_resource_id": ""
 }

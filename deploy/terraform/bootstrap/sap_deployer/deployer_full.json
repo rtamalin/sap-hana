@@ -4,6 +4,7 @@
         "environment": "np",
         "vnets": {
             "management": {
+                "arm_id": "",
                 "name": "NP-EAUS-DEP00-vnet",
                 "address_space": "10.0.0.0/26",
                 "subnet_mgmt": {
@@ -19,9 +20,9 @@
     "key_vault": {
         "kv_user_id": "",
         "kv_prvt_id": "",
-        "kv_sshkey_prvt" : "",
-        "kv_sshkey_pub" : "",
-        "kv_username" : "",
+        "kv_sshkey_prvt": "",
+        "kv_sshkey_pub": "",
+        "kv_username": "",
         "kv_pwd": ""
     }
 }
