@@ -14,8 +14,9 @@ deploy/terraform/bootstrap/sap_deployer/deployer.json
 <br/>
 
 - [Parameter file construction](#parameter-file-construction)
-  - [Example minimal parameter file, using defaults](#example-minimal-parameter-file-using-defaults)
-  - [Example complete parameter file](#example-complete-parameter-file)
+- [Examples](#examples)
+  - [Default JSON (Minimal)](#default-json-minimal)
+  - [Complete JSON (Full)](#complete-json-full)
 
 
 <br/><br/><br/><br/>
@@ -64,22 +65,25 @@ JSON structure
 | infrastructure.vnets.management.`name`                | override      | This allows for the Resource Group name to be specified. Omitting defaults to the standard naming convention. |
 | infrastructure.vnets.management.`address_space`       | **required**  | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
 | infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
-| options.`enable_secure_transfer`                      | optional      | |
-| options.`enable_deployer_public_ip`                   | optional      | |
-| key_vault.`kv_user_id`                                | Optional      | |
-| key_vault.`kv_prvt_id`                                | Optional      | |
-| key_vault.`kv_sshkey_prvt`                            | Optional      | |
-| key_vault.`kv_sshkey_pub`                             | Optional      | |
-| key_vault.`kv_username`                               | Optional      | |
-| key_vault.`kv_pwd`                                    | Optional      | |
+| options.`enable_secure_transfer`                      | optional      | | <!-- TODO: Yunzi -->
+| options.`enable_deployer_public_ip`                   | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_user_id`                                | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_prvt_id`                                | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_sshkey_prvt`                            | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_sshkey_pub`                             | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_username`                               | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_pwd`                                    | Optional      | | <!-- TODO: Yunzi -->
 
 
 <br/><br/><br/><br/>
 
 ---
 
+<br/>
 
-## Example minimal parameter file, using defaults 
+# Examples
+<br/><br/>
+## Default JSON (Minimal)
 
 ```
 {
@@ -98,8 +102,9 @@ JSON structure
 }
 ```
 
+<br/><br/><br/>
 
-## Example complete parameter file
+## Complete JSON (Full)
 
 ```
 {
@@ -129,7 +134,6 @@ JSON structure
     "kv_pwd"                          : ""
   }
 }
-
 ```
 
 
