@@ -59,11 +59,11 @@ JSON structure
 
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
-| infrastructure.`environment`                          | **required**  | |
-| infrastructure.`region`                               | **required**  | |
-| infrastructure.vnets.management.`name`                | override      | |
-| infrastructure.vnets.management.`address_space`       | **required**  | |
-| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | |
+| infrastructure.`environment`                          | **required**  | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
+| infrastructure.`region`                               | **required**  | This specifies the Azure Region in which to deploy |
+| infrastructure.vnets.management.`name`                | override      | This allows for the Resource Group name to be specified. Omitting defaults to the standard naming convention. |
+| infrastructure.vnets.management.`address_space`       | **required**  | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
+| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
 | options.`enable_secure_transfer`                      | optional      | |
 | options.`enable_deployer_public_ip`                   | optional      | |
 | key_vault.`kv_user_id`                                | Optional      | |
