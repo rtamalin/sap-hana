@@ -115,7 +115,6 @@ resource "azurerm_linux_virtual_machine" "app" {
       offer     = local.app_os.offer
       sku       = local.app_os.sku
       version   = local.app_os.version
-      disk_encryption_set_id = try(var.infrastructure.disk_encryption_set_id, null)
     }
   }
 
