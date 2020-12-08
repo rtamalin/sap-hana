@@ -69,12 +69,12 @@ JSON structure
 | infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
 | options.`enable_secure_transfer`                      | optional      | | <!-- TODO: Yunzi -->
 | options.`enable_deployer_public_ip`                   | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_user_id`                                | Optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_prvt_id`                                | Optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_sshkey_prvt`                            | Optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_sshkey_pub`                             | Optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_username`                               | Optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_pwd`                                    | Optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_user_id`                                | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_prvt_id`                                | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_sshkey_prvt`                            | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_sshkey_pub`                             | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_username`                               | optional      | | <!-- TODO: Yunzi -->
+| key_vault.`kv_pwd`                                    | optional      | | <!-- TODO: Yunzi -->
 
 
 <br/><br/><br/><br/>
