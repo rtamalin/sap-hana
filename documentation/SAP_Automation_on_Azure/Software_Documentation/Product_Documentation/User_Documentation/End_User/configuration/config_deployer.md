@@ -67,14 +67,14 @@ JSON structure
 | infrastructure.vnets.management.`name`                | **required**  | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
 | infrastructure.vnets.management.`address_space`       | **required**  | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
 | infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
-| options.`enable_secure_transfer`                      | optional      | | <!-- TODO: Yunzi -->
-| options.`enable_deployer_public_ip`                   | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_user_id`                                | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_prvt_id`                                | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_sshkey_prvt`                            | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_sshkey_pub`                             | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_username`                               | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_pwd`                                    | optional      | | <!-- TODO: Yunzi -->
+| options.`enable_secure_transfer`                      | optional      | <!-- TODO: Yunzi --> |
+| options.`enable_deployer_public_ip`                   | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_user_id`                                | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_prvt_id`                                | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_prvt`                            | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_pub`                             | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_username`                               | optional      | <!-- TODO: Yunzi --> |
+| key_vault.`kv_pwd`                                    | optional      | <!-- TODO: Yunzi --> |
 
 
 <br/><br/><br/><br/>
