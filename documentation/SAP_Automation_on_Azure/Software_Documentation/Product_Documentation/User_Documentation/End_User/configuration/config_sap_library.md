@@ -49,16 +49,16 @@ JSON structure
 }                                                                                 <-- JSON Closing tag
 ```
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| `tfstate_resource_id`                                 | Remote State  | - This parameter is introduce when transitioning from a LOCAL deployment to a REMOTE Statefile deployment, during Reinitialization.<br/>- This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
-| infrastructure.`environment`                          | **required**  | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
-| infrastructure.`region`                               | **required**  | This specifies the Azure Region in which to deploy. |
-| deployer.`environment`                                | **required**  | This represents the environment of the deployer. Typically this will be the same as the `infrastructure.environment`. When multi-subscription is supported, this can be set to a different value. |
-| deployer.`region`                                     | **required**  | Azure Region in which the Deployer was deployed. |
-| deployer.`vnets`                                      | **required**  | Designator used for the Deployer VNET. |
-| key_vault.`kv_user_id`                                | optional      | | <!-- TODO: Yunzi -->
-| key_vault.`kv_prvt_id`                                | optional      | | <!-- TODO: Yunzi -->
+| Parameter                                             | Type          | Default  | Description |
+| :---------------------------------------------------- | ------------- | :------- | :---------- |
+| `tfstate_resource_id`                                 | Remote State  |          | - This parameter is introduce when transitioning from a LOCAL deployment to a REMOTE Statefile deployment, during Reinitialization.<br/>- This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
+| infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
+| infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
+| deployer.`environment`                                | **required**  | -------- | This represents the environment of the deployer. Typically this will be the same as the `infrastructure.environment`. When multi-subscription is supported, this can be set to a different value. |
+| deployer.`region`                                     | **required**  | -------- | Azure Region in which the Deployer was deployed. |
+| deployer.`vnets`                                      | **required**  | -------- | Designator used for the Deployer VNET. |
+| key_vault.`kv_user_id`                                | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_prvt_id`                                | optional      |          | <!-- TODO: Yunzi --> |
 
 <br/><br/><br/><br/>
 
@@ -68,7 +68,8 @@ JSON structure
 
 # Examples
 <br/><br/>
-## Default JSON (Minimal)
+
+## Minimal (Default) input parameter JSON
 
 ```
 {
@@ -86,7 +87,7 @@ JSON structure
 
 <br/><br/><br/>
 
-## Complete JSON (Full)
+## Complete input parameter JSON
 
 ```
 {

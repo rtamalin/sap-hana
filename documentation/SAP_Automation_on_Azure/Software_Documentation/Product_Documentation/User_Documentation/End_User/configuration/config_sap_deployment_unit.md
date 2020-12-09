@@ -15,8 +15,8 @@ deploy/terraform/run/sap_system/sapsystem.json
 
 - [Parameter file construction](#parameter-file-construction)
 - [Examples](#examples)
-  - [Default JSON (Minimal)](#default-json-minimal)
-  - [Complete JSON (Full)](#complete-json-full)
+  - [Minimal (Default) input parameter JSON](#minimal-default-input-parameter-json)
+  - [Complete input parameter JSON](#complete-input-parameter-json)
 
 
 <br/><br/><br/><br/>
@@ -219,7 +219,8 @@ JSON structure
 
 # Examples
 <br/><br/>
-## Default JSON (Minimal)
+
+## Minimal (Default) input parameter JSON
 
 ```
 {
@@ -285,7 +286,7 @@ JSON structure
 
 <br/><br/><br/>
 
-## Complete JSON (Full)
+## Complete input parameter JSON
 
 ```
 {

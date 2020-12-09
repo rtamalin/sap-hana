@@ -15,7 +15,7 @@ deploy/terraform/run/sap_landscape/saplandscape.json
 
 - [Parameter file construction](#parameter-file-construction)
 - [Examples](#examples)
-  - [Default JSON (Minimal)](#default-json-minimal)
+  - [Minimal (Default) input parameter JSON](#minimal-default-input-parameter-json)
   - [Complete JSON (Full)](#complete-json-full)
 
 
@@ -69,29 +69,29 @@ JSON structure
 }                                                                                 <-- JSON Closing tag
 ```
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| `tfstate_resource_id`                                 | **required**  | This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
-| `deployer_tfstate_key`                                | **required**  | <!-- TODO: --> |
-| infrastructure.`environment`                          | **required**  | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
-| infrastructure.`region`                               | **required**  | This specifies the Azure Region in which to deploy. |
-| infrastructure.resource_group.`arm_id`                | optional      | <!-- TODO: --> |
-| infrastructure.vnets.sap.`arm_id`                     | optional      | <!-- TODO: --> |
-| infrastructure.vnets.sap.`address_space`              | **required**  | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_iscsi.`name`          | optional      | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_iscsi.`prefix`        | optional      | <!-- TODO: --> |
-| infrastructure.iscsi.`iscsi_count`                    | optional      | <!-- TODO: --> |
-| infrastructure.vnets.sap.`use_DHCP`                   | optional      | <!-- TODO: --> |
-| key_vault.`kv_user_id`                                | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_prvt_id`                                | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sid_sshkey_prvt`                        | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sid_sshkey_pub`                         | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_iscsi_username`                         | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_iscsi_sshkey_prvt`                      | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_iscsi_sshkey_pub`                       | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_iscsi_pwd`                              | optional      | <!-- TODO: Yunzi --> |
-| `sshkey`                                              | optional      | <!-- TODO: Yunzi --> |
-| `options`                                             | optional      | <!-- TODO: Yunzi --> |
+| Parameter                                             | Type          | Default  | Description |
+| :---------------------------------------------------- | ------------- | :------- | :---------- |
+| `tfstate_resource_id`                                 | **required**  | -------- | This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
+| `deployer_tfstate_key`                                | **required**  | -------- | <!-- TODO: --> |
+| infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
+| infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
+| infrastructure.resource_group.`arm_id`                | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`arm_id`                     | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`address_space`              | **required**  | -------- | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_iscsi.`name`          | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_iscsi.`prefix`        | optional      |          | <!-- TODO: --> |
+| infrastructure.iscsi.`iscsi_count`                    | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`use_DHCP`                   | optional      |          | <!-- TODO: --> |
+| key_vault.`kv_user_id`                                | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_prvt_id`                                | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sid_sshkey_prvt`                        | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sid_sshkey_pub`                         | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_iscsi_username`                         | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_iscsi_sshkey_prvt`                      | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_iscsi_sshkey_pub`                       | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_iscsi_pwd`                              | optional      |          | <!-- TODO: Yunzi --> |
+| `sshkey`                                              | optional      |          | <!-- TODO: Yunzi --> |
+| `options`                                             | optional      |          | <!-- TODO: Yunzi --> |
 
 <br/><br/><br/><br/>
 
@@ -101,7 +101,8 @@ JSON structure
 
 # Examples
 <br/><br/>
-## Default JSON (Minimal)
+
+## Minimal (Default) input parameter JSON
 
 ```
 {
@@ -121,7 +122,7 @@ JSON structure
 
 <br/><br/><br/>
 
-## Complete JSON (Full)
+## Complete input parameter JSON
 
 ```
 {

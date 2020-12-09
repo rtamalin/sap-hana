@@ -17,8 +17,8 @@ deploy/terraform/run/sap_deployer/deployer.json
 
 - [Parameter file construction](#parameter-file-construction)
 - [Examples](#examples)
-  - [Default JSON (Minimal)](#default-json-minimal)
-  - [Complete JSON (Full)](#complete-json-full)
+  - [Minimal (Default) input parameter JSON](#minimal-default-input-parameter-json)
+  - [Complete input parameter JSON](#complete-input-parameter-json)
 
 
 <br/><br/><br/><br/>
@@ -60,21 +60,21 @@ JSON structure
 }                                                                                 <-- JSON Closing tag
 ```
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| infrastructure.`environment`                          | **required**  | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
-| infrastructure.`region`                               | **required**  | This specifies the Azure Region in which to deploy |
-| infrastructure.vnets.management.`name`                | **required**  | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
-| infrastructure.vnets.management.`address_space`       | **required**  | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
-| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
-| options.`enable_secure_transfer`                      | optional      | <!-- TODO: Yunzi --> |
-| options.`enable_deployer_public_ip`                   | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_user_id`                                | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_prvt_id`                                | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_prvt`                            | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_pub`                             | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_username`                               | optional      | <!-- TODO: Yunzi --> |
-| key_vault.`kv_pwd`                                    | optional      | <!-- TODO: Yunzi --> |
+| Parameter                                             | Type          | Default  | Description |
+| :---------------------------------------------------- | ------------- | :------- | :---------- |
+| infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
+| infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy |
+| infrastructure.vnets.management.`name`                | **required**  | -------- | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
+| infrastructure.vnets.management.`address_space`       | **required**  | -------- | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
+| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | -------- | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
+| options.`enable_secure_transfer`                      | optional      |          | <!-- TODO: Yunzi --> |
+| options.`enable_deployer_public_ip`                   | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_user_id`                                | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_prvt_id`                                | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_prvt`                            | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_pub`                             | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_username`                               | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.`kv_pwd`                                    | optional      |          | <!-- TODO: Yunzi --> |
 
 
 <br/><br/><br/><br/>
@@ -85,7 +85,8 @@ JSON structure
 
 # Examples
 <br/><br/>
-## Default JSON (Minimal)
+
+## Minimal (Default) input parameter JSON
 
 ```
 {
@@ -107,7 +108,7 @@ JSON structure
 
 <br/><br/><br/>
 
-## Complete JSON (Full)
+## Complete input parameter JSON
 
 ```
 {
