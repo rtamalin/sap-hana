@@ -154,15 +154,15 @@ JSON structure
 | infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
 | infrastructure.resource_group.`is_existing`           | depracate     |          | to be deprecated <!-- TODO: --> |
 | infrastructure.resource_group.`arm_id`                | optional      |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.`sku`                       |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.authentication.`type`       |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.authentication.`username`   |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.`accelerated_networking`    |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.os.`publisher`              |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.os.`offer`                  |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.os.`sku`                    |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.`nic_ips`                   |  |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.`use_DHCP`                  |  |  | <!-- TODO: --> |
+| infrastructure.anchor_vms.`sku`                       |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.authentication.`type`       |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.authentication.`username`   |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`accelerated_networking`    |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`publisher`              |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`offer`                  |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`sku`                    |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`nic_ips`                   |  |  | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`use_DHCP`                  |  |  | <!-- TODO: Kimmo --> |
 | infrastructure.vnets.sap.`is_existing`                |  |  | <!-- TODO: --> |
 | infrastructure.vnets.sap.`arm_id`                     |  |  | <!-- TODO: --> |
 | infrastructure.vnets.sap.`name`                       |  |  | <!-- TODO: --> |
@@ -202,8 +202,8 @@ JSON structure
 | application.`use_DHCP`                                |  |  | <!-- TODO: --> |
 | application.authentication.`type`                     |  |  | <!-- TODO: --> |
 | application.authentication.`username`                 | optional      | azureadm | <!-- TODO: --> |
-| sshkey.`path_to_public_key`                           |  |  | <!-- TODO: --> |
-| sshkey.`path_to_private_key`                          |  |  | <!-- TODO: --> |
+| sshkey.`path_to_public_key`                           | optional      |  | <!-- TODO: --> |
+| sshkey.`path_to_private_key`                          | optional      |  | <!-- TODO: --> |
 | options.`enable_secure_transfer`                      | depracate     | true     | <!-- TODO: --> |
 | options.`enable_prometheus`                           | depracate     |          | Depracate <!-- TODO: --> |
 
