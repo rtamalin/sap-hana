@@ -97,10 +97,10 @@ JSON structure
 
 ---
 
-<br/>
+<br/><br/>
 
 # Examples
-<br/><br/>
+<br/>
 
 ## Minimal (Default) input parameter JSON
 

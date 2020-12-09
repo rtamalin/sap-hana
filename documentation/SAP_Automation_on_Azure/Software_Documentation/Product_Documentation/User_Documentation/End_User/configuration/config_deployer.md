@@ -38,16 +38,12 @@ JSON structure
     "vnets": {
       "management": {
         "name"                        : "DEP00",                                  <-- Required Parameter
-        "address_space"               : "10.0.0.0/26",                            <-- Required Parameter
+        "address_space"               : "10.0.0.0/27",                            <-- Required Parameter
         "subnet_mgmt": {
           "prefix"                    : "10.0.0.16/28"                            <-- Required Parameter
         }
       }
     }
-  },
-  "options": {
-    "enable_secure_transfer"          : true,                                     <-- Optional, Default: true
-    "enable_deployer_public_ip"       : false                                     <-- Optional, Default: false
   },
   "key_vault": {
     "kv_user_id"                      : "",                                       <-- Optional
@@ -56,35 +52,39 @@ JSON structure
     "kv_sshkey_pub"                   : "",                                       <-- Optional
     "kv_username"                     : "",                                       <-- Optional
     "kv_pwd"                          : ""                                        <-- Optional
+  },
+  "options": {
+    "enable_secure_transfer"          : true,                                     <-- Optional, Default: true
+    "enable_deployer_public_ip"       : false                                     <-- Optional, Default: false
   }
 }                                                                                 <-- JSON Closing tag
 ```
 
 | Parameter                                             | Type          | Default  | Description |
 | :---------------------------------------------------- | ------------- | :------- | :---------- |
-| infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
-| infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy |
-| infrastructure.vnets.management.`name`                | **required**  | -------- | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
-| infrastructure.vnets.management.`address_space`       | **required**  | -------- | CIDR of the VNET Address Space. We recommend a /26 CIDR. |
-| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | -------- | CIDR of the Deployer Subnet. We recommend a /28 CIDR. |
-| options.`enable_secure_transfer`                      | optional      |          | <!-- TODO: Yunzi --> |
-| options.`enable_deployer_public_ip`                   | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_user_id`                                | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_prvt_id`                                | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_prvt`                            | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_pub`                             | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_username`                               | optional      |          | <!-- TODO: Yunzi --> |
-| key_vault.`kv_pwd`                                    | optional      |          | <!-- TODO: Yunzi --> |
+| infrastructure.`environment`                          | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
+| infrastructure.`region`                               | **required**  | -        | This specifies the Azure Region in which to deploy |
+| infrastructure.vnets.management.`name`                | **required**  | -        | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
+| infrastructure.vnets.management.`address_space`       | **required**  | -        | CIDR of the VNET Address Space. We recommend a /27 CIDR (32 IP's).<br/>This allows space for 2x /28 CIDR (16 IP's). |
+| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | -        | CIDR of the Deployer Subnet. We recommend a /28 CIDR (16 IP's). |
+| key_vault.`kv_user_id`                                | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault.`kv_prvt_id`                                | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_prvt`                            | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault.`kv_sshkey_pub`                             | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault.`kv_username`                               | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault.`kv_pwd`                                    | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| options.`enable_secure_transfer`                      | optional      | true     | - Not required in a standard deployment.<br/> <!-- TODO: --> |
+| options.`enable_deployer_public_ip`                   | optional      | false    | - Not required in a standard deployment.<br/> <!-- TODO: --> |
 
 
 <br/><br/><br/><br/>
 
 ---
 
-<br/>
+<br/><br/>
 
 # Examples
-<br/><br/>
+<br/>
 
 ## Minimal (Default) input parameter JSON
 
@@ -96,7 +96,7 @@ JSON structure
     "vnets": {
       "management": {
         "name"                        : "DEP00",
-        "address_space"               : "10.0.0.0/26",
+        "address_space"               : "10.0.0.0/27",
         "subnet_mgmt": {
           "prefix"                    : "10.0.0.16/28"
         }
@@ -118,16 +118,12 @@ JSON structure
     "vnets": {
       "management": {
         "name"                        : "NP-EUS2-DEP00-vnet",
-        "address_space"               : "10.0.0.0/26",
+        "address_space"               : "10.0.0.0/27",
         "subnet_mgmt": {
           "prefix"                    : "10.0.0.16/28"
         }
       }
     }
-  },
-  "options": {
-    "enable_secure_transfer"          : true,
-    "enable_deployer_public_ip"       : false
   },
   "key_vault": {
     "kv_user_id"                      : "",
@@ -136,6 +132,10 @@ JSON structure
     "kv_sshkey_pub"                   : "",
     "kv_username"                     : "",
     "kv_pwd"                          : ""
+  },
+  "options": {
+    "enable_secure_transfer"          : true,
+    "enable_deployer_public_ip"       : false
   }
 }
 ```
