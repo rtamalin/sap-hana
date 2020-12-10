@@ -53,7 +53,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "anydb" {
 resource "azurerm_lb_rule" "anydb" {
   count                          = local.enable_deployment && local.db_server_count > 0 ? 1 : 0
   resource_group_name            = var.resource_group[0].name
-  loadbalancer_id                = azurerm_lb.any[0].id
+  loadbalancer_id                = azurerm_lb.anydb[0].id
   name                           = format("%s%s%s%05d-%02d", local.prefix, var.naming.separator, local.resource_suffixes.db_alb_rule, 0, count.index)
   protocol                       = "All"
   frontend_port                  = 0
