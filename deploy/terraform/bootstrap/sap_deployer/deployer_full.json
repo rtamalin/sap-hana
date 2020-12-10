@@ -14,7 +14,8 @@
     },
     "options": {
         "enable_secure_transfer": true,
-        "enable_deployer_public_ip": false
+        "enable_deployer_public_ip": false,
+        "disk_encryption_set_id": "" 
     },
     "key_vault": {
         "kv_user_id": "",

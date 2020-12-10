@@ -51,6 +51,10 @@ output "remote_state_container_name" {
   value = module.sap_library.remote_state_container_name
 }
 
+output "deployer_tfstate_key" {
+  value = format("%s%s", local.deployer_rg_name, ".terraform.tfstate")
+}
+
 output "saplibrary_environment" {
   value = var.infrastructure.environment
 }
