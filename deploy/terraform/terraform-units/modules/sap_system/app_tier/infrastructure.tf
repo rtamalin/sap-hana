@@ -99,6 +99,7 @@ resource "azurerm_lb_rule" "scs" {
   backend_address_pool_id        = azurerm_lb_backend_address_pool.scs[0].id
   probe_id                       = azurerm_lb_probe.scs[0].id
   enable_floating_ip             = true
+  idle_timeout_in_minutes        = 30
 }
 
 # Create the ERS Load balancer rules only in High Availability configurations
@@ -114,6 +115,7 @@ resource "azurerm_lb_rule" "ers" {
   backend_address_pool_id        = azurerm_lb_backend_address_pool.scs[0].id
   probe_id                       = azurerm_lb_probe.scs[1].id
   enable_floating_ip             = true
+  idle_timeout_in_minutes        = 30
 }
 
 # Create the SCS Availability Set
