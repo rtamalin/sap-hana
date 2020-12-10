@@ -60,7 +60,7 @@ JSON structure
         "is_existing"                 : "false",
         "arm_id"                      : "",
         "name"                        : "",
-        "address_space"               : "10.1.0.0/16",                            <-- Depracate; Do not use
+        "address_space"               : "10.1.0.0/16",                            <-- deprecate; Do not use
         "subnet_db": {
           "prefix"                    : "10.1.1.0/28"                             <-- Required Parameter
         },
@@ -152,60 +152,60 @@ JSON structure
 | `landscape_tfstate_key`                               | **required**  | -------- | <!-- TODO: --> |
 | infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
 | infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
-| infrastructure.resource_group.`is_existing`           | depracate     |          | to be deprecated <!-- TODO: --> |
-| infrastructure.resource_group.`arm_id`                | optional      |  | <!-- TODO: --> |
-| infrastructure.anchor_vms.`sku`                       |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.authentication.`type`       |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.authentication.`username`   |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.`accelerated_networking`    |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.os.`publisher`              |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.os.`offer`                  |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.os.`sku`                    |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.`nic_ips`                   |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.`use_DHCP`                  |  |  | <!-- TODO: Kimmo --> |
-| infrastructure.vnets.sap.`is_existing`                |  |  | <!-- TODO: --> |
-| infrastructure.vnets.sap.`arm_id`                     |  |  | <!-- TODO: --> |
-| infrastructure.vnets.sap.`name`                       |  |  | <!-- TODO: --> |
-| infrastructure.vnets.sap.`address_space`              |  |  | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_db.`prefix`           | **required**  | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_web.`prefix`          | optional      | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_app.`prefix`          | **required**  | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_admin.`prefix`        | **required**  | <!-- TODO: --> |
-| databases.[].`platform`                               | **required**  | <!-- TODO: --> |
-| databases.[].`high_availability`                      |  |  | <!-- TODO: --> |
-| databases.[].`db_version`                             | depracate     | <!-- TODO: --> |
-| databases.[].`size`                                   | **required**  | <!-- TODO: --> |
-| databases.[].os.`publisher`                           |  |  | <!-- TODO: --> |
-| databases.[].os.`offer`                               |  |  | <!-- TODO: --> |
-| databases.[].os.`sku`                                 |  |  | <!-- TODO: --> |
-| databases.[].`zones`                                  |  |  | <!-- TODO: --> |
-| databases.[].credentials.`db_systemdb_password`       | depracate     | <!-- TODO: --> |
-| databases.[].credentials.`os_sidadm_password`         | depracate     | <!-- TODO: --> |
-| databases.[].credentials.`os_sapadm_password`         | depracate     | <!-- TODO: --> |
-| databases.[].credentials.`xsa_admin_password`         | depracate     | <!-- TODO: --> |
-| databases.[].credentials.`cockpit_admin_password`     | depracate     | <!-- TODO: --> |
-| databases.[].credentials.`ha_cluster_password`        | depracate     | <!-- TODO: --> |
-| databases.[].`avset_arm_ids.[]`                       |  |  | <!-- TODO: --> |
-| databases.[].`use_DHCP`                               |  |  | <!-- TODO: --> |
-| databases.[].dbnodes.[].`name`                        |  |  | <!-- TODO: --> |
-| databases.[].dbnodes.[].`role`                        |  |  | <!-- TODO: --> |
-| application.`enable_deployment`                       |  |  | <!-- TODO: --> |
-| application.`sid`                                     | **required**  | <!-- TODO: --> |
-| application.`scs_instance_number`                     |  |  | <!-- TODO: --> |
-| application.`ers_instance_number`                     |  |  | <!-- TODO: --> |
-| application.`scs_high_availability`                   |  |  | <!-- TODO: --> |
-| application.`application_server_count`                |  |  | <!-- TODO: --> |
-| application.`webdispatcher_count`                     |  |  | <!-- TODO: --> |
-| application.`app_zones`                               |  |  | <!-- TODO: --> |
-| application.`scs_zones`                               |  |  | <!-- TODO: --> |
-| application.`web_zones`                               |  |  | <!-- TODO: --> |
-| application.`use_DHCP`                                |  |  | <!-- TODO: --> |
-| application.authentication.`type`                     |  |  | <!-- TODO: --> |
+| infrastructure.resource_group.`is_existing`           | deprecate     |          | to be deprecated <!-- TODO: --> |
+| infrastructure.resource_group.`arm_id`                | optional      |          | <!-- TODO: --> |
+| infrastructure.anchor_vms.`sku`                       |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.authentication.`type`       |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.authentication.`username`   |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`accelerated_networking`    |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`publisher`              |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`offer`                  |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.os.`sku`                    |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`nic_ips`                   |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`use_DHCP`                  |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.vnets.sap.`is_existing`                |               |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`arm_id`                     |               |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`name`                       |               |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.`address_space`              |               |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_db.`prefix`           | **required**  |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_web.`prefix`          | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_app.`prefix`          | **required**  |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_admin.`prefix`        | **required**  |          | <!-- TODO: --> |
+| databases.[].`platform`                               | **required**  |          | <!-- TODO: --> |
+| databases.[].`high_availability`                      |               |          | <!-- TODO: --> |
+| databases.[].`db_version`                             | deprecate     |          | <!-- TODO: --> |
+| databases.[].`size`                                   | **required**  |          | <!-- TODO: --> |
+| databases.[].os.`publisher`                           |               |          | <!-- TODO: --> |
+| databases.[].os.`offer`                               |               |          | <!-- TODO: --> |
+| databases.[].os.`sku`                                 |               |          | <!-- TODO: --> |
+| databases.[].`zones`                                  |               |          | <!-- TODO: --> |
+| databases.[].credentials.`db_systemdb_password`       | deprecate     |          | <!-- TODO: --> |
+| databases.[].credentials.`os_sidadm_password`         | deprecate     |          | <!-- TODO: --> |
+| databases.[].credentials.`os_sapadm_password`         | deprecate     |          | <!-- TODO: --> |
+| databases.[].credentials.`xsa_admin_password`         | deprecate     |          | <!-- TODO: --> |
+| databases.[].credentials.`cockpit_admin_password`     | deprecate     |          | <!-- TODO: --> |
+| databases.[].credentials.`ha_cluster_password`        | deprecate     |          | <!-- TODO: --> |
+| databases.[].`avset_arm_ids.[]`                       |               |          | <!-- TODO: --> |
+| databases.[].`use_DHCP`                               |               |          | <!-- TODO: --> |
+| databases.[].dbnodes.[].`name`                        |               |          | <!-- TODO: --> |
+| databases.[].dbnodes.[].`role`                        |               |          | <!-- TODO: --> |
+| application.`enable_deployment`                       |               |          | <!-- TODO: --> |
+| application.`sid`                                     | **required**  |          | <!-- TODO: --> |
+| application.`scs_instance_number`                     |               |          | <!-- TODO: --> |
+| application.`ers_instance_number`                     |               |          | <!-- TODO: --> |
+| application.`scs_high_availability`                   |               |          | <!-- TODO: --> |
+| application.`application_server_count`                |               |          | <!-- TODO: --> |
+| application.`webdispatcher_count`                     |               |          | <!-- TODO: --> |
+| application.`app_zones`                               |               |          | <!-- TODO: --> |
+| application.`scs_zones`                               |               |          | <!-- TODO: --> |
+| application.`web_zones`                               |               |          | <!-- TODO: --> |
+| application.`use_DHCP`                                |               |          | <!-- TODO: --> |
+| application.authentication.`type`                     |               |          | <!-- TODO: --> |
 | application.authentication.`username`                 | optional      | azureadm | <!-- TODO: --> |
-| sshkey.`path_to_public_key`                           | optional      |  | <!-- TODO: --> |
-| sshkey.`path_to_private_key`                          | optional      |  | <!-- TODO: --> |
-| options.`enable_secure_transfer`                      | depracate     | true     | <!-- TODO: --> |
-| options.`enable_prometheus`                           | depracate     |          | Depracate <!-- TODO: --> |
+| sshkey.`path_to_public_key`                           | optional      |          | <!-- TODO: --> |
+| sshkey.`path_to_private_key`                          | optional      |          | <!-- TODO: --> |
+| options.`enable_secure_transfer`                      | deprecate     | true     | <!-- TODO: --> |
+| options.`enable_prometheus`                           | deprecate     |          | deprecate <!-- TODO: --> |
 
 
 
@@ -278,7 +278,6 @@ JSON structure
   },
   "options": {
     "enable_secure_transfer"          : true,
-    "ansible_execution"               : false,
     "enable_prometheus"               : true
   }
 }

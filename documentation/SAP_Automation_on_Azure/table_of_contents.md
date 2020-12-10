@@ -28,6 +28,11 @@
 7. Appendix
    1. [FAQ](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/faq.md)
    2. [Troubleshooting Guides](Software_Documentation/Product_Documentation/System_Documentation/Maintenance_or_Help_Guide/troubleshooting_guides.md)
+8. Legacy - Folders
+   1. [Templates](../sort/templates-readme.md)
+   2. [Tools](../sort/tools-readme.md)
+   3. [Tools - dumpsys](../sort/tools-dumpsystem-readme.md)
+   4. [Util](../sort/util-readme.md)
 
 
 

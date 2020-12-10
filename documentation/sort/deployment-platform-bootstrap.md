@@ -317,7 +317,6 @@ cat <<EOF > bootstrap.json
   },
   "options": {
     "enable_secure_transfer"    : true,
-    "ansible_execution"         : false,
     "enable_prometheus"         : true
   }
 }

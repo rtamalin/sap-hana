@@ -347,7 +347,7 @@ Alternatively, if the Username is known, the Public IP can be found through the 
 
 You will also need the logon username and Private IP addresses for the HANA DB Nodes.
 
-The Cluster testing requires a configured OS cluster. If the Terraform deployment template has`"ansible_execution": "false"`, you will need to run the Ansible portion from the RTI.
+The Cluster testing requires a configured OS cluster. <s>If the Terraform deployment template has`"ansible_execution": "false"`,</s> you will need to run the Ansible portion from the RTI.
 
 The following commands should be run on the RTI as the logon user. This will trigger run the configuration of the deployment:
 

@@ -16,7 +16,7 @@ deploy/terraform/run/sap_landscape/saplandscape.json
 - [Parameter file construction](#parameter-file-construction)
 - [Examples](#examples)
   - [Minimal (Default) input parameter JSON](#minimal-default-input-parameter-json)
-  - [Complete JSON (Full)](#complete-json-full)
+  - [Complete input parameter JSON](#complete-input-parameter-json)
 
 
 <br/><br/><br/><br/>
@@ -71,15 +71,15 @@ JSON structure
 
 | Parameter                                             | Type          | Default  | Description |
 | :---------------------------------------------------- | ------------- | :------- | :---------- |
-| `tfstate_resource_id`                                 | **required**  | -------- | This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
-| `deployer_tfstate_key`                                | **required**  | -------- | <!-- TODO: --> |
-| infrastructure.`environment`                          | **required**  | -------- | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
-| infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
+| `tfstate_resource_id`                                 | **required**  | -        | This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
+| `deployer_tfstate_key`                                | **required**  | -        | <!-- TODO: --> |
+| infrastructure.`environment`                          | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
+| infrastructure.`region`                               | **required**  | -        | This specifies the Azure Region in which to deploy. |
 | infrastructure.resource_group.`arm_id`                | optional      |          | <!-- TODO: --> |
 | infrastructure.vnets.sap.`arm_id`                     | optional      |          | <!-- TODO: --> |
-| infrastructure.vnets.sap.`address_space`              | **required**  | -------- | <!-- TODO: --> |
+| infrastructure.vnets.sap.`address_space`              | **required**  | -        | <!-- TODO: --> |
 | infrastructure.vnets.sap.subnet_iscsi.`name`          | optional      |          | <!-- TODO: --> |
-| infrastructure.vnets.sap.subnet_iscsi.`prefix`        | optional      |          | <!-- TODO: --> |
+| infrastructure.vnets.sap.subnet_iscsi.`prefix`        | optional      | -        | - If specified, provisions a subnet within the VNET address space.<br/>- The CIDR should be size appropriate for the expected usage.<br/>- Recommendation /28 CIDR. Supports up to 12 servers.<!-- TODO: --> |
 | infrastructure.iscsi.`iscsi_count`                    | optional      |          | <!-- TODO: --> |
 | infrastructure.vnets.sap.`use_DHCP`                   | optional      |          | <!-- TODO: --> |
 | key_vault.`kv_user_id`                                | optional      |          | <!-- TODO: Yunzi --> |
@@ -90,8 +90,10 @@ JSON structure
 | key_vault.`kv_iscsi_sshkey_prvt`                      | optional      |          | <!-- TODO: Yunzi --> |
 | key_vault.`kv_iscsi_sshkey_pub`                       | optional      |          | <!-- TODO: Yunzi --> |
 | key_vault.`kv_iscsi_pwd`                              | optional      |          | <!-- TODO: Yunzi --> |
-| `sshkey`                                              | optional      |          | <!-- TODO: Yunzi --> |
-| `options`                                             | optional      |          | <!-- TODO: Yunzi --> |
+| sshkey.`path_to_public_key`                           | optional      |          | <!-- TODO: Yunzi --> |
+| sshkey.`path_to_private_key`                          | optional      |          | <!-- TODO: Yunzi --> |
+| options.`enable_secure_transfer`                      | deprecate     | true     | <!-- TODO: Yunzi --> |
+| options.`enable_prometheus`                           | deprecate     |          | deprecate <!-- TODO: Yunzi --> |
 
 <br/><br/><br/><br/>
 
