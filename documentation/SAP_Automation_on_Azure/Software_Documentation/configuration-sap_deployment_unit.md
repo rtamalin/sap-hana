@@ -3,7 +3,7 @@ Remove files and maintain here in documentation
 deploy/terraform/run/sap_system/sapsystem_full.json
 deploy/terraform/run/sap_system/sapsystem.json
 -->
-### <img src="../../../../../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
+### <img src="../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
 <br/><br/>
 
 # Configuration - SAP Workload VNET <!-- omit in toc -->

@@ -5,7 +5,7 @@ deploy/terraform/bootstrap/sap_library/saplibrary.json
 deploy/terraform/run/sap_library/saplibrary_full.json
 deploy/terraform/run/sap_library/saplibrary.json
 -->
-### <img src="../../../../../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
+### <img src="../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
 <br/><br/>
 
 # Configuration - SAP Library <!-- omit in toc -->
