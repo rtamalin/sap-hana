@@ -35,6 +35,7 @@ JSON structure
   "infrastructure": {
     "environment"                     : "NP",                                     <-- Required Parameter
     "region"                          : "eastus2",                                <-- Required Parameter
+    "codename"                        : "",                                       <-- Optional
     "vnets": {
       "management": {
         "name"                        : "DEP00",                                  <-- Required Parameter
@@ -53,6 +54,10 @@ JSON structure
     "kv_username"                     : "",                                       <-- Optional
     "kv_pwd"                          : ""                                        <-- Optional
   },
+  "sshkey": {
+    "path_to_public_key"              : "sshkey.pub",                             <-- Optional
+    "path_to_private_key"             : "sshkey"                                  <-- Optional
+  },
   "options": {
     "enable_secure_transfer"          : true,                                     <-- Optional, Default: true
     "enable_deployer_public_ip"       : false                                     <-- Optional, Default: false
@@ -60,21 +65,23 @@ JSON structure
 }                                                                                 <-- JSON Closing tag
 ```
 
-| Parameter                                             | Type          | Default  | Description |
-| :---------------------------------------------------- | ------------- | :------- | :---------- |
-| infrastructure.`environment`                          | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
-| infrastructure.`region`                               | **required**  | -        | This specifies the Azure Region in which to deploy |
-| infrastructure.vnets.management.`name`                | **required**  | -        | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
-| infrastructure.vnets.management.`address_space`       | **required**  | -        | CIDR of the VNET Address Space. We recommend a /27 CIDR (32 IP's).<br/>This allows space for 2x /28 CIDR (16 IP's). |
-| infrastructure.vnets.management.subnet_mgmt.`prefix`  | **required**  | -        | CIDR of the Deployer Subnet. We recommend a /28 CIDR (16 IP's). |
-| key_vault.`kv_user_id`                                | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| key_vault.`kv_prvt_id`                                | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_prvt`                            | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| key_vault.`kv_sshkey_pub`                             | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| key_vault.`kv_username`                               | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| key_vault.`kv_pwd`                                    | optional      |          | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| options.`enable_secure_transfer`                      | optional      | true     | - Not required in a standard deployment.<br/> <!-- TODO: --> |
-| options.`enable_deployer_public_ip`                   | optional      | false    | - Not required in a standard deployment.<br/> <!-- TODO: --> |
+| Object Path                                   | Parameter                     | Type          | Default  | Description |
+| :-------------------------------------------- | :---------------------------- | ------------- | :------- | :---------- |
+| infrastructure                                | `environment`                 | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
+| <p>                                           | `region`                      | **required**  | -        | This specifies the Azure Region in which to deploy |
+| infrastructure.vnets.management               | `name`                        | **required**  | -        | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
+| <p>                                           | `address_space`               | **required**  | -        | CIDR of the VNET Address Space. We recommend a /27 CIDR (32 IP's).<br/>This allows space for 2x /28 CIDR (16 IP's). |
+| infrastructure.vnets.management.subnet_mgmt   | `prefix`                      | **required**  | -        | CIDR of the Deployer Subnet. We recommend a /28 CIDR (16 IP's). |
+| key_vault                                     | `kv_user_id`                  | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_prvt_id`                  | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_sshkey_prvt`              | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_sshkey_pub`               | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_username`                 | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_pwd`                      | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| sshkey                                        | `path_to_public_key`          | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `path_to_private_key`         | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| options                                       | `enable_secure_transfer`      | optional      | true     | - Not required in a standard deployment.<br/> <!-- TODO: --> |
+| <p>                                           | `enable_deployer_public_ip`   | optional      | false    | - Not required in a standard deployment.<br/> <!-- TODO: --> |
 
 
 <br/><br/><br/><br/>
@@ -139,7 +146,3 @@ JSON structure
   }
 }
 ```
-
-
-
-
