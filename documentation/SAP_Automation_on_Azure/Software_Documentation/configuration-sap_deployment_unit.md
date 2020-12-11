@@ -10,7 +10,7 @@ deploy/terraform/run/sap_system/sapsystem.json
 
 <br/>
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 <br/>
 
 - [Parameter file construction](#parameter-file-construction)

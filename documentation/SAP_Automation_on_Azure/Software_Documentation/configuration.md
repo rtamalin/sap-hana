@@ -2,7 +2,7 @@
 
 
 
-# 3. Configuration
+# 3. Configuration <!-- omit in toc -->
 
 1. [Deployer](configuration-deployer.md)
 2. [SAP Library](configuration-sap_library.md)
