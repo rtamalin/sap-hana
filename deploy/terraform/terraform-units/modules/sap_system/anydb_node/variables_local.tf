@@ -259,8 +259,9 @@ locals {
     observer_db_vm = 4 + 1
   }
 
+
   // Ports used for specific DB Versions
-  lb_ports = {
+  ha_ports = {
     "ASE" = [
       "1433"
     ]
@@ -278,8 +279,8 @@ locals {
     ]
   }
 
-  loadbalancer_ports = flatten([
-    for port in local.lb_ports[upper(local.anydb_platform)] : {
+  loadbalancer_ha_ports = flatten([
+    for port in local.ha_ports[upper(local.anydb_platform)] : {
       port = tonumber(port)
     }
   ])
