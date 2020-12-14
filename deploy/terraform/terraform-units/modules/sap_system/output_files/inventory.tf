@@ -120,3 +120,25 @@ resource "local_file" "ansible_inventory_yml" {
   file_permission      = "0660"
   directory_permission = "0770"
 }
+
+
+resource "local_file" "ansible_inventory_new_yml" {
+  content = templatefile("${path.module}/ansible_inventory_new.yml.tmpl", {
+    iscsi             = local.iscsi,
+    ips_iscsi         = local.ips_iscsi,
+    ips_dbnodes_admin = local.ips_dbnodes_admin,
+    ips_dbnodes_db    = local.ips_dbnodes_db,
+    dbnodes           = local.hdb_vms,
+    application       = var.application,
+    ips_scs           = local.ips_scs,
+    ips_app           = local.ips_app,
+    ips_web           = local.ips_web
+    anydbnodes        = local.anydb_vms,
+    ips_anydbnodes    = local.ips_anydbnodes,
+    sid               = var.hdb_sid
+    }
+  )
+  filename             = "${path.cwd}/ansible_config_files/new_hosts.yml"
+  file_permission      = "0660"
+  directory_permission = "0770"
+}
