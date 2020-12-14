@@ -74,25 +74,53 @@
 
 ## Managed Resources
 
-| Resource                                 | Deployer                           | Library                            | Workload                           | SDU                                |
-| ---------------------------------------- | :--------------------------------: | :--------------------------------: | :--------------------------------: | :--------------------------------: |
-| Resource Group                           | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
-| Storage Account                          | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | -                                  |
-| Virtual Network                          | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | -                                  |
-| Subnet                                   | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Network Security Group                   | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Network Interface Connection (NIC)       | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Load Balancer                            | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Proximity Placement Group                | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Application Security Group               | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Availability Set                         | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Availability Zone                        | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| Public IP                                | ![green](../assets/images/5s.png)  | -                                  | -                                  | -                                  |
-| DNS                                      | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |                                    |
-| VPN Gateway                              | ![red](../assets/images/1s.png)    | -                                  | ![green](../assets/images/1s.png)  | -                                  |
-| VMware                                   |                                    | -                                  |                                    |                                    |
-| VM                                       |                                    | -                                  |                                    |                                    |
-| Disk                                     |                                    | -                                  |                                    |                                    |
+| Resource                                            | Deployer                           | Library                            | Workload                           | SDU                                |
+| --------------------------------------------------- | :--------------------------------: | :--------------------------------: | :--------------------------------: | :--------------------------------: |
+| Application Security Group                          | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
+| Availability Zone                                   | -                                  | -                                  | ![green](../assets/images/5s.png)  |                                    |
+| DNS                                                 | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |                                    |
+| VPN Gateway                                         | ![red](../assets/images/1s.png)    | -                                  | ![green](../assets/images/1s.png)  | -                                  |
+| VMware                                              |                                    | -                                  |                                    |                                    |
+
+
+| Resource                                            | Deployer                           | Library                            | Workload                           | SDU                                |
+| --------------------------------------------------- | :--------------------------------: | :--------------------------------: | :--------------------------------: | :--------------------------------: |
+| local_file                                          | ![green](../assets/images/5s.png)  | -                                  |-                                   | ![green](../assets/images/5s.png)  |
+| null_resource                                       | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| random_id                                           | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| random_password                                     | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| tls_private_key                                     | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | -                                  |
+| availability_set                                    | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| key_vault                                           | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| key_vault_access_policy                             | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  |
+| key_vault_secret                                    | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| lb                                                  | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| lb_backend_address_pool                             | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| lb_probe                                            | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| lb_rule                                             | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| linux_virtual_machine                               | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| managed_disk                                        | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| network_interface                                   | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| network_interface_backend_address_pool_association  | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| network_interface_security_group_association        | -                                  | -                                  | ![green](../assets/images/5s.png)  | -                                  |
+| network_security_group                              | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| network_security_rule                               | ![green](../assets/images/5s.png)  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| proximity_placement_group                           | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| public_ip                                           | ![green](../assets/images/5s.png)  | -                                  | -                                  | -                                  |
+| resource_group                                      | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| role_assignment                                     | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | -                                  | -                                  |
+| storage_account                                     | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  | -                                  |
+| storage_container                                   | -                                  | ![green](../assets/images/5s.png)  | -                                  | -                                  |
+| storage_share                                       | -                                  | ![green](../assets/images/5s.png)  | -                                  | -                                  |
+| subnet                                              | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | ![green](../assets/images/5s.png)  |
+| subnet_network_security_group_association           | ![green](../assets/images/5s.png)  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| user_assigned_identity                              | ![green](../assets/images/5s.png)  | -                                  | -                                  | -                                  |
+| virtual_machine_data_disk_attachment                | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+| virtual_network                                     | ![green](../assets/images/5s.png)  | -                                  | ![green](../assets/images/5s.png)  | -                                  |
+| virtual_network_peering                             | -                                  | -                                  | ![green](../assets/images/5s.png)  | -                                  |
+| windows_virtual_machine                             | -                                  | -                                  | -                                  | ![green](../assets/images/5s.png)  |
+
+
 
 
 <br/><br/><br/>

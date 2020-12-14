@@ -8,7 +8,7 @@ deploy/terraform/run/sap_deployer/deployer.json
 ### <img src="../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
 <br/><br/>
 
-# Configuration - Deployer <!-- omit in toc -->
+# Configuration - Deployer with Public IP <!-- omit in toc -->
 
 <br/>
 
