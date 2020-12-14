@@ -6,7 +6,7 @@ deploy/terraform/run/sap_system/sapsystem.json
 ### <img src="../assets/images/UnicornSAPBlack256x256.png" width="64px"> SAP Deployment Automation Framework <!-- omit in toc -->
 <br/><br/>
 
-# Configuration - SAP Workload VNET <!-- omit in toc -->
+# Configuration - SAP Deployment Unit <!-- omit in toc -->
 
 <br/>
 
@@ -140,6 +140,16 @@ JSON structure
   "options": {
     "enable_secure_transfer"          : true,
     "enable_prometheus"               : true
+    "resource_offset"                 : 0,
+    "disk_encryption_set_id"          : "",
+    "use_local_keyvault_for_secrets"  : false
+  },
+  "key_vault": {
+    "kv_user_id": "",
+    "kv_prvt_id": "",
+    "kv_sid_sshkey_prvt" : "",
+    "kv_sid_sshkey_pub" : "",
+    "kv_spn_id": ""
   }
 }                                                                                 <-- JSON Closing tag
 ```
@@ -154,15 +164,15 @@ JSON structure
 | infrastructure.`region`                               | **required**  | -------- | This specifies the Azure Region in which to deploy. |
 | infrastructure.resource_group.`is_existing`           | deprecate     |          | to be deprecated <!-- TODO: --> |
 | infrastructure.resource_group.`arm_id`                | optional      |          | <!-- TODO: --> |
-| infrastructure.anchor_vms.`sku`                       |               |          | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.authentication.`type`       |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`sku`                       |               |          | This is populated if a anchor vm is needed to anchor the proximity placement groups to a specific zone.  |
+| infrastructure.anchor_vms.authentication.`type`       |               |          | Authentication type for the anchor VM,  |
 | infrastructure.anchor_vms.authentication.`username`   |               |          | <!-- TODO: Kimmo --> |
 | infrastructure.anchor_vms.`accelerated_networking`    |               |          | <!-- TODO: Kimmo --> |
 | infrastructure.anchor_vms.os.`publisher`              |               |          | <!-- TODO: Kimmo --> |
 | infrastructure.anchor_vms.os.`offer`                  |               |          | <!-- TODO: Kimmo --> |
 | infrastructure.anchor_vms.os.`sku`                    |               |          | <!-- TODO: Kimmo --> |
 | infrastructure.anchor_vms.`nic_ips`                   |               |          | <!-- TODO: Kimmo --> |
-| infrastructure.anchor_vms.`use_DHCP`                  |               |          | <!-- TODO: Kimmo --> |
+| infrastructure.anchor_vms.`use_DHCP`                  |               | false    | If set to true the IP addresses for the VMs will be provided by the subnet |
 | infrastructure.vnets.sap.`is_existing`                |               |          | <!-- TODO: --> |
 | infrastructure.vnets.sap.`arm_id`                     |               |          | <!-- TODO: --> |
 | infrastructure.vnets.sap.`name`                       |               |          | <!-- TODO: --> |
@@ -186,7 +196,7 @@ JSON structure
 | databases.[].credentials.`cockpit_admin_password`     | deprecate     |          | <!-- TODO: --> |
 | databases.[].credentials.`ha_cluster_password`        | deprecate     |          | <!-- TODO: --> |
 | databases.[].`avset_arm_ids.[]`                       |               |          | <!-- TODO: --> |
-| databases.[].`use_DHCP`                               |               |          | <!-- TODO: --> |
+| databases.[].`use_DHCP`                               |               | false    | If set to true the IP addresses for the VMs will be provided by the subnet |
 | databases.[].dbnodes.[].`name`                        |               |          | <!-- TODO: --> |
 | databases.[].dbnodes.[].`role`                        |               |          | <!-- TODO: --> |
 | application.`enable_deployment`                       |               |          | <!-- TODO: --> |
@@ -199,16 +209,16 @@ JSON structure
 | application.`app_zones`                               |               |          | <!-- TODO: --> |
 | application.`scs_zones`                               |               |          | <!-- TODO: --> |
 | application.`web_zones`                               |               |          | <!-- TODO: --> |
-| application.`use_DHCP`                                |               |          | <!-- TODO: --> |
+| application.`use_DHCP`                                |               | false    | If set to true the IP addresses for the VMs will be provided by the subnet |
 | application.authentication.`type`                     |               |          | <!-- TODO: --> |
 | application.authentication.`username`                 | optional      | azureadm | <!-- TODO: --> |
 | sshkey.`path_to_public_key`                           | optional      |          | <!-- TODO: --> |
 | sshkey.`path_to_private_key`                          | optional      |          | <!-- TODO: --> |
 | options.`enable_secure_transfer`                      | deprecate     | true     | <!-- TODO: --> |
 | options.`enable_prometheus`                           | deprecate     |          | deprecate <!-- TODO: --> |
-
-
-
+| options.`resource_offset`                             |               | 0        | The offset used for resource naming when creating multiple resources, for example -disk0, disk1. If changing the resource_offset to 1 the disks will be renamed disk1, disk2 |
+| options.`disk_encryption_set_id`                      |               |          | Disk encryption key to use for encrypting the managed disks |
+| options.`use_local_keyvault_for_secrets`              |               | false    | By default the ssh keys and the VM credentials are stored in the sap landscape keyvault. If this value is set to true the secrets are stored in the key vaults created by the SDU deployment  |
 
 
 <br/><br/><br/><br/>
