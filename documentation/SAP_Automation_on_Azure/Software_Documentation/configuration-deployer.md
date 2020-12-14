@@ -96,7 +96,7 @@ JSON structure
 
 ## Minimal (Default) input parameter JSON
 
-```javascript
+```json
 {
   "infrastructure": {
     "environment"                     : "NP",
@@ -118,7 +118,7 @@ JSON structure
 
 ## Complete input parameter JSON
 
-```javascript
+```json
 {
   "infrastructure": {
     "environment"                     : "NP",
