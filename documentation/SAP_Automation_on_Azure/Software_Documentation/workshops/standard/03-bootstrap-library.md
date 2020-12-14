@@ -58,6 +58,7 @@
 
     1. (*Optional*) Checkout Branch
         ```bash
+        cd  ~/Azure_SAP_Automated_Deployment/sap-hana
         git checkout <branch_name>
         ```
         Do nothing if using **master** branch.<br/>

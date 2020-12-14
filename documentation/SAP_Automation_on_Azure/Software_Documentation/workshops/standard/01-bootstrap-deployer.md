@@ -75,7 +75,15 @@
     ```
     <br/>
 
-3. Repository
+3. Terraform
+     ```bash
+     mkdir -p ~/bin; cd $_
+     wget  https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip
+     unzip terraform_0.13.5_linux_amd64.zip
+     alias terraform=~/bin/terraform
+     ```
+
+4. Repository
    1. Clone the Repository and Checkout the branch.
         ```bash
         mkdir -p ~/Azure_SAP_Automated_Deployment; cd $_
@@ -83,7 +91,7 @@
         cd  ~/Azure_SAP_Automated_Deployment/sap-hana
         ```
 
-    2. (*Optional*) Checkout Branch
+    1. (*Optional*) Checkout Branch
         ```bash
         git checkout <branch_name>
         ```
@@ -94,27 +102,27 @@
         - Commit Hash (*ex. 6d7539d02be007da769e97b6af6b3e511765d7f7*)
         <br/><br/>
 
-    3. (*Optional*) Verify Branch is at expected Revision
+    2. (*Optional*) Verify Branch is at expected Revision
         ```bash
         git rev-parse HEAD
         ```
         <br/>
 
-4. Create Working Directory.
+5. Create Working Directory.
     <br/>*`Observe Naming Convention`*<br/>
     ```bash
     mkdir -p ~/Azure_SAP_Automated_Deployment/WORKSPACES/LOCAL/NP-EUS2-DEP00-INFRASTRUCTURE; cd $_
     ```
     <br/>
 
-5. Create input parameter [JSON](templates/NP-EUS2-DEP00-INFRASTRUCTURE.json)
+6. Create input parameter [JSON](templates/NP-EUS2-DEP00-INFRASTRUCTURE.json)
     <br/>*`Observe Naming Convention`*<br/>
     ```bash
     vi NP-EUS2-DEP00-INFRASTRUCTURE.json
     ```
     <br/>
 
-6.  Terraform
+7.  Terraform
     1. Initialization
        ```bash
        terraform init  ../../../sap-hana/deploy/terraform/bootstrap/sap_deployer/
@@ -137,7 +145,7 @@
        ```
         <br/>
 
-7.  Post Processing
+8.  Post Processing
     1. In Output Section make note of the following 
        1. deployer_public_ip_address
        2. deployer_kv_user_name
