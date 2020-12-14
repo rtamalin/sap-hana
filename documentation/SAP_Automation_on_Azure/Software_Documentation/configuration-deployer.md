@@ -67,13 +67,14 @@ JSON structure
 
 | Object Path                                   | Parameter                     | Type          | Default  | Description |
 | :-------------------------------------------- | :---------------------------- | ------------- | :------- | :---------- |
-| infrastructure                                | `environment`                 | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription |
+| infrastructure                                | `environment`                 | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP /QA /DEV (Production, Non-Production, Quality Assurance, Development). Environments may also be tied to a unique SPN or Subscription |
 | <p>                                           | `region`                      | **required**  | -        | This specifies the Azure Region in which to deploy |
 | infrastructure.vnets.management               | `name`                        | **required**  | -        | This assigns a 7 Character designator for the Deployer VNET. Recommended value: DEP00 |
 | <p>                                           | `address_space`               | **required**  | -        | CIDR of the VNET Address Space. We recommend a /27 CIDR (32 IP's).<br/>This allows space for 2x /28 CIDR (16 IP's). |
 | infrastructure.vnets.management.subnet_mgmt   | `prefix`                      | **required**  | -        | CIDR of the Deployer Subnet. We recommend a /28 CIDR (16 IP's). |
-| key_vault                                     | `kv_user_id`                  | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
-| <p>                                           | `kv_prvt_id`                  | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| key_vault                                     | `kv_user_id`                  | optional      | -        | This provides a way to override the user keyvault to use. If specified no key vault will be created by the deployment<br/>- Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_prvt_id`                  | optional      | -        | This provides a way to override the private keyvault to use. If specified no key vault will be created by the deployment<br/>- Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
+| <p>                                           | `kv_spn_id`                   | optional      | -        | - This provides a way to provide the override for the keyvault that will contain the Service Principal Secrets <br/>Not required in a standard deployment.<br/>|
 | <p>                                           | `kv_sshkey_prvt`              | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
 | <p>                                           | `kv_sshkey_pub`               | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
 | <p>                                           | `kv_username`                 | optional      | -        | - Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
@@ -95,7 +96,7 @@ JSON structure
 
 ## Minimal (Default) input parameter JSON
 
-```
+```json
 {
   "infrastructure": {
     "environment"                     : "NP",
@@ -117,7 +118,7 @@ JSON structure
 
 ## Complete input parameter JSON
 
-```
+```json
 {
   "infrastructure": {
     "environment"                     : "NP",
@@ -135,6 +136,7 @@ JSON structure
   "key_vault": {
     "kv_user_id"                      : "",
     "kv_prvt_id"                      : "",
+    "kv_spn_id"                       : "",
     "kv_sshkey_prvt"                  : "",
     "kv_sshkey_pub"                   : "",
     "kv_username"                     : "",
