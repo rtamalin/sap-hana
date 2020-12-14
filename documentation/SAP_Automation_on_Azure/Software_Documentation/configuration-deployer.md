@@ -96,7 +96,7 @@ JSON structure
 
 ## Minimal (Default) input parameter JSON
 
-```json
+````json
 {
   "infrastructure": {
     "environment"                     : "NP",
@@ -112,13 +112,13 @@ JSON structure
     }
   }
 }
-```
+````
 
 <br/><br/><br/>
 
 ## Complete input parameter JSON
 
-```json
+````json
 {
   "infrastructure": {
     "environment"                     : "NP",
@@ -147,4 +147,4 @@ JSON structure
     "enable_deployer_public_ip"       : false
   }
 }
-```
+````
