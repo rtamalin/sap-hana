@@ -149,4 +149,5 @@ module "output_files" {
   anydb_loadbalancers       = module.anydb_node.anydb_loadbalancers
   random_id                 = module.common_infrastructure.random_id
   landscape_tfstate         = data.terraform_remote_state.landscape.outputs
+  naming                    = module.sap_namegenerator.naming
 }

@@ -81,6 +81,10 @@ variable "landscape_tfstate" {
   description = "Landscape remote tfstate file"
 }
 
+variable naming {
+  description = "Defines the names for the resources"
+}
+
 locals {
 
   landscape_tfstate = var.landscape_tfstate
