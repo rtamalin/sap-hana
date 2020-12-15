@@ -106,7 +106,7 @@ all:
       SCS:
         hosts:
   %{~ for ip_scs in ips_scs }
-          ${scsservers[index(ip_scs, ip_scs)]}:
+          ${scsservers}:
             ansible_connection: "ssh"
             ansible_host: ${ip_scs}:
             ansible_user:       "${application.authentication.username}"
@@ -118,7 +118,7 @@ all:
       PAS:
         hosts:
   %{~ for ip_pas in ips_pas }
-          ${passervers[index(ips_pas, ip_pas)]}::
+          ${passervers}::
             ansible_connection: "ssh"
             ansible_host: ${ip_pas}:
             ansible_user:       "${application.authentication.username}"
@@ -130,7 +130,7 @@ all:
       APP:
         hosts:
   %{~ for ip_app in ips_app }
-          ${appservers[index(ips_app, ip_app)]}::
+          ${appservers}::
             ansible_connection: "ssh"
             ansible_host: ${ip_app}:
             ansible_user:       "${application.authentication.username}"
@@ -142,7 +142,7 @@ all:
       WEB:
         hosts:
   %{~ for ip_web in ips_web }
-          ${webservers[index(ips_web, ip_web)]}::
+          ${webservers}::
             ansible_connection: "ssh"
             ansible_host: ${ip_web}:
             ansible_user:       "${application.authentication.username}"
