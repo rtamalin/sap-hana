@@ -106,7 +106,7 @@ all:
       SCS:
         hosts:
   %{~ for ip_scs in ips_scs }
-          ${scsservers}:
+          scsservers:
             ansible_connection: "ssh"
             ansible_host: ${ip_scs}:
             ansible_user:       "${application.authentication.username}"
@@ -118,7 +118,7 @@ all:
       PAS:
         hosts:
   %{~ for ip_pas in ips_pas }
-          ${passervers}::
+          passervers:
             ansible_connection: "ssh"
             ansible_host: ${ip_pas}:
             ansible_user:       "${application.authentication.username}"
@@ -130,7 +130,7 @@ all:
       APP:
         hosts:
   %{~ for ip_app in ips_app }
-          ${appservers}::
+          appservers:
             ansible_connection: "ssh"
             ansible_host: ${ip_app}:
             ansible_user:       "${application.authentication.username}"
@@ -142,7 +142,7 @@ all:
       WEB:
         hosts:
   %{~ for ip_web in ips_web }
-          ${webservers}::
+          webservers:
             ansible_connection: "ssh"
             ansible_host: ${ip_web}:
             ansible_user:       "${application.authentication.username}"
@@ -152,16 +152,3 @@ all:
   %{~ endif }
   %{~ endfor }
 
-    # Groups below are collections of the above groups for easier reference
-    all_linux_servers:
-      children:
-        hanadbnodes:
-        scs:
-        app:
-
-    # Localhost provisioning
-    local:
-      hosts:
-        localhost:
-          ansible_connection: "local"
-          ansible_user:       "azureadm"
