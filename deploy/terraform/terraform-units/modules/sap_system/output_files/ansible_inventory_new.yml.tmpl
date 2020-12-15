@@ -17,87 +17,86 @@ all:
     %{~ endif }
     %{~ endfor }
         DB:
-%{~ for ip_dbnode_admin in ips_dbnodes_admin }
-%{~ if dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].platform == "HANA" }
           hosts:
-            ${dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].name}:
+%{~ for idx,ip_dbnode_admin in ips_dbnodes_admin }
+%{~ if dbnodes[idx].platform == "HANA" }
+            ${dbnodes[idx].name}:
               ansible_connection:  "ssh"
               ansible_host:  ${ip_dbnode_admin}
-%{~ if dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.type == "key" }
-              ansible_user:        "${dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.username}"
+%{~ if dbnodes[idx].authentication.type == "key" }
+              ansible_user:        "${dbnodes[idx].authentication.username}"
 %{~ endif }
-%{~ if dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.type == "password" }
-              ansible_user:        "${dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.username}"
-              ansible_ssh_pass:    "${dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.password}"
-              ansible_become_pass: "${dbnodes[index(ips_dbnodes_admin, ip_dbnode_admin)].authentication.password}"
+%{~ if dbnodes[idx].authentication.type == "password" }
+              ansible_user:        "${dbnodes[idx].authentication.username}"
+              ansible_ssh_pass:    "${dbnodes[idx].authentication.password}"
+              ansible_become_pass: "${dbnodes[idx].authentication.password}"
 %{~ endif }
           vars:
             tier: hdb
 %{~ endif }
 %{~ endfor }
-%{~ for ips_anydbnode in ips_anydbnodes }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].platform == "ASE" }
-          hosts:
-            ${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].name}:
+%{~ for idx, ips_anydbnode in ips_anydbnodes }
+%{~ if anydbnodes[idx].platform == "ASE" }
+            ${anydbnodes[idx].name}:
               ansible_connection:  "ssh"
               ansible_host:  ${ips_anydbnode}
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "key" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
+%{~ if anydbnodes[idx].authentication.type == "key" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
 %{~ endif }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "password" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
-              ansible_ssh_pass:    "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
-              ansible_become_pass: "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
+%{~ if anydbnodes[idx].authentication.type == "password" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
+              ansible_ssh_pass:    "${anydbnodes[idx].authentication.password}"
+              ansible_become_pass: "${anydbnodes[idx].authentication.password}"
 %{~ endif }
           vars:
             tier: ase
 %{~ endif }
 %{~ endfor }
 %{~ for ips_anydbnode in ips_anydbnodes }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].platform == "DB2" }
+%{~ if anydbnodes[idx].platform == "DB2" }
           hosts:
-            ${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].name}:
+            ${anydbnodes[idx].name}:
               ansible_connection:  "ssh"
               ansible_host:  ${ips_anydbnode}
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "key" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
+%{~ if anydbnodes[idx].authentication.type == "key" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
 %{~ endif }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "password" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
-              ansible_ssh_pass:    "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
-              ansible_become_pass: "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
+%{~ if anydbnodes[idx].authentication.type == "password" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
+              ansible_ssh_pass:    "${anydbnodes[idx].authentication.password}"
+              ansible_become_pass: "${anydbnodes[idx].authentication.password}"
 %{~ endif }
           vars:
             tier: db2
 %{~ endif }
 %{~ endfor }
 %{~ for ips_anydbnode in ips_anydbnodes }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].platform == "ORACLE" }
-            ${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].name}:
+%{~ if anydbnodes[idx].platform == "ORACLE" }
+            ${anydbnodes[idx].name}:
               ansible_connection:  "ssh"
               ansible_host:  ${ips_anydbnode}
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "key" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
+%{~ if anydbnodes[idx].authentication.type == "key" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
 %{~ endif }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "password" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
-              ansible_ssh_pass:    "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
-              ansible_become_pass: "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
+%{~ if anydbnodes[idx].authentication.type == "password" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
+              ansible_ssh_pass:    "${anydbnodes[idx].authentication.password}"
+              ansible_become_pass: "${anydbnodes[idx].authentication.password}"
 %{~ endif }
           vars:
             tier: oracle
 %{~ endif }
 %{~ endfor }
 %{~ for ips_anydbnode in ips_anydbnodes }
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].platform == "SQLSERVER" }
+%{~ if anydbnodes[idx].platform == "SQLSERVER" }
           hosts:
-            ${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].name}:
+            ${anydbnodes[idx].name}:
               ansible_connection:  "winrm"
               ansible_host:  ${ips_anydbnode}
-%{~ if anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.type == "password" }
-              ansible_user:        "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.username}"
-              ansible_ssh_pass:    "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
-              ansible_become_pass: "${anydbnodes[index(ips_anydbnodes, ips_anydbnode)].authentication.password}"
+%{~ if anydbnodes[idx].authentication.type == "password" }
+              ansible_user:        "${anydbnodes[idx].authentication.username}"
+              ansible_ssh_pass:    "${anydbnodes[idx].authentication.password}"
+              ansible_become_pass: "${anydbnodes[idx].authentication.password}"
 %{~ endif }
           vars:
             tier: sqlserver
@@ -105,8 +104,8 @@ all:
 %{~ endfor }
       SCS:
         hosts:
-  %{~ for ip_scs in ips_scs }
-          scsservers:
+  %{~ for idx,ip_scs in ips_scs }
+          ${scsservers[idx]}:
             ansible_connection: "ssh"
             ansible_host: ${ip_scs}:
             ansible_user:       "${application.authentication.username}"
@@ -117,8 +116,8 @@ all:
   %{~ endfor }
       PAS:
         hosts:
-  %{~ for ip_pas in ips_pas }
-          passervers:
+  %{~ for idx,ip_pas in ips_pas }
+          ${passervers[idx]}:
             ansible_connection: "ssh"
             ansible_host: ${ip_pas}:
             ansible_user:       "${application.authentication.username}"
@@ -129,8 +128,8 @@ all:
   %{~ endfor }
       APP:
         hosts:
-  %{~ for ip_app in ips_app }
-          appservers:
+  %{~ for idx,ip_app in ips_app }
+          ${appservers[idx]}:
             ansible_connection: "ssh"
             ansible_host: ${ip_app}:
             ansible_user:       "${application.authentication.username}"
@@ -141,8 +140,8 @@ all:
   %{~ endfor }
       WEB:
         hosts:
-  %{~ for ip_web in ips_web }
-          webservers:
+  %{~ for idx,ip_web in ips_web }
+          {$webservers[idx]}:
             ansible_connection: "ssh"
             ansible_host: ${ip_web}:
             ansible_user:       "${application.authentication.username}"

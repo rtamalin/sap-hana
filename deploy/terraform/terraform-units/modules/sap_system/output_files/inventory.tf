@@ -139,7 +139,7 @@ resource "local_file" "ansible_inventory_new_yml" {
     sid               = var.hdb_sid,
     iscsiservers      = length(local.ips_iscsi) > 0 ? var.naming.virtualmachine_names.ISCSI_COMPUTERNAME : [],
     passervers        = length(local.ips_app) > 0 ? slice(var.naming.virtualmachine_names.APP_VMNAME,0, 1) : [],
-    appservers        = length(local.ips_app) > 1 ? slice(var.naming.virtualmachine_names.APP_VMNAME,1, length(local.ips_app) -1 ) : [],
+    appservers        = length(local.ips_app) > 1 ? slice(var.naming.virtualmachine_names.APP_VMNAME,1, length(local.ips_app) ) : [],
     scsservers        = length(local.ips_scs) > 0 ? var.naming.virtualmachine_names.SCS_VMNAME : [],
     webservers        = length(local.ips_web) > 0 ? var.naming.virtualmachine_names.WEB_VMNAME : [],
     prefix            = var.naming.prefix.SDU,
