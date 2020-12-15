@@ -70,7 +70,7 @@ all:
             tier: db2
 %{~ endif }
 %{~ endfor }
-%{~ for ips_anydbnode in ips_anydbnodes }
+%{~ for idx, ips_anydbnode in ips_anydbnodes }
 %{~ if anydbnodes[idx].platform == "ORACLE" }
             ${anydbnodes[idx].name}:
               ansible_connection:  "ssh"
@@ -87,7 +87,7 @@ all:
             tier: oracle
 %{~ endif }
 %{~ endfor }
-%{~ for ips_anydbnode in ips_anydbnodes }
+%{~ for idx, ips_anydbnode in ips_anydbnodes }
 %{~ if anydbnodes[idx].platform == "SQLSERVER" }
           hosts:
             ${anydbnodes[idx].name}:
