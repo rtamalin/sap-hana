@@ -1,21 +1,7 @@
 all:
   children:
       ${sid}:
-        iscsi:
-          hosts:
-    %{~ for ip_iscsi in ips_iscsi }
-            ${ip_iscsi}:
-              ansible_connection:  "ssh"
-              ansible_host:  ${ip_iscsi}
-    %{~ if iscsi.authentication.type == "key" }
-              ansible_user:        "${iscsi.authentication.username}"
-    %{~ endif }
-    %{~ if iscsi.authentication.type == "password" }
-              ansible_user:        "${iscsi.authentication.username}"
-              ansible_ssh_pass:    "${iscsi.authentication.password}"
-              ansible_become_pass: "${iscsi.authentication.password}"
-    %{~ endif }
-    %{~ endfor }
+  
         DB:
           hosts:
 %{~ for idx,ip_dbnode_admin in ips_dbnodes_admin }
@@ -52,7 +38,7 @@ all:
             tier: ase
 %{~ endif }
 %{~ endfor }
-%{~ for ips_anydbnode in ips_anydbnodes }
+%{~ for idx,ips_anydbnode in ips_anydbnodes }
 %{~ if anydbnodes[idx].platform == "DB2" }
           hosts:
             ${anydbnodes[idx].name}:
@@ -107,7 +93,7 @@ all:
   %{~ for idx,ip_scs in ips_scs ~}
             ${scsservers[idx]}:
               ansible_connection: "ssh"
-              ansible_host: ${ip_scs}:
+              ansible_host: ${ip_scs}
               ansible_user:       "${application.authentication.username}"
   %{~ if application.authentication.type == "password" }
               ansible_ssh_pass:    "${application.authentication.password}"
@@ -119,7 +105,7 @@ all:
   %{~ for idx,ip_pas in ips_pas }
             ${passervers[idx]}:
               ansible_connection: "ssh"
-              ansible_host: ${ip_pas}:
+              ansible_host: ${ip_pas}
               ansible_user:       "${application.authentication.username}"
   %{~ if application.authentication.type == "password" }
               ansible_ssh_pass:    "${application.authentication.password}"
@@ -131,7 +117,7 @@ all:
   %{~ for idx,ip_app in ips_app }
             ${appservers[idx]}:
               ansible_connection: "ssh"
-              ansible_host: ${ip_app}:
+              ansible_host: ${ip_app}
               ansible_user:       "${application.authentication.username}"
   %{~ if application.authentication.type == "password" }
               ansible_ssh_pass:    "${application.authentication.password}"
