@@ -2,63 +2,54 @@
 # Overview <!-- omit in toc -->
 
 
-<!-- TODO -->
+<!-- TODO: Refine this document -->
 
 The **SAP on Azure Deployment Automation Framework** is a collection of processes and a flexible workflow.
 
+There are two distinct phases.
+- The IaaS deployment
+- The Configuration deployment
+
+First lets talk about the IaaS deployment.
+
+Parameter driven IAC which deploy the infrastructure components (such as VMs, network, storage) in Azure.
+
+At a high level this workflow begins with establishing a deployment environment from which all activities occur.
+
+TODO: Image
+
+Then we create the enviroment to support the workload.
+
+TODO: Image
+
+And finally we deploy the SAP platform
+
+TODO: Image
+
+
+Workflow
+establish deployer
+establish SAP Library
+establish SAP Workload VNET
+Deploy SAP Platform
 
 
 
-The templates are split into:
-- **Terraform modules**
-which deploy the infrastructure components (such as VMs, network, storage) in Azure.
-- **Ansible playbooks**
-which run different roles to configure and VMs and install SAP HANA and required applications on the already deployed infrastructure.
+Second is configuration deployment
 
-<br/>
+Here we use Ansible to configure each deployed server to build up to a configuration.
+Parameter driven CAC which run different roles to configure and VMs and install SAP HANA and required applications on the already deployed infrastructure.
 
-## Table of contents <!-- omit in toc -->
-
-- [Usage](#usage)
-- [Terraform Deployment Units](#terraform-deployment-units)
-- [Contributions](#contributions)
-- [License & Copyright](#license--copyright)
-- [Contact](#contact)
-
-<br/>
-
-## Usage
-
-A typical deployment lifecycle will require the following steps:
-
-Step 1) [**Bootstrap the Deployment Platform**](/documentation/deployment-platform-bootstrap.md) (this has to be done only once)
-
-Step 2) [Deploy SAP Library]()
-
-Step 3) [Deploy SAP Workload VNET]()
-
-Step 4) [Deploy SDU]()
-
-Step 1) [**Preparing your environment**](/documentation/getting-started.md#preparing-your-environment) (this has to be done only once)
-
-Step 2) [**Select Terraform Deployment Unit**](#terraform-deployment-units)
+- OS configuration, base
+- OS configuration, SAP specific
+- SAP BOM Processing
+- SAP Installation
+- DB, HANA
+- ERS configuration
+- Pacemaker Configuration
 
 
-Step 1) [**Preparing your environment**](/documentation/getting-started.md#preparing-your-environment) (this has to be done only once)
 
-Step 2) [**Select Terraform Deployment Unit**](#terraform-deployment-units)
+<br/><br/><br/><br/>
 
-   *(**Note**: There are some script under [sap-hana/util](https://github.com/Azure/sap-hana/tree/master/util) would help if you are using Linux based workstation)*
-
-<br/>
-
-## Terraform Deployment Units
-
-- [SAP Landscape](/deploy/terraform/SAPLandscape.md) (Primary Entry Point)
-- [SAP Library](/deploy/terraform-units/workspace/SAP_Library/Readme.md)
-- Deployment Portal (Coming Soon)
-- Logical SAP Network Foundation (Coming Soon)
-- SDU - SAP Deployment Unit (Coming Soon)
-
-
-<br/><br/><br/><br/>  
+# Back: [Table of Contents](table_of_contents.md) <!-- omit in toc -->

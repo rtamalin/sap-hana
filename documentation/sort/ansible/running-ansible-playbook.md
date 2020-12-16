@@ -12,7 +12,7 @@ Master Branch's status: [![Build Status](https://dev.azure.com/azuresaphana/Azur
 
 ## Running the Ansible Playbook
 
-1. If you set `options.ansible_execution` to `true`, then the Ansible deployment will be triggered as part of the Terrafrom deployment. Otherwise:
+1. <s>If you set `options.ansible_execution` to `true`, then the Ansible deployment will be triggered as part of the Terrafrom deployment. Otherwise:</s>
    - logon to the jumpbox (the logon information is recorded in the ouputs of [Running the Terraform Deployment - Outputs](../terraform/running-terraform-deployment.md#outputs)), which is already prepared with Ansible the enviorment.
    - Start the ansible playbook<sup>[1](#myfootnote1)</sup>:
 
