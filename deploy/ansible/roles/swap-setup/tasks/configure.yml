@@ -2,33 +2,30 @@
 
 - name: Ensure Resource disk is mounted
   lineinfile:
-    state: present
-    dest: /etc/waagent.conf
-    regexp: 'ResourceDisk.Format='
-    line: 'ResourceDisk.Format=y'
-  register: conf_change
-  when: not chk_swapfile.stat.exists
+    state:    present
+    dest:     /etc/waagent.conf
+    regexp:   'ResourceDisk.Format='
+    line:     'ResourceDisk.Format=y'
+  register:   conf_change
 
 - name: Ensure swap is enabled
   lineinfile:
-    state: present
-    dest: /etc/waagent.conf
-    regexp: 'ResourceDisk.EnableSwap='
-    line: 'ResourceDisk.EnableSwap=y'
-  register: conf_change
-  when: not chk_swapfile.stat.exists
+    state:    present
+    dest:     /etc/waagent.conf
+    regexp:   'ResourceDisk.EnableSwap='
+    line:     'ResourceDisk.EnableSwap=y'
+  register:   conf_change
 
 - name: Ensure swapfile size
   lineinfile:
-    state: present
-    dest: /etc/waagent.conf
-    regexp: 'ResourceDisk.SwapSizeMB='
-    line: 'ResourceDisk.SwapSizeMB={{ item.swap_size_mb }}'
-  register: conf_change
-  when: not chk_swapfile.stat.exists
+    state:    present
+    dest:     /etc/waagent.conf
+    regexp:   'ResourceDisk.SwapSizeMB='
+    line:     'ResourceDisk.SwapSizeMB={{ item.swap_size_mb }}'
+  register:   conf_change
 
 - name: Ensure waagent is restarted
   service:
-    name: waagent
-    state: restarted
-  when: conf_change.changed
+    name:     waagent
+    state:    restarted
+  when:       conf_change.changed
