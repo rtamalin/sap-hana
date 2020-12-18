@@ -11,7 +11,7 @@
 #       - "target_media_location | trim | length != 0"
 
 - var:
-    bom:     []
+    bom:     {}
 
 - block:
 
