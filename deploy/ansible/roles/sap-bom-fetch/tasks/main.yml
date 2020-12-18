@@ -18,10 +18,12 @@
       url:     "{{ sapbits_location_base_path }}/boms/{{ bom_base_name }}/bom.yml"
       dest:    "/mnt/{{ bom_base_name }}_bom.yml"
 
-  - name: "Ensure {{ bom_base_name }} is available"
+  - name:            "Ensure {{ bom_base_name }} is available"
     include_vars:
-      file: "/mnt/{{ bom_base_name }}_bom.yml"
-      name: bom
+      file:          "/mnt/{{ bom_base_name }}_bom.yml"
+      name:          bom
+    delegate_to:     {{ ansible_host }}
+    delegate_facts:  true
 
 
   # loop:
