@@ -3,3 +3,34 @@
 #                        Playbook for Processing the BOM
 #
 # --------------------------------------+---------------------------------------8
+---
+
+- hosts:        scs
+  name:         BOM Processing
+  remote_user:  ansible
+  become:       yes
+  become_user:  root
+  gather_facts: true
+  vars_files:
+    - "{{ inventory_dir }}/sap-system-config.yml"
+
+  # vars:
+  #   tier: scs
+
+
+  tasks:
+
+  - set_fact:
+      tier:     preparation
+
+  - include_role:
+      name:     sap-bom-fetch
+
+
+
+
+
+  # roles:
+  #   - role: ensure-bom
+  #   - role: sap-users
+  #   - role: scs-install

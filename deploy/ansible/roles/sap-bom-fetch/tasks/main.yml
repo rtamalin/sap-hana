@@ -1,0 +1,54 @@
+---
+
+# - name: Check required variables are present and not empty
+#   assert:
+#     that:
+#       - "sapbits_location_base_path is defined"
+#       - "sapbits_location_base_path | trim | length != 0"
+#       - "bom_base_name is defined"
+#       - "bom_base_name | trim | length != 0"
+#       - "target_media_location is defined"
+#       - "target_media_location | trim | length != 0"
+
+- var:
+    bom:     []
+
+- block:
+
+  - name:      "Ensure {{ bom_base_name }} is available"
+    get_url:
+      url:     "{{ sapbits_location_base_path }}/boms/{{ bom_base_name }}/bom.yml"
+      dest:    "/mnt/{{ bom_base_name }}_bom.yml"
+
+  - name: "Ensure {{ bom_base_name }} is available"
+    include_vars:
+      file: "/mnt/{{ bom_base_name }}_bom.yml"
+      name: bom
+
+
+  # loop:
+
+#------------------<DEBUGGING>-------------------
+- debug:  
+    msg:          "LINE: {{ item.bom }}"
+  loop:           "{{ bom|flatten(levels=1) }}"
+#------------------</DEBUGGING>------------------
+
+
+# - name: "Ensure {{ bom_base_name }} is available"
+#   get_url:
+#     url: "{{ sapbits_location_base_path }}/boms/{{ bom_base_name }}/bom.yml"
+#     dest: "/mnt/{{ bom_base_name }}_bom.yml"
+
+# - name: "Ensure {{ bom_base_name }} is available"
+#   include_vars:
+#     file: "/mnt/{{ bom_base_name }}_bom.yml"
+#     name: bom
+
+# - name: "Ensure {{ bom_base_name }} dependencies are available"
+#   when: bom_dependencies | length != 0
+#   include_tasks: "./ensure-bom.yml"
+#   vars:
+#     bom_dependencies: "{{ bom.materials.dependencies is defined | ternary(bom.materials.dependencies, []) }}"
+#     bom_base_name: "{{ item.name }}"
+#   loop: "{{ bom_dependencies | flatten(levels=1) }}"
