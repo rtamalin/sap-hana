@@ -23,7 +23,7 @@
       file:          "/mnt/{{ bom_base_name }}_bom.yml"
       name:          bom
     delegate_to:     "{{ ansible_host }}"
-    delegate_facts:  true
+    # delegate_facts:  true
 
 
   # loop:
