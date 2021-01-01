@@ -163,14 +163,14 @@ locals {
   sid_local_username_exists = length(
     coalesce(
       try(local.anchor.authentication.username, ""),
-      try(var.credentials.username, ""),
+      try(var.sshkey.username, ""),
       " "
   )) > 1
 
   sid_local_password_exists = length(
     coalesce(
       try(local.anchor.authentication.password, ""),
-      try(var.credentials.password, ""),
+      try(var.sshkey.password, ""),
       " "
   )) > 1
 
@@ -179,14 +179,14 @@ locals {
 
   sid_auth_username = coalesce(
     try(local.anchor.authentication.username, ""),
-    try(var.credentials.username, ""),
+    try(var.sshkey.username, ""),
     try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
     "azureadm"
   )
 
   sid_auth_password = trimspace(coalesce(
     try(local.anchor.authentication.password, ""),
-    try(var.credentials.password, ""),
+    try(var.sshkey.password, ""),
     try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
     try(random_password.password[0].result, ""),
     " "
