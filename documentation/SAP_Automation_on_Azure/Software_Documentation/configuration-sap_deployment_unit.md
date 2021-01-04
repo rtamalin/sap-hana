@@ -189,10 +189,10 @@ Object Path                                   | Parameter                     | 
 | infrastructure.vnets.sap.subnet_db          |`name`                         | **required**  |          | If provided, the name for the database subnet to be created
 | infrastructure.vnets.sap.subnet_db          |`prefix`                       | **required**  |          | If provided, the database subnet address prefix of the subnet |
 | | <br/> | 
-| infrastructure.vnets.sap.subnet_web         |`arm_id`                       | **required**  |          | If provided, the Azure resource ID for the web dispatcher subnet |
+| infrastructure.vnets.sap.subnet_web         |`arm_id`                       | optional      |          | If provided, the Azure resource ID for the web dispatcher subnet |
 | | **or** | 
-| infrastructure.vnets.sap.subnet_web         |`name`                         | **required**  |          | If provided, the name for the web dispatcher subnet to be created
-| infrastructure.vnets.sap.subnet_web         |`prefix`                       | **required**  |          | If provided, the web dispatcher subnet address prefix of the subnet |
+| infrastructure.vnets.sap.subnet_web         |`name`                         | optional      |          | If provided, the name for the web dispatcher subnet to be created
+| infrastructure.vnets.sap.subnet_web         |`prefix`                       | optional      |          | If provided, the web dispatcher subnet address prefix of the subnet |
 | | <br/> | 
 | databases.[].`platform`                               | **required**  |          | <!-- TODO: --> |
 | databases.[].`high_availability`                      |               |          | <!-- TODO: --> |
