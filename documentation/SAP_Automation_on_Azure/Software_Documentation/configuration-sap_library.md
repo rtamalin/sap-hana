@@ -57,8 +57,8 @@ JSON structure
 | deployer.                                     | `environment`                 | **required**  | -------- | This represents the environment of the deployer. Typically this will be the same as the `infrastructure.environment`. When multi-subscription is supported, this can be set to a different value. |
 | <p>                                           | `region`                      | **required**  | -------- | Azure Region in which the Deployer was deployed. |
 | <p>                                           | `vnets`                       | **required**  | -------- | Designator used for the Deployer VNET. |
-| key_vault.                                    | `kv_user_id`                  | optional      |          | <!-- TODO: Yunzi --> |
-| <p>                                           | `kv_prvt_id`                  | optional      |          | <!-- TODO: Yunzi --> |
+| key_vault.                                    | `kv_user_id`                  | optional      |          | - If provided, the Key Vault resource ID of the Key Vault to be used.   |
+| <p>                                           | `kv_prvt_id`                  | optional      |          | - If provided, the Key Vault resource ID of the Key Vault to be used.   |
 
 <br/><br/><br/><br/>
 
