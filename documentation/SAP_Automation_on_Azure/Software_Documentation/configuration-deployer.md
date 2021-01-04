@@ -47,7 +47,11 @@ JSON structure
           "prefix"                    : "10.0.0.16/28"                            <-- Required Parameter
         }
       }
+    },
+   "resource_group": {
+      "arm_id"                        : ""                                        <-- Optional Identifier
     }
+
   },
   "key_vault": {
     "kv_user_id"                      : "",                                       <-- Optional
@@ -82,6 +86,8 @@ JSON structure
 | | **or** | 
 | infrastructure.vnets.management.subnet_mgmt               | `name`                      | **required**  | -        | The name of the subnet| infrastructure.vnets.management               | `name`                        | **required**  | -        | This assigns a 7 Character designator for the Deployer VNET. Recommended value: deployment-subnet |
 |infrastructure.vnets.management.subnet_mgmt   | `prefix`                      | **required**  | -        | CIDR of the Deployer Subnet. We recommend a /28 CIDR (16 IP's). |
+||<p>| 
+infrastructure.resource_group               | `arm_id`                      | optional      | -        | If provided, the Azure Resource Identifier for the resource group to use for the deployment 
 ||<p>| 
 | key_vault                                     | `kv_user_id`                  | optional      | -        | This provides a way to override the user keyvault to use. If specified no key vault will be created by the deployment<br/>- Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |
 | <p>                                           | `kv_prvt_id`                  | optional      | -        | This provides a way to override the private keyvault to use. If specified no key vault will be created by the deployment<br/>- Not required in a standard deployment.<br/> <!-- TODO: Yunzi --> |

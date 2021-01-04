@@ -22,7 +22,7 @@
 3. [Configuration](Software_Documentation/configuration.md)
    1. [Deployer](Software_Documentation/configuration-deployer.md)
    2. [SAP Library](Software_Documentation/configuration-sap_library.md)
-   3. [SAP Workload VNET](Software_Documentation/configuration-sap_workload_vnet.md)
+   3. [SAP Landscape](Software_Documentation/configuration-sap_landscape.md)
    4. [SAP Deployment Unit (SDU)](Software_Documentation/configuration-sap_deployment_unit.md)
 4. [Execution]
    1. [Terraform]
@@ -59,7 +59,7 @@
 - [ ] configuration.md
 - [ ] configuration-deployer.md
 - [ ] configuration-sap_library.md
-- [ ] configuration-sap_workload_vnet.md
+- [ ] configuration-sap_landscape.md
 - [ ] configuration-sap_deployment_unit.md
 - [ ] workshops/workshops.md
 - [ ] standards-naming.md
