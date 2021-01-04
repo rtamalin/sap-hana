@@ -72,7 +72,8 @@ JSON structure
 Object Path                                   | Parameter                     | Type          | Default  | Description |
 | :-------------------------------------------- | :---------------------------- | ------------- | :------- | :---------- |
 | `tfstate_resource_id`                         |`Remote State`                 | **required**  | -        | This is the Azure Resource ID for the Storage Account in which the Statefiles are stored. Typically this is deployed by the SAP Library execution unit. |
-| `deployer_tfstate_key`                        | `Remote State`                  | **required**  | -        | This ia the deployer state file name, used for finding the correct state file.  <br/>**Case-sensitive**  |
+| `deployer_tfstate_key`                        | `Remote State`                  | **required**  | -        | This is the deployer state file name, used for finding the correct state file.  <br/>**Case-sensitive**  |
+| `deployer_tfstate_key`                        | `Remote State`                  | **required**  | -        | This is the deployer state file name, used for finding the correct state file.  <br/>**Case-sensitive**  |
 | infrastructure.                               |`environment`                          | **required**  | -        | The Environment is a 5 Character designator used for partitioning. An example of partitioning would be, PROD / NP (Production and Non-Production). Environments may also be tied to a unique SPN or Subscription. |
 | infrastructure.                               |`region`                               | **required**  | -        | This specifies the Azure Region in which to deploy. |
 | infrastructure.resource_group.                | `arm_id`                | optional      |          | If specified the Azure Resource ID of Resource Group to use for the deployment |
