@@ -4,9 +4,10 @@
 */
 
 data "terraform_remote_state" "deployer" {
+  count   = length(try(var.key_vault.kv_spn_id, "")) > 0 ? 1 : 0
   backend = "local"
-  config = {
-    path = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
+  config  = {
+    path  = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
   }
 }
 
