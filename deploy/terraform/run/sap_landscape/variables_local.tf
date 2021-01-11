@@ -19,6 +19,7 @@ variable "tfstate_resource_id" {
 
 variable "deployer_tfstate_key" {
   description = "The key of deployer's remote tfstate file"
+  default     = ""
 }
 
 locals {
@@ -59,8 +60,11 @@ locals {
   tfstate_container_name       = module.sap_namegenerator.naming.resource_suffixes.tfstate
   deployer_tfstate_key         = try(var.deployer_tfstate_key, "")
 
+  
+  use_deployer = (length(trimspace(try(var.key_vault.kv_spn_id, ""))) == 0) && (length(var.deployer_tfstate_key) > 0)
+
   // Retrieve the arm_id of deployer's Key Vault from deployer's terraform.tfstate
-  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer.outputs.deployer_kv_user_arm_id, ""))
+  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer[0].outputs.deployer_kv_user_arm_id, ""))
 
   spn = {
     subscription_id = data.azurerm_key_vault_secret.subscription_id.value,
