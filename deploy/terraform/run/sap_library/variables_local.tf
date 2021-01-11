@@ -13,6 +13,8 @@ locals {
   // Retrieve the arm_id of deployer's Key Vault from deployer's terraform.tfstate
   deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer[0].outputs.deployer_kv_user_arm_id, ""))
 
+  use_deployer = length(trimspace(try(var.key_vault.kv_spn_id, ""))) == 0
+
   // Locate the tfstate storage account
   tfstate_resource_id          = try(var.tfstate_resource_id, "")
   saplib_subscription_id       = split("/", local.tfstate_resource_id)[2]
