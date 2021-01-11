@@ -12,7 +12,7 @@ module "sap_landscape" {
   naming            = module.sap_namegenerator.naming
   service_principal = local.service_principal
   key_vault         = var.key_vault
-  deployer_tfstate  = try(data.terraform_remote_state.deployer[0].outputs,{})
+  deployer_tfstate  = local.use_deployer ? data.terraform_remote_state.deployer[0] : {}
 }
 
 module "sap_namegenerator" {
