@@ -4,6 +4,7 @@
 */
 
 data "terraform_remote_state" "deployer" {
+  count   = local.use_deployer ? 1 : 0
   backend = "azurerm"
   config = {
     resource_group_name  = local.saplib_resource_group_name

@@ -4,9 +4,10 @@
 */
 
 data "terraform_remote_state" "deployer" {
+  count   = local.use_deployer ? 1 : 0
   backend = "local"
-  config = {
-    path = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
+  config  = {
+    path  = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
   }
 }
 
