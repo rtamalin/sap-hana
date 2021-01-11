@@ -47,6 +47,10 @@ variable "sid_kv_user_id" {
 variable "sdu_public_key" {
   description = "Public key used for authentication"
 }
+variable "sid_password" {
+  description = "SDU specific password"
+}
+
 locals {
   // Imports Disk sizing sizing information
   sizes = jsondecode(file(length(var.custom_disk_sizes_filename) > 0 ? var.custom_disk_sizes_filename : "${path.module}/../../../../../configs/app_sizes.json"))
@@ -92,8 +96,28 @@ locals {
   sid_auth_type        = try(var.application.authentication.type, upper(local.app_ostype) == "LINUX" ? "key" : "password")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
-  sid_auth_username    = try(var.application.authentication.username, "azureadm")
-  sid_auth_password    = local.enable_auth_password ? try(var.application.authentication.password, random_password.password[0].result) : ""
+
+  secret_sid_pk_name       = try(local.landscape_tfstate.sid_public_key_secret_name, "")
+  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
+  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
+
+  // If credentials are specified either for the SDU or for the application use them
+  sid_local_credentials_exist = try(length(try(var.sshkey.username, "")) > 0, false) || try(length(try(var.application.authentication.username, "")) > 0, false)
+  use_landscape_credentials   = length(local.sid_password_secret_name) > 0 ? true : false
+
+  sid_auth_username = coalesce(
+    try(var.application.authentication.username, ""),
+    try(var.sshkey.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
+    "azureadm"
+  )
+
+  sid_auth_password = coalesce(
+    try(var.application.authentication.password, ""),
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    var.sid_password
+  )
 
   authentication = {
     "type"     = local.sid_auth_type
@@ -101,7 +125,16 @@ locals {
     "password" = local.sid_auth_password
   }
 
+<<<<<<< HEAD
   use_local_keyvault = try(var.sshkey.ssh_for_sid, false)
+=======
+  // Retrieve information about Sap Landscape from tfstate file
+  landscape_tfstate = var.landscape_tfstate
+  kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
+
+  // Define this variable to make it easier when implementing existing kv.
+  sid_kv_user_id = var.sid_kv_user_id
+>>>>>>> 493b792a8ff63263cd8700629d68421347ba173d
 
   // SAP vnet
   vnet_sap                     = try(var.vnet_sap, {})

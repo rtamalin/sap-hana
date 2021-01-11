@@ -12,6 +12,7 @@ module "common_infrastructure" {
   options                    = local.options
   ssh-timeout                = var.ssh-timeout
   sshkey                     = var.sshkey
+  key_vault                  = var.key_vault
   naming                     = module.sap_namegenerator.naming
   service_principal          = local.service_principal
   deployer_tfstate           = data.terraform_remote_state.deployer.outputs
@@ -64,8 +65,10 @@ module "hdb_node" {
   storage_subnet             = module.common_infrastructure.storage_subnet
   anchor_vm                  = module.common_infrastructure.anchor_vm // Workaround to create dependency from anchor to db to app
   sdu_public_key             = module.common_infrastructure.sdu_public_key
+  sid_password               = module.common_infrastructure.sid_password
   // Comment out code with users.object_id for the time being.  
   // deployer_user    = module.deployer.deployer_user
+  
 }
 
 // Create Application Tier nodes
@@ -88,8 +91,10 @@ module "app_tier" {
   anydb_vms                  = module.anydb_node.anydb_vms // Workaround to create dependency from anchor to db to app
   hdb_vms                    = module.hdb_node.hdb_vms
   sdu_public_key             = module.common_infrastructure.sdu_public_key
+  sid_password               = module.common_infrastructure.sid_password
   // Comment out code with users.object_id for the time being.  
   // deployer_user    = module.deployer.deployer_user
+  landscape_tfstate          = data.terraform_remote_state.landscape.outputs
 }
 
 // Create anydb database nodes
@@ -111,7 +116,9 @@ module "anydb_node" {
   admin_subnet               = module.common_infrastructure.admin_subnet
   db_subnet                  = module.common_infrastructure.db_subnet
   sdu_public_key             = module.common_infrastructure.sdu_public_key
+  sid_password               = module.common_infrastructure.sid_password
   anchor_vm                  = module.common_infrastructure.anchor_vm // Workaround to create dependency from anchor to db to app
+  landscape_tfstate          = data.terraform_remote_state.landscape.outputs
 }
 
 // Generate output files

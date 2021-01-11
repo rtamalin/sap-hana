@@ -48,6 +48,10 @@ variable "sdu_public_key" {
   description = "Public key used for authentication"
 }
 
+variable "sid_password" {
+  description = "SDU specific password"
+}
+
 locals {
   // Resources naming
   computer_names       = var.naming.virtualmachine_names.HANA_COMPUTERNAME
@@ -72,6 +76,13 @@ locals {
 
   //Allowing changing the base for indexing, default is zero-based indexing, if customers want the first disk to start with 1 they would change this
   offset = try(var.options.resource_offset, 0)
+
+  // Retrieve information about Sap Landscape from tfstate file
+  landscape_tfstate = var.landscape_tfstate
+  kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
+
+  // Define this variable to make it easier when implementing existing kv.
+  sid_kv_user_id = var.sid_kv_user_id
 
   hdb_list = [
     for db in var.databases : db
@@ -127,8 +138,28 @@ locals {
   sid_auth_type        = try(local.hdb.authentication.type, "key")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
-  sid_auth_username    = try(local.hdb.authentication.username, "azureadm")
-  sid_auth_password    = local.enable_auth_password ? try(local.hdb.authentication.password, random_password.password[0].result) : ""
+
+  secret_sid_pk_name       = try(local.landscape_tfstate.sid_public_key_secret_name, "")
+  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
+  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
+
+  // If credentials are specified either for the SDU or for the database use them
+  sid_local_credentials_exist = try(length(try(var.sshkey.username, "")) > 0, false) || try(length(try(local.hdb.authentication.username, "")) > 0, false)
+  use_landscape_credentials   = length(local.sid_password_secret_name) > 0 ? true : false
+
+  sid_auth_username = coalesce(
+    try(local.hdb.authentication.username, ""),
+    try(var.sshkey.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
+    "azureadm"
+  )
+
+  sid_auth_password = coalesce(
+    try(local.hdb.authentication.password, ""),
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    var.sid_password
+  )
 
   db_systemdb_password   = "db_systemdb_password"
   os_sidadm_password     = "os_sidadm_password"
@@ -140,7 +171,7 @@ locals {
   hdb_auth = {
     "type"     = local.sid_auth_type
     "username" = local.sid_auth_username
-    "password" = "hdb_vm_password"
+    "password" = local.sid_auth_password
   }
 
   node_count      = try(length(local.hdb.dbnodes), 1)

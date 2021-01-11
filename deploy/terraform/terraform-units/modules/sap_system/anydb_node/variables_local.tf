@@ -43,6 +43,10 @@ variable "sdu_public_key" {
   description = "Public key used for authentication"
 }
 
+variable "sid_password" {
+  description = "SDU specific password"
+}
+
 locals {
   // Imports database sizing information
 
@@ -104,7 +108,14 @@ locals {
   // Enable deployment based on length of local.anydb_databases
   enable_deployment = (length(local.anydb_databases) > 0) ? true : false
 
- // If custom image is used, we do not overwrite os reference with default value
+  // Retrieve information about Sap Landscape from tfstate file
+  landscape_tfstate = var.landscape_tfstate
+  kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
+
+  // Define this variable to make it easier when implementing existing kv.
+  sid_kv_user_id = var.sid_kv_user_id
+
+  // If custom image is used, we do not overwrite os reference with default value
   anydb_custom_image = try(local.anydb.os.source_image_id, "") != "" ? true : false
 
   anydb_ostype = try(local.anydb.os.os_type, "Linux")
@@ -125,8 +136,28 @@ locals {
   sid_auth_type        = try(local.anydb.authentication.type, "key")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
-  sid_auth_username    = try(local.anydb.authentication.username, "azureadm")
-  sid_auth_password    = local.enable_auth_password ? try(local.anydb.authentication.password, random_password.password[0].result) : ""
+
+  secret_sid_pk_name       = try(local.landscape_tfstate.sid_public_key_secret_name, "")
+  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
+  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
+
+  // If credentials are specified either for the SDU or for the database use them
+  sid_local_credentials_exist = try(length(try(var.sshkey.username, "")) > 0, false) || try(length(try(local.anydb.authentication.username, "")) > 0, false)
+  use_landscape_credentials   = length(local.sid_password_secret_name) > 0 ? true : false
+
+  sid_auth_username = coalesce(
+    try(local.anydb.authentication.username, ""),
+    try(var.sshkey.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
+    "azureadm"
+  )
+
+  sid_auth_password = coalesce(
+    try(local.anydb.authentication.password, ""),
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    var.sid_password
+  )
 
   use_local_credentials = length(var.sshkey) > 0
 
@@ -135,12 +166,11 @@ locals {
   // Tags
   tags = try(local.anydb.tags, {})
 
-  authentication = try(local.anydb.authentication,
-    {
+  authentication =  {
       "type"     = local.sid_auth_type
       "username" = local.sid_auth_username
-      "password" = "anydb_vm_password"
-  })
+      "password" = local.sid_auth_password
+  }
 
   // Default values in case not provided
   os_defaults = {

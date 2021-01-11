@@ -99,8 +99,7 @@ locals {
 
   db_auth = try(local.db.authentication,
     {
-      "type"     = "key"
-      "username" = "azureadm"
+      "type" = "key"
   })
 
   //Enable DB deployment 
@@ -155,6 +154,43 @@ locals {
   anchor_auth_type            = try(local.anchor.authentication.type, "key")
   enable_anchor_auth_password = local.deploy_anchor && local.anchor_auth_type == "password"
   enable_anchor_auth_key      = !local.enable_anchor_auth_password
+
+  anchor_auth_password = try(local.anchor_authentication.password, "")
+
+  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
+  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
+
+  sid_local_username_exists = length(
+    coalesce(
+      try(local.anchor.authentication.username, ""),
+      try(var.sshkey.username, ""),
+      " "
+  )) > 1
+
+  sid_local_password_exists = length(
+    coalesce(
+      try(local.anchor.authentication.password, ""),
+      try(var.sshkey.password, ""),
+      " "
+  )) > 1
+
+
+  use_landscape_credentials = length(local.sid_password_secret_name) > 0 ? true : false
+
+  sid_auth_username = coalesce(
+    try(local.anchor.authentication.username, ""),
+    try(var.sshkey.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
+    "azureadm"
+  )
+
+  sid_auth_password = trimspace(coalesce(
+    try(local.anchor.authentication.password, ""),
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    try(random_password.password[0].result, ""),
+    " "
+  ))
 
   //If the db uses ultra disks ensure that the anchore sets the ultradisk flag but only for the zones that will contain db servers
   enable_anchor_ultra = [
