@@ -13,15 +13,14 @@ data "azurerm_key_vault_secret" "sid_pk" {
 data "azurerm_key_vault_secret" "sid_username" {
   count        = ! local.sid_local_password_exists && (length(trimspace(local.sid_username_secret_name)) > 0) ? 1 : 0
   name         = local.sid_username_secret_name
-  key_vault_id = local.kv_landscape_id
+  key_vault_id = local.landscape_tfstate.landscape_key_vault_user_arm_id
 }
 
 data "azurerm_key_vault_secret" "sid_password" {
   count        = ! local.sid_local_password_exists && (length(trimspace(local.sid_password_secret_name)) > 0) ? 1 : 0
   name         = local.sid_password_secret_name
-  key_vault_id = local.kv_landscape_id
+  key_vault_id = local.landscape_tfstate.landscape_key_vault_user_arm_id
 }
-
 
 // Create private KV with access policy
 resource "azurerm_key_vault" "sid_kv_prvt" {
@@ -115,7 +114,6 @@ resource "tls_private_key" "sdu" {
   rsa_bits  = 2048
 }
 
-
 // By default the SSH keys are stored in landscape key vault. By defining the authenticationb block the SDU keyvault
 resource "azurerm_key_vault_secret" "sdu_private_key" {
   count        = local.enable_sid_deployment && local.use_local_credentials ? 1 : 0
@@ -128,6 +126,9 @@ resource "azurerm_key_vault_secret" "sdu_public_key" {
   count        = local.enable_sid_deployment && local.use_local_credentials ? 1 : 0
   name         = format("%s-sshkey-pub", local.prefix)
   value        = local.sid_public_key
+  key_vault_id = azurerm_key_vault.sid_kv_user[0].id
+}
+
 // Generate random password if password is set as authentication type and user doesn't specify a password, and save in KV
 resource "random_password" "password" {
   count            = local.sid_local_username_exists && ! local.sid_local_password_exists ? 0 : 1

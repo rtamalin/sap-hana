@@ -51,6 +51,10 @@ variable "sid_password" {
   description = "SDU specific password"
 }
 
+variable "landscape_tfstate" {
+  description = "SAP Landscape remote tfstate file"
+}
+
 locals {
   // Imports Disk sizing sizing information
   sizes = jsondecode(file(length(var.custom_disk_sizes_filename) > 0 ? var.custom_disk_sizes_filename : "${path.module}/../../../../../configs/app_sizes.json"))
@@ -125,16 +129,12 @@ locals {
     "password" = local.sid_auth_password
   }
 
-<<<<<<< HEAD
-  use_local_keyvault = try(var.sshkey.ssh_for_sid, false)
-=======
   // Retrieve information about Sap Landscape from tfstate file
   landscape_tfstate = var.landscape_tfstate
   kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
 
   // Define this variable to make it easier when implementing existing kv.
   sid_kv_user_id = var.sid_kv_user_id
->>>>>>> 493b792a8ff63263cd8700629d68421347ba173d
 
   // SAP vnet
   vnet_sap                     = try(var.vnet_sap, {})

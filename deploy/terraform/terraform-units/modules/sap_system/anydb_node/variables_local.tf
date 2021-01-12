@@ -47,6 +47,10 @@ variable "sid_password" {
   description = "SDU specific password"
 }
 
+variable "landscape_tfstate" {
+  description = "SAP Landscape remote tfstate file"
+}
+
 locals {
   // Imports database sizing information
 

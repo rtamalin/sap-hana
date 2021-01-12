@@ -18,7 +18,6 @@ module "common_infrastructure" {
   deployer_tfstate           = data.terraform_remote_state.deployer.outputs
   landscape_tfstate          = data.terraform_remote_state.landscape.outputs
   custom_disk_sizes_filename = var.db_disk_sizes_filename
-  key_vault                  = var.key_vault
 }
 
 module "sap_namegenerator" {
@@ -68,6 +67,7 @@ module "hdb_node" {
   sid_password               = module.common_infrastructure.sid_password
   // Comment out code with users.object_id for the time being.  
   // deployer_user    = module.deployer.deployer_user
+  landscape_tfstate          = data.terraform_remote_state.landscape.outputs
   
 }
 

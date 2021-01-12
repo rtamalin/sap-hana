@@ -52,6 +52,11 @@ variable "sid_password" {
   description = "SDU specific password"
 }
 
+variable "landscape_tfstate" {
+  description = "SAP Landscape remote tfstate file"
+}
+
+
 locals {
   // Resources naming
   computer_names       = var.naming.virtualmachine_names.HANA_COMPUTERNAME
