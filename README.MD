@@ -35,6 +35,8 @@ Please follow the linke below to the documentation:
 # Table of contents <!-- omit in toc -->
 
 - [Contributions](#contributions)
+- [Data Collection](#data-collection)
+- [How to Turn off Data Collection](#how-to-turn-off-data-collection)
 - [License & Copyright](#license--copyright)
 - [Contact](#contact)
 
