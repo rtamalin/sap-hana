@@ -67,7 +67,7 @@ variable "infrastructure" {
     condition = (
       length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.arm_id, ""))) != 0 || length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.prefix, ""))) != 0
     )
-    error_message = "Either the arm_id or  prefix of the Database subnet must be specified in the infrastructure.vnets.sap.subnet_db block."
+    error_message = "Either the arm_id or prefix of the Database subnet must be specified in the infrastructure.vnets.sap.subnet_db block."
   }
 }
 
