@@ -137,8 +137,8 @@ steps:
       saplib_tfstate_key=$(az storage blob list --account-name ${tfstate_sa_name} --container-name tfstate --only-show-errors | jq -r "'".[] | select(.name | contains(\\\"LIBRARY\\\")).name"'")
       tfstate_resource_id=$(az storage account list --resource-group ${saplib_rg} | jq -r "'".[] | select(.name | contains(\\\"tfstate\\\")).id"'")
 
-      cp ${repo_dir}/deploy/terraform/run/environment/environment.json ${ws_dir}/environment.json
-      cat ${ws_dir}/environment.json \
+      cp ${repo_dir}/deploy/terraform/run/sap_landscape/environment.json ${ws_dir}/saplandscape.json
+      cat ${ws_dir}/saplandscape.json \
       | jq --arg environment_rg "${environment_rg}" .infrastructure.resource_group.name\ =\ \$environment_rg \
       | jq --arg environment "${environment_prefix}" .infrastructure.environment\ =\ \$environment \
       | jq --arg tfstate_resource_id "${tfstate_resource_id}" .tfstate_resource_id\ =\ \$tfstate_resource_id \
@@ -158,7 +158,7 @@ steps:
         --backend-config "container_name=tfstate" \
         --backend-config "key=${sap_environment_key}" \
         ${repo_dir}/deploy/terraform/run/environment/
-      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/environment/
+      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/sap_landscape/
       '
     displayName: "Deploy new environment: Branch ${{parameters.branch_name}}"
     condition: or(succeededOrFailed(), always())
