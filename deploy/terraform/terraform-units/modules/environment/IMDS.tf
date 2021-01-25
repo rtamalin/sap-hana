@@ -10,7 +10,7 @@ variable "auto-deploy-version" {
 
 variable "scenario" {
   description = "Deployment Scenario"
-  default     = "sap_landscape"
+  default     = "environment"
 }
 
 variable "max_timeout" {

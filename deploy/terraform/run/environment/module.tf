@@ -4,7 +4,7 @@
 */
 
 module "sap_landscape" {
-  source            = "../../terraform-units/modules/sap_landscape"
+  source            = "../../terraform-units/modules/environment"
   infrastructure    = var.infrastructure
   options           = local.options
   ssh-timeout       = var.ssh-timeout
