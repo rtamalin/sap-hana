@@ -23,7 +23,7 @@ steps:
       cd ${ws_dir}
       
       dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
-      if [ ! -d "$dir_to_check" ] 
+      if [ ! -d $dir_to_check ] 
       then
         foldername="deployer"
       else
