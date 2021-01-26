@@ -121,7 +121,7 @@ steps:
       fi
       cd $repo_dir && git pull && git checkout ${{parameters.branch_name}}
 
-      dir_to_check = "${repo_dir}/deploy/terraform/run/sap_landscape"
+      dir_to_check="${repo_dir}/deploy/terraform/run/sap_landscape/"
       echo $dir_to_check
       if [ ! -d "$dir_to_check" ] 
       then
