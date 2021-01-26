@@ -26,7 +26,19 @@ steps:
       cp $HOME/.ssh/id_rsa sshkey
       cp $HOME/.ssh/id_rsa.pub sshkey.pub
 
-      cp ${repo_path}/deploy/terraform/bootstrap/sap_deployer/deployer.json deployer.json
+      dir_to_check="${repo_path}/deploy/terraform/run/sap_deployer/"
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_deployer"
+      else
+        foldername="deployer"
+      fi
+
+      ls ${repo_dir}/deploy/terraform/run/
+      echo $foldername
+      echo $dir_to_check
+
+      cp ${repo_path}/deploy/terraform/bootstrap/$foldername/deployer.json deployer.json
 
       [[ -f ${input} ]] ||
       cat deployer.json \
@@ -49,18 +61,6 @@ steps:
       }'> ${input}
 
       cat ${input}
-
-      dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
-      if [ -d $dir_to_check ] 
-      then
-        foldername="sap_deployer"
-      else
-        foldername="deployer"
-      fi
-
-      ls ${repo_dir}/deploy/terraform/run/
-      echo $foldername
-      echo $dir_to_check
 
       echo "=== Start terraform apply for new deployer ==="
       terraform -version

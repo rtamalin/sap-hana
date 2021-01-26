@@ -25,7 +25,7 @@ steps:
       merge_json=$(jq -s '.[0] * .[1]' deployer.json ${input})
       echo ${merge_json} | jq '.' > ${input}
 
-      dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
+      dir_to_check="${repo_path}/deploy/terraform/run/sap_deployer/"
       if [ -d $dir_to_check ] 
       then
         foldername="sap_deployer"
