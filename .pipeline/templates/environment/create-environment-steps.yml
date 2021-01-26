@@ -121,8 +121,9 @@ steps:
       fi
       cd $repo_dir && git pull && git checkout ${{parameters.branch_name}}
 
-      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]
-      then
+      echo ${{parameters.branch_name}}
+
+      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]; then
         foldername="sap_landscape"
         templatefilename="saplandscape.json"
       else
