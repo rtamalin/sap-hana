@@ -26,7 +26,7 @@ steps:
       cp $HOME/.ssh/id_rsa sshkey
       cp $HOME/.ssh/id_rsa.pub sshkey.pub
 
-      dir_to_check="~/Azure_SAP_Automated_Deployment/sap-hana/deploy/terraform/run/sap_deployer"
+      dir_to_check=${repo_path}/deploy/terraform/bootstrap/sap_deployer
       if [ -d $dir_to_check ] 
       then
         foldername="sap_deployer"
@@ -34,9 +34,11 @@ steps:
         foldername="deployer"
       fi
 
-      ls "~/Azure_SAP_Automated_Deployment/sap-hana/deploy/terraform/run/"
+      ls ~/Azure_SAP_Automated_Deployment/sap-hana/deploy/terraform/bootstrap/
       echo $foldername
       echo $dir_to_check
+      ls $dir_to_check
+
 
       cp ${repo_path}/deploy/terraform/bootstrap/$foldername/deployer.json deployer.json
 
