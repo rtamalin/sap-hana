@@ -35,10 +35,6 @@ steps:
       fi
 
       ls ~/Azure_SAP_Automated_Deployment/sap-hana/deploy/terraform/bootstrap/
-      echo $foldername
-      echo $dir_to_check
-      ls $dir_to_check
-
 
       cp ${repo_path}/deploy/terraform/bootstrap/$foldername/deployer.json deployer.json
 
