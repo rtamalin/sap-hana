@@ -29,13 +29,14 @@ steps:
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
 
-      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]
+      dir_to_check="${repo_dir}/deploy/terraform/run/sap_landscape/"
+      echo $dir_to_check
+      if [ ! -d "$dir_to_check" ] 
       then
-        foldername="sap_landscape"
-      else
         foldername="environment"
+      else
+        foldername="sap_landscape"
       fi
-
 
       terraform init -upgrade=true ${repo_dir}/deploy/terraform/run/$foldername/
       terraform refresh -var-file=${input} ${repo_dir}/deploy/terraform/run/$foldername/

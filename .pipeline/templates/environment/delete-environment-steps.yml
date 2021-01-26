@@ -52,13 +52,14 @@ steps:
       echo "=== Checkout required branch ${{parameters.branch_name}} ==="
       cd ${repo_dir} && git checkout ${{parameters.branch_name}}
 
-      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]
+      dir_to_check="${repo_dir}/deploy/terraform/run/sap_landscape/"
+      echo $dir_to_check
+      if [ ! -d "$dir_to_check" ] 
       then
-        foldername="sap_landscape"
-      else
         foldername="environment"
+      else
+        foldername="sap_landscape"
       fi
-
 
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
