@@ -109,14 +109,6 @@ steps:
       
       repo_dir=$HOME/${environment_rg}/sap-hana
 
-      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]
-      then
-        foldername="sap_landscape"
-      else
-        foldername="environment"
-      fi
-
-
       ws_dir=$HOME/Azure_SAP_Automated_Deployment/WORKSPACES/SAP_LANDSCAPE/${environment_rg}
       deployer_ws_dir=$HOME/Azure_SAP_Automated_Deployment/WORKSPACES/LOCAL/${deployer_rg}
       input=${ws_dir}/${environment_rg}.json
@@ -128,6 +120,15 @@ steps:
         git clone https://github.com/Azure/sap-hana.git
       fi
       cd $repo_dir && git pull && git checkout ${{parameters.branch_name}}
+
+      if [-d "${repo_dir}/deploy/terraform/run/sap_landscape" ]
+      then
+        foldername="sap_landscape"
+        templatefilename="saplandscape.json"
+      else
+        foldername="environment"
+        templatefilename="environment.json"
+      fi
 
       echo "=== Create workspace ${ws_dir} ==="
       mkdir -p ${ws_dir}; cd $_
@@ -146,7 +147,8 @@ steps:
       saplib_tfstate_key=$(az storage blob list --account-name ${tfstate_sa_name} --container-name tfstate --only-show-errors | jq -r "'".[] | select(.name | contains(\\\"LIBRARY\\\")).name"'")
       tfstate_resource_id=$(az storage account list --resource-group ${saplib_rg} | jq -r "'".[] | select(.name | contains(\\\"tfstate\\\")).id"'")
 
-      cp ${repo_dir}/deploy/terraform/run/sap_landscape/saplandscape.json ${ws_dir}/environment.json
+      cp ${repo_dir}/deploy/terraform/run/$foldername/$templatefilename ${ws_dir}/environment.json
+
       cat ${ws_dir}/environment.json \
       | jq --arg environment_rg "${environment_rg}" .infrastructure.resource_group.name\ =\ \$environment_rg \
       | jq --arg environment "${environment_prefix}" .infrastructure.environment\ =\ \$environment \
