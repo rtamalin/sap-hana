@@ -32,6 +32,15 @@ steps:
       
       repo_dir=$HOME/${saplib_rg}/sap-hana
 
+      dir_to_check=${repo_dir}/deploy/terraform/run/sap_library
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_library"
+      else
+        foldername="library"
+      fi
+
+
       deployer_ws_dir=$HOME/Azure_SAP_Automated_Deployment/WORKSPACES/LOCAL/${deployer_rg}
       saplib_ws_dir=$HOME/Azure_SAP_Automated_Deployment/WORKSPACES/SAP_LIBRARY/${saplib_rg}
 
@@ -46,16 +55,16 @@ steps:
       echo "=== Upload deployer tfstate under ${deployer_ws_dir} to saplibrary ==="
       cd ${deployer_ws_dir}
       terraform init -force-copy \
-        --backend-config "subscription_id=$(landscape-subscription)" \
+        --backend-config "subscription_id=$(environment-subscription)" \
         --backend-config "resource_group_name=${saplib_rg}" \
         --backend-config "storage_account_name=${tfstate_sa_name}" \
         --backend-config "container_name=tfstate" \
         --backend-config "key=${deployer_key}" \
-        ${repo_dir}/deploy/terraform/run/sap_deployer/
+        ${repo_dir}/deploy/terraform/run/$foldername/
 
       echo "=== Re-apply deployer with run ==="
       input=${deployer_ws_dir}/${deployer_rg}.json
-      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/sap_deployer/
+      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/$foldername/
 
       echo "=== Rename local tfstate filename for saplib unit test ==="
       mv terraform.tfstate.backup terraform.tfstate
@@ -63,12 +72,12 @@ steps:
       echo "=== Upload saplib tfstate under ${saplib_ws_dir} to saplibrary ==="
       cd ${saplib_ws_dir}
       terraform init -force-copy \
-        --backend-config "subscription_id=$(landscape-subscription)" \
+        --backend-config "subscription_id=$(environment-subscription)" \
         --backend-config "resource_group_name=${saplib_rg}" \
         --backend-config "storage_account_name=${tfstate_sa_name}" \
         --backend-config "container_name=tfstate" \
         --backend-config "key=${saplib_key}" \
-        ${repo_dir}/deploy/terraform/run/sap_library/
+        ${repo_dir}/deploy/terraform/run/$foldername/
 
       echo "=== Re-apply saplib with run ==="
       input=${saplib_ws_dir}/${saplib_rg}.json
@@ -80,12 +89,12 @@ steps:
 
       cat ${input}
 
-      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/sap_library/
+      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/$foldername/
       '
 
       echo "=== Add access policy recover for pipeline SPN back to deployer KV ==="
 
-      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(landscape-tenant) --output none
+      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(environment-tenant) --output none
 
       # Modify environment value so it starts with u and with length of 5
       deployer_env=${{parameters.deployer_env}}
@@ -106,5 +115,5 @@ steps:
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)

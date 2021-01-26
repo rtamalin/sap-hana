@@ -6,9 +6,9 @@ pr:
     - feature/*
   paths:
     include:
-    - deploy/terraform/bootstrap/sap_library/*
-    - deploy/terraform/run/sap_library/*
-    - deploy/terraform/terraform-units/modules/sap_library/*
+    - deploy/terraform/bootstrap/library/*
+    - deploy/terraform/run/library/*
+    - deploy/terraform/terraform-units/modules/library/*
 variables:
   - group: azure-config-variables
   - group: azure-sap-hana-pipeline-secrets

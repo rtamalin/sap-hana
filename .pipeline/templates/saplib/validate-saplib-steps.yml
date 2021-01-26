@@ -28,8 +28,17 @@ steps:
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
 
-      terraform init -upgrade=true ${repo_dir}/deploy/terraform/bootstrap/sap_library/
-      terraform plan -var-file=${input} ${repo_dir}/deploy/terraform/bootstrap/sap_library/ > plan_output.log
+      dir_to_check=${repo_dir}/deploy/terraform/bootstrap/sap_library
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_library"
+      else
+        foldername="library"
+      fi
+
+      terraform init -upgrade=true ${repo_dir}/deploy/terraform/bootstrap/$foldername/
+      terraform refresh -var-file=${input} ${repo_dir}/deploy/terraform/bootstrap/$foldername/
+      terraform plan -var-file=${input} ${repo_dir}/deploy/terraform/bootstrap/$foldername/ > plan_output.log
       cat plan_output.log
       
       if ! grep "No changes\|0 to change, 0 to destroy" plan_output.log; then exit 1; fi;
@@ -38,5 +47,5 @@ steps:
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)

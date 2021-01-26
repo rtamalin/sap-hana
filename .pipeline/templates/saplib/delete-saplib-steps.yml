@@ -53,9 +53,17 @@ steps:
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
 
+      dir_to_check=${repo_dir}/deploy/terraform/bootstrap/sap_library
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_library"
+      else
+        foldername="library"
+      fi
+
       echo "=== Delete SAP library from deployer with terraform ==="
       echo "=== This may take quite a while, please be patient ==="
-      terraform destroy -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/bootstrap/sap_library/
+      terraform destroy -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/bootstrap/$foldername/
       
       echo "=== Delete git clone for the build from deployer ==="
       rm -rf ~/${saplib_rg}
@@ -65,7 +73,7 @@ steps:
       '
       
       echo "=== Mark and try to delete rg  ==="
-      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(landscape-tenant) --output none
+      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(environment-tenant) --output none
       az group update --resource-group ${saplib_rg} --set tags.Delete=True --output none
       az group delete -n ${saplib_rg} --no-wait -y
 
@@ -82,5 +90,5 @@ steps:
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)
