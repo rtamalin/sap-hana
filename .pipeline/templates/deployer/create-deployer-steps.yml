@@ -33,9 +33,6 @@ steps:
       else
         foldername="deployer"
       fi
-
-      ls ~/Azure_SAP_Automated_Deployment/sap-hana/deploy/terraform/bootstrap/
-
       cp ${repo_path}/deploy/terraform/bootstrap/$foldername/deployer.json deployer.json
 
       [[ -f ${input} ]] ||
