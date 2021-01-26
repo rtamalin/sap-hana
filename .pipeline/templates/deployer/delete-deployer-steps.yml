@@ -1,6 +1,6 @@
 steps:
   - script: |
-      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(landscape-tenant) --output none
+      az login --service-principal --user $(hana-pipeline-spn-id) --password $(hana-pipeline-spn-pw) --tenant $(environment-tenant) --output none
 
       git checkout ${{parameters.branch_name}}
       repo_path=$(pwd)
@@ -21,7 +21,16 @@ steps:
 
       echo "=== Start to delete deployer with terraform destroy ==="
       cd ${ws_dir}
-      terraform destroy -auto-approve -var-file=${deployer_rg}.json ${repo_path}/deploy/terraform/bootstrap/sap_deployer/
+      
+      dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
+      if [ ! -d "$dir_to_check" ] 
+      then
+        foldername="deployer"
+      else
+        foldername="sap_deployer"
+      fi
+
+      terraform destroy -auto-approve -var-file=${deployer_rg}.json ${repo_path}/deploy/terraform/bootstrap/$foldername/
       
       echo "=== Mark and try to delete rg  ==="
       az group update --resource-group ${deployer_rg} --set tags.Delete=True --output none
@@ -33,5 +42,5 @@ steps:
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)

@@ -49,15 +49,23 @@ steps:
       }'> ${input}
 
       cat ${input}
-      
+
+      dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
+      if [ ! -d "$dir_to_check" ] 
+      then
+        foldername="deployer"
+      else
+        foldername="sap_deployer"
+      fi
+
       echo "=== Start terraform apply for new deployer ==="
       terraform -version
-      terraform init -upgrade=true ${repo_path}/deploy/terraform/bootstrap/sap_deployer/
-      terraform apply -auto-approve -var-file=${input} ${repo_path}/deploy/terraform/bootstrap/sap_deployer/
+      terraform init -upgrade=true ${repo_path}/deploy/terraform/bootstrap/$foldername/
+      terraform apply -auto-approve -var-file=${input} ${repo_path}/deploy/terraform/bootstrap/$foldername/
     displayName: "Deploy deployer bootstrap: Branch ${{parameters.branch_name}}"
     condition: or(succeededOrFailed(), always())
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)
