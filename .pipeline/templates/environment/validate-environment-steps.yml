@@ -29,13 +29,14 @@ steps:
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
 
-      dir_to_check="${repo_dir}/deploy/terraform/run/sap_landscape/"
-      echo $dir_to_check
-      if [ ! -d "$dir_to_check" ] 
+      dir_to_check=${repo_dir}/deploy/terraform/run/sap_landscape
+      if [ -d $dir_to_check ] 
       then
-        foldername="environment"
-      else
         foldername="sap_landscape"
+        templatefilename="saplandscape.json"
+      else
+        foldername="environment"
+        templatefilename="environment.json"
       fi
 
       terraform init -upgrade=true ${repo_dir}/deploy/terraform/run/$foldername/
