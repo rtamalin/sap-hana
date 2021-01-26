@@ -6,7 +6,7 @@ pr:
     - feature/*
   paths:
     include:
-    - deploy/terraform/terraform-units/modules/sap_system/anydb_node/*
+    - deploy/terraform/terraform-units/modules/system/anydb_node/*
 variables:
   - group: azure-config-variables
   - group: azure-sap-hana-pipeline-secrets

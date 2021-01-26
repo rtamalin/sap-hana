@@ -33,8 +33,8 @@ steps:
       deployer_kv_name=$(az keyvault list --resource-group ${deployer_rg} | jq -r '.[] | select(.name | contains("user")).name')
       az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-client-id --value $(hana-pipeline-spn-id) --output none
       az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-client-secret --value $(hana-pipeline-spn-pw) --output none
-      az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-subscription-id --value $(landscape-subscription) --output none
-      az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-tenant-id --value $(landscape-tenant) --output none
+      az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-subscription-id --value $(environment-subscription) --output none
+      az keyvault secret set --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-tenant-id --value $(environment-tenant) --output none
 
       echo "=== Recovery SPN in deployer KV when rerun same build ==="
       az keyvault secret recover --vault-name ${deployer_kv_name} --name ${sapsystem_prefix}-client-id --output none
@@ -151,8 +151,8 @@ steps:
       cp ${deployer_ws_dir}/ssh* .
 
       cat <<- EOF > export-clustering-sp-details.sh
-        export SAP_HANA_FENCING_AGENT_SUBSCRIPTION_ID=$(landscape-subscription)
-        export SAP_HANA_FENCING_AGENT_TENANT_ID=$(landscape-tenant)
+        export SAP_HANA_FENCING_AGENT_SUBSCRIPTION_ID=$(environment-subscription)
+        export SAP_HANA_FENCING_AGENT_TENANT_ID=$(environment-tenant)
         export SAP_HANA_FENCING_AGENT_CLIENT_ID=$(hana-pipeline-spn-id)
         export SAP_HANA_FENCING_AGENT_CLIENT_SECRET=$(hana-pipeline-spn-pw)
       EOF
@@ -170,7 +170,15 @@ steps:
       db_type=${{parameters.db_type}}
       [ -z "$db_type" ] && db="HANA" || db=${db_type}
 
-      cp ${repo_dir}/deploy/terraform/run/sap_system/sapsystem.json ${ws_dir}/sapsystem.json
+      dir_to_check=${repo_path}/deploy/terraform/run/sap_system
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_system"
+      else
+        foldername="system"
+      fi
+
+      cp ${repo_dir}/deploy/terraform/run/$foldername/sapsystem.json ${ws_dir}/sapsystem.json
       cat ${ws_dir}/sapsystem.json \
       | jq --arg environment "${sapsystem_prefix}" .infrastructure.environment\ =\ \$environment \
       | jq --arg tfstate_resource_id "${tfstate_resource_id}" .tfstate_resource_id\ =\ \$tfstate_resource_id \
@@ -198,18 +206,18 @@ steps:
       echo "=== This may take quite a while, please be patient ==="
       terraform -version
       terraform init -upgrade=true -force-copy \
-        --backend-config "subscription_id=$(landscape-subscription)" \
+        --backend-config "subscription_id=$(environment-subscription)" \
         --backend-config "resource_group_name=${saplib_rg}" \
         --backend-config "storage_account_name=${tfstate_sa_name}" \
         --backend-config "container_name=tfstate" \
         --backend-config "key=${sap_system_key}" \
-        ${repo_dir}/deploy/terraform/run/sap_system/
-      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/sap_system/
+        ${repo_dir}/deploy/terraform/run/$foldername/
+      terraform apply -auto-approve -var-file=${input} ${repo_dir}/deploy/terraform/run/$foldername/
       '
     displayName: "Deploy new sap system: Branch ${{parameters.branch_name}}"
     condition: or(succeededOrFailed(), always())
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)

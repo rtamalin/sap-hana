@@ -28,9 +28,16 @@ steps:
       
       echo "=== Enter workspace ${ws_dir} ==="
       cd ${ws_dir}
+      dir_to_check=${repo_path}/deploy/terraform/run/sap_system
+      if [ -d $dir_to_check ] 
+      then
+        foldername="sap_system"
+      else
+        foldername="system"
+      fi
 
-      terraform init -upgrade=true ${repo_dir}/deploy/terraform/run/sap_system/
-      terraform plan -var-file=${input} ${repo_dir}/deploy/terraform/run/sap_system/ > plan_output.log
+      terraform init -upgrade=true ${repo_dir}/deploy/terraform/run/$foldername/
+      terraform plan -var-file=${input} ${repo_dir}/deploy/terraform/run/$foldername/ > plan_output.log
       cat plan_output.log
       
       # include 1 to add, 0 to change, 1 to destroy as expected result, due to regeneration of output.json
@@ -40,5 +47,5 @@ steps:
     env:
       ARM_CLIENT_ID: $(hana-pipeline-spn-id)
       ARM_CLIENT_SECRET: $(hana-pipeline-spn-pw)
-      ARM_TENANT_ID: $(landscape-tenant)
-      ARM_SUBSCRIPTION_ID: $(landscape-subscription)
+      ARM_TENANT_ID: $(environment-tenant)
+      ARM_SUBSCRIPTION_ID: $(environment-subscription)

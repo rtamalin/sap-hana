@@ -6,8 +6,8 @@ pr:
     - feature/*
   paths:
     include:
-    - deploy/terraform/run/sap_system/*
-    - deploy/terraform/terraform-units/modules/sap_system/*
+    - deploy/terraform/run/system/*
+    - deploy/terraform/terraform-units/modules/system/*
 variables:
   - group: azure-config-variables
   - group: azure-sap-hana-pipeline-secrets
