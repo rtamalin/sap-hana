@@ -3,7 +3,7 @@
   Setup sap library
 */
 module "sap_library" {
-  source                  = "../../terraform-units/modules/sap_library"
+  source                  = "../../terraform-units/modules/library"
   infrastructure          = var.infrastructure
   storage_account_sapbits = var.storage_account_sapbits
   storage_account_tfstate = var.storage_account_tfstate
@@ -15,7 +15,7 @@ module "sap_library" {
   naming                  = module.sap_namegenerator.naming
 }
 
-module sap_namegenerator {
+module "sap_namegenerator" {
   source                = "../../terraform-units/modules/namegenerator"
   environment           = var.infrastructure.environment
   deployer_environment  = try(var.deployer.environment, var.infrastructure.environment)

@@ -4,7 +4,7 @@
 */
 
 module "common_infrastructure" {
-  source                     = "../../terraform-units/modules/sap_system/common_infrastructure"
+  source                     = "../../terraform-units/modules/system/common_infrastructure"
   is_single_node_hana        = "true"
   application                = var.application
   databases                  = var.databases
@@ -21,8 +21,8 @@ module "common_infrastructure" {
 }
 
 module "sap_namegenerator" {
-  source           = "../../terraform-units/modules/namegenerator"
-  environment      = var.infrastructure.environment
+  source           = 
+  environment      = var.infrastructure.environment"../../terraform-units/modules/namegenerator"
   location         = var.infrastructure.region
   codename         = lower(try(var.infrastructure.codename, ""))
   random_id        = module.common_infrastructure.random_id
@@ -45,7 +45,7 @@ module "sap_namegenerator" {
 
 // Create HANA database nodes
 module "hdb_node" {
-  source                     = "../../terraform-units/modules/sap_system/hdb_node"
+  source                     = "../../terraform-units/modules/system/hdb_node"
   application                = var.application
   databases                  = var.databases
   infrastructure             = var.infrastructure
@@ -70,7 +70,7 @@ module "hdb_node" {
 
 // Create Application Tier nodes
 module "app_tier" {
-  source                     = "../../terraform-units/modules/sap_system/app_tier"
+  source                     = "../../terraform-units/modules/system/app_tier"
   application                = var.application
   databases                  = var.databases
   infrastructure             = var.infrastructure
@@ -94,7 +94,7 @@ module "app_tier" {
 
 // Create anydb database nodes
 module "anydb_node" {
-  source                     = "../../terraform-units/modules/sap_system/anydb_node"
+  source                     = "../../terraform-units/modules/system/anydb_node"
   application                = var.application
   databases                  = var.databases
   infrastructure             = var.infrastructure
@@ -116,7 +116,7 @@ module "anydb_node" {
 
 // Generate output files
 module "output_files" {
-  source                    = "../../terraform-units/modules/sap_system/output_files"
+  source                    = "../../terraform-units/modules/system/output_files"
   application               = module.app_tier.application
   databases                 = var.databases
   infrastructure            = var.infrastructure
