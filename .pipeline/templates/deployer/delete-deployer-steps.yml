@@ -25,9 +25,9 @@ steps:
       dir_to_check="${repo_dir}/deploy/terraform/run/sap_deployer/"
       if [ -d $dir_to_check ] 
       then
-        foldername="deployer"
-      else
         foldername="sap_deployer"
+      else
+        foldername="deployer"
       fi
 
       terraform destroy -auto-approve -var-file=${deployer_rg}.json ${repo_path}/deploy/terraform/bootstrap/$foldername/
