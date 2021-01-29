@@ -102,8 +102,8 @@ resource "azurerm_linux_virtual_machine" "iscsi" {
 
   boot_diagnostics {
     storage_account_uri = length(var.diagnostics_storage_account.arm_id) > 0 ? (
-      azurerm_storage_account.storage_bootdiag[0].primary_blob_endpoint) : (
-      data.azurerm_storage_account.storage_bootdiag[0].primary_blob_endpoint
+      data.azurerm_storage_account.storage_bootdiag[0].primary_blob_endpoint) : (
+      azurerm_storage_account.storage_bootdiag[0].primary_blob_endpoint
     )
   }
 
