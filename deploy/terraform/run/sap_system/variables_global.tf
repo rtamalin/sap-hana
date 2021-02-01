@@ -51,23 +51,23 @@ variable "infrastructure" {
 
   validation {
     condition = (
-      length(trimspace(try(var.infrastructure.vnets.sap.subnet_admin.arm_id, ""))) != 0 || ((length(trimspace(try(var.infrastructure.vnets.sap.subnet_admin.name, ""))) != 0) && (length(trimspace(try(var.infrastructure.vnets.sap.subnet_admin.prefix, ""))) != 0))
+      length(trimspace(try(var.infrastructure.vnets.sap.subnet_admin.arm_id, ""))) != 0 || length(trimspace(try(var.infrastructure.vnets.sap.subnet_admin.prefix, ""))) != 0
     )
-    error_message = "Either the arm_id or (name and prefix) of the Admin subnet must be specified in the infrastructure.vnets.sap.subnet_admin block."
+    error_message = "Either the arm_id or prefix of the Admin subnet must be specified in the infrastructure.vnets.sap.subnet_admin block."
   }
 
   validation {
     condition = (
-      length(trimspace(try(var.infrastructure.vnets.sap.subnet_app.arm_id, ""))) != 0 || ((length(trimspace(try(var.infrastructure.vnets.sap.subnet_app.name, ""))) != 0) && (length(trimspace(try(var.infrastructure.vnets.sap.subnet_app.prefix, ""))) != 0))
+      length(trimspace(try(var.infrastructure.vnets.sap.subnet_app.arm_id, ""))) != 0 || length(trimspace(try(var.infrastructure.vnets.sap.subnet_app.prefix, ""))) != 0
     )
-    error_message = "Either the arm_id or (name and prefix) of the Application subnet must be specified in the infrastructure.vnets.sap.subnet_admin block."
+    error_message = "Either the arm_id or prefix of the Application subnet must be specified in the infrastructure.vnets.sap.subnet_app block."
   }
 
   validation {
     condition = (
-      length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.arm_id, ""))) != 0 || ((length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.name, ""))) != 0) && (length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.prefix, ""))) != 0))
+      length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.arm_id, ""))) != 0 || length(trimspace(try(var.infrastructure.vnets.sap.subnet_db.prefix, ""))) != 0
     )
-    error_message = "Either the arm_id or (name and prefix) of the Database subnet must be specified in the infrastructure.vnets.sap.subnet_admin block."
+    error_message = "Either the arm_id or prefix of the Database subnet must be specified in the infrastructure.vnets.sap.subnet_db block."
   }
 }
 

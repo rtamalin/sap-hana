@@ -26,7 +26,13 @@ variable "tfstate_resource_id" {
 
 variable "deployer_tfstate_key" {
   description = "The key of deployer's remote tfstate file"
-  default = ""
+  validation {
+    condition = (
+      length(trimspace(try(var.deployer_tfstate_key, ""))) != 0
+    )
+    error_message = "The Deployer Terraform Statefile name must be provided."
+  }
+
 }
 
 locals {
