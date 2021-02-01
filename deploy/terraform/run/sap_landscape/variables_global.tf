@@ -28,24 +28,21 @@ variable "options" {
   default     = {}
 }
 
-variable "ssh-timeout" {
-  description = "Timeout for connection that is used by provisioner"
-  default     = "30s"
-}
-
-variable "sshkey" {
+variable "authentication" {
   description = "Details of ssh key pair"
   default = {
+    username = "azureadm"
   }
+
   validation {
     condition = (
-      length(var.sshkey) > 1
+      length(var.authentication) >= 1
     )
     error_message = "Either ssh keys or user credentials must be specified."
   }
   validation {
     condition = (
-      length(trimspace(var.sshkey.username)) != 0
+      length(trimspace(var.authentication.username)) != 0
     )
     error_message = "The default username for the Virtual machines must be specified."
   }
@@ -65,3 +62,4 @@ variable "diagnostics_storage_account" {
     arm_id = ""
   }
 }
+

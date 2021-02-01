@@ -44,11 +44,15 @@ variable "sdu_public_key" {
 }
 
 variable "sid_password" {
-  description = "SDU specific password"
+  description = "SDU password"
 }
 
-variable "landscape_tfstate" {
-  description = "SAP Landscape remote tfstate file"
+variable "sid_username" {
+  description = "SDU username"
+}
+
+variable "sap_sid" {
+  description = "The SID of the application"
 }
 
 locals {
@@ -68,9 +72,8 @@ locals {
   resource_suffixes    = var.naming.resource_suffixes
 
   region    = try(var.infrastructure.region, "")
-  sap_sid   = upper(try(var.application.sid, ""))
   anydb_sid = (length(local.anydb_databases) > 0) ? try(local.anydb.instance.sid, lower(substr(local.anydb_platform, 0, 3))) : lower(substr(local.anydb_platform, 0, 3))
-  sid       = upper(try(var.application.sid, local.anydb_sid))
+  sid       = length(var.sap_sid) > 0 ? var.sap_sid : local.anydb_sid
   prefix    = try(var.infrastructure.resource_group.name, trimspace(var.naming.prefix.SDU))
   rg_name   = try(var.infrastructure.resource_group.name, format("%s%s", local.prefix, local.resource_suffixes.sdu_rg))
 
@@ -112,6 +115,7 @@ locals {
   // Enable deployment based on length of local.anydb_databases
   enable_deployment = (length(local.anydb_databases) > 0) ? true : false
 
+<<<<<<< HEAD
   // Retrieve information about Sap Landscape from tfstate file
   landscape_tfstate = var.landscape_tfstate
   kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
@@ -119,6 +123,8 @@ locals {
   // Define this variable to make it easier when implementing existing kv.
   sid_kv_user_id = var.sid_kv_user_id
 
+=======
+>>>>>>> 82c7d961fbd623f37530a4ccd11467be4c4759bb
   // If custom image is used, we do not overwrite os reference with default value
   anydb_custom_image = try(local.anydb.os.source_image_id, "") != "" ? true : false
 
@@ -140,6 +146,7 @@ locals {
   sid_auth_type        = try(local.anydb.authentication.type, "key")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
+<<<<<<< HEAD
 
   secret_sid_pk_name       = try(local.landscape_tfstate.sid_public_key_secret_name, "")
   sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
@@ -166,14 +173,23 @@ locals {
   use_local_credentials = length(var.sshkey) > 0
 
   db_systemdb_password = "db_systemdb_password"
+=======
+>>>>>>> 82c7d961fbd623f37530a4ccd11467be4c4759bb
 
   // Tags
   tags = try(local.anydb.tags, {})
 
+<<<<<<< HEAD
   authentication =  {
       "type"     = local.sid_auth_type
       "username" = local.sid_auth_username
       "password" = local.sid_auth_password
+=======
+  authentication = {
+    "type"     = local.sid_auth_type
+    "username" = var.sid_username
+    "password" = var.sid_password
+>>>>>>> 82c7d961fbd623f37530a4ccd11467be4c4759bb
   }
 
   // Default values in case not provided
@@ -237,7 +253,7 @@ locals {
     { high_availability = local.anydb_ha },
     { authentication = local.authentication },
     { credentials = {
-      db_systemdb_password = local.db_systemdb_password
+      db_systemdb_password = "obsolete"
       }
     },
     { dbnodes = local.dbnodes },
@@ -249,27 +265,27 @@ locals {
     flatten([for idx, dbnode in try(local.anydb.dbnodes, [{}]) :
       [
         {
-          name           = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
-          computername   = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
-          role           = try(dbnode.role, "db")
-          admin_nic_ip   = lookup(dbnode, "admin_nic_ips", ["false", "false"])[0]
-          db_nic_ip      = lookup(dbnode, "db_nic_ips", ["false", "false"])[0]
+          name         = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
+          computername = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
+          role         = try(dbnode.role, "db")
+          admin_nic_ip = lookup(dbnode, "admin_nic_ips", ["false", "false"])[0]
+          db_nic_ip    = lookup(dbnode, "db_nic_ips", ["false", "false"])[0]
         },
         {
-          name           = try("${dbnode.name}-1", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx + local.node_count], local.resource_suffixes.vm))
-          computername   = try("${dbnode.name}-1", local.computer_names[idx + local.node_count])
-          role           = try(dbnode.role, "db")
-          admin_nic_ip   = lookup(dbnode, "admin_nic_ips", ["false", "false"])[1]
-          db_nic_ip      = lookup(dbnode, "db_nic_ips", ["false", "false"])[1]
+          name         = try("${dbnode.name}-1", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx + local.node_count], local.resource_suffixes.vm))
+          computername = try("${dbnode.name}-1", local.computer_names[idx + local.node_count])
+          role         = try(dbnode.role, "db")
+          admin_nic_ip = lookup(dbnode, "admin_nic_ips", ["false", "false"])[1]
+          db_nic_ip    = lookup(dbnode, "db_nic_ips", ["false", "false"])[1]
         }
       ]
     ])) : (
     flatten([for idx, dbnode in try(local.anydb.dbnodes, [{}]) : {
-      name           = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
-      computername   = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
-      role           = try(dbnode.role, "db")
-      admin_nic_ip   = lookup(dbnode, "admin_nic_ips", ["false", "false"])[0]
-      db_nic_ip      = lookup(dbnode, "db_nic_ips", ["false", "false"])[0]
+      name         = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
+      computername = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
+      role         = try(dbnode.role, "db")
+      admin_nic_ip = lookup(dbnode, "admin_nic_ips", ["false", "false"])[0]
+      db_nic_ip    = lookup(dbnode, "db_nic_ips", ["false", "false"])[0]
       }]
     )
   )
@@ -285,7 +301,7 @@ locals {
       size           = local.anydb_sku
       os             = local.anydb_ostype,
       authentication = local.authentication
-      sid            = local.sap_sid
+      sid            = var.sap_sid
     }
   ]
 

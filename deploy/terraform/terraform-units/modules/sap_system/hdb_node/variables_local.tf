@@ -49,13 +49,16 @@ variable "sdu_public_key" {
 }
 
 variable "sid_password" {
-  description = "SDU specific password"
+  description = "SDU password"
 }
 
-variable "landscape_tfstate" {
-  description = "SAP Landscape remote tfstate file"
+variable "sid_username" {
+  description = "SDU username"
 }
 
+variable "sap_sid" {
+  description = "The SID of the application"
+}
 
 locals {
   // Resources naming
@@ -74,7 +77,7 @@ locals {
   faults = jsondecode(file("${path.module}/../../../../../configs/max_fault_domain_count.json"))
 
   region = try(var.infrastructure.region, "")
-  sid    = upper(try(var.application.sid, ""))
+  sid    = upper(var.sap_sid)
   prefix = try(var.infrastructure.resource_group.name, trimspace(var.naming.prefix.SDU))
 
   rg_name = try(var.infrastructure.resource_group.name, format("%s%s", local.prefix, local.resource_suffixes.sdu_rg))
@@ -144,39 +147,10 @@ locals {
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
 
-  secret_sid_pk_name       = try(local.landscape_tfstate.sid_public_key_secret_name, "")
-  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
-  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
-
-  // If credentials are specified either for the SDU or for the database use them
-  sid_local_credentials_exist = try(length(try(var.sshkey.username, "")) > 0, false) || try(length(try(local.hdb.authentication.username, "")) > 0, false)
-  use_landscape_credentials   = length(local.sid_password_secret_name) > 0 ? true : false
-
-  sid_auth_username = coalesce(
-    try(local.hdb.authentication.username, ""),
-    try(var.sshkey.username, ""),
-    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
-    "azureadm"
-  )
-
-  sid_auth_password = coalesce(
-    try(local.hdb.authentication.password, ""),
-    try(var.sshkey.password, ""),
-    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
-    var.sid_password
-  )
-
-  db_systemdb_password   = "db_systemdb_password"
-  os_sidadm_password     = "os_sidadm_password"
-  os_sapadm_password     = "os_sapadm_password"
-  xsa_admin_password     = "xsa_admin_password"
-  cockpit_admin_password = "cockpit_admin_password"
-  ha_cluster_password    = "ha_cluster_password"
-
   hdb_auth = {
     "type"     = local.sid_auth_type
-    "username" = local.sid_auth_username
-    "password" = local.sid_auth_password
+    "username" = var.sid_username
+    "password" = var.sid_password
   }
 
   node_count      = try(length(local.hdb.dbnodes), 1)
@@ -238,12 +212,12 @@ locals {
       }
     },
     { credentials = {
-      db_systemdb_password   = local.db_systemdb_password,
-      os_sidadm_password     = local.os_sidadm_password,
-      os_sapadm_password     = local.os_sapadm_password,
-      xsa_admin_password     = local.xsa_admin_password,
-      cockpit_admin_password = local.cockpit_admin_password,
-      ha_cluster_password    = local.ha_cluster_password
+      db_systemdb_password   = "obsolete"
+      os_sidadm_password     = "obsolete"
+      os_sapadm_password     = "obsolete"
+      xsa_admin_password     = "obsolete"
+      cockpit_admin_password = "obsolete"
+      ha_cluster_password    = "obsolete"
       }
     },
     { components = local.components },
@@ -252,9 +226,6 @@ locals {
     { dbnodes = local.dbnodes },
     { loadbalancer = local.loadbalancer }
   )
-
-  // SAP SID used in HDB resource naming convention
-  sap_sid = try(var.application.sid, local.sid)
 
   // Numerically indexed Hash of HANA DB nodes to be created
   hdb_vms = [
@@ -300,7 +271,7 @@ locals {
 
   loadbalancer_ports = flatten([
     for port in local.lb_ports[split(".", local.hdb_version)[0]] : {
-      sid  = local.sap_sid
+      sid  = var.sap_sid
       port = tonumber(port) + (tonumber(local.hana_database.instance.instance_number) * 100)
     }
   ])

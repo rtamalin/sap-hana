@@ -63,8 +63,8 @@ locals {
 
   // By default, ssh key for iSCSI uses generated public key. Provide sshkey.path_to_public_key and path_to_private_key overides it
   enable_iscsi_auth_key = local.enable_iscsi && local.iscsi_auth_type == "key"
-  iscsi_public_key      = local.enable_iscsi_auth_key ? (local.iscsi_key_exist ? data.azurerm_key_vault_secret.iscsi_pk[0].value : try(file(var.sshkey.path_to_public_key), tls_private_key.iscsi[0].public_key_openssh)) : null
-  iscsi_private_key     = local.enable_iscsi_auth_key ? (local.iscsi_key_exist ? data.azurerm_key_vault_secret.iscsi_ppk[0].value : try(file(var.sshkey.path_to_private_key), tls_private_key.iscsi[0].private_key_pem)) : null
+  iscsi_public_key      = local.enable_iscsi_auth_key ? (local.iscsi_key_exist ? data.azurerm_key_vault_secret.iscsi_pk[0].value : try(file(var.authentication.path_to_public_key), tls_private_key.iscsi[0].public_key_openssh)) : null
+  iscsi_private_key     = local.enable_iscsi_auth_key ? (local.iscsi_key_exist ? data.azurerm_key_vault_secret.iscsi_ppk[0].value : try(file(var.authentication.path_to_private_key), tls_private_key.iscsi[0].private_key_pem)) : null
 
   // By default, authentication type of iSCSI target is ssh key pair but using username/password is a potential usecase.
   enable_iscsi_auth_password = local.enable_iscsi && local.iscsi_auth_type == "password"
@@ -90,8 +90,13 @@ locals {
 
   // By default, Ansible ssh key for SID uses generated public key. Provide sshkey.path_to_public_key and path_to_private_key overides it
   
+<<<<<<< HEAD
   sid_public_key      = local.sid_key_exist ? data.azurerm_key_vault_secret.sid_pk[0].value : try(file(var.sshkey.path_to_public_key), tls_private_key.sid[0].public_key_openssh) 
   sid_private_key     = local.sid_key_exist ? data.azurerm_key_vault_secret.sid_ppk[0].value : try(file(var.sshkey.path_to_private_key), tls_private_key.sid[0].private_key_pem) 
+=======
+  sid_public_key      = local.sid_key_exist ? data.azurerm_key_vault_secret.sid_pk[0].value : try(file(var.authentication.path_to_public_key), tls_private_key.sid[0].public_key_openssh) 
+  sid_private_key     = local.sid_key_exist ? data.azurerm_key_vault_secret.sid_ppk[0].value : try(file(var.authentication.path_to_private_key), tls_private_key.sid[0].private_key_pem) 
+>>>>>>> 82c7d961fbd623f37530a4ccd11467be4c4759bb
 
   // iSCSI subnet
   var_sub_iscsi    = try(local.var_vnet_sap.subnet_iscsi, null)
@@ -171,8 +176,8 @@ locals {
   input_sid_private_key_secret_name = try(var.key_vault.kv_sid_sshkey_prvt, "")
   sid_key_exist                     = try(length(local.input_sid_public_key_secret_name) > 0, false)
 
-  input_sid_username    = try(var.sshkey.username, "azureadm")
-  input_sid_password    = length(try(var.sshkey.password,"")) > 0 ? var.sshkey.password : random_password.created_password.result
+  input_sid_username    = try(var.authentication.username, "azureadm")
+  input_sid_password    = length(try(var.authentication.password,"")) > 0 ? var.authentication.password : random_password.created_password.result
   
 
   input_iscsi_public_key_secret_name  = try(var.key_vault.kv_iscsi_sshkey_pub, "")
