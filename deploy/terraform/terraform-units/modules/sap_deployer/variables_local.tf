@@ -92,11 +92,12 @@ locals {
       "disk_type"            = try(deployer.disk_type, "StandardSSD_LRS")
       "os" = {
         "source_image_id" = try(deployer.os.source_image_id, "")
-        "publisher"       = try(deployer.os.source_image_id, "") == "" ? "Canonical" : ""
-        "offer"           = try(deployer.os.source_image_id, "") == "" ? "UbuntuServer" : ""
-        "sku"             = try(deployer.os.source_image_id, "") == "" ? "18.04-LTS" : ""
-        "version"         = try(deployer.os.source_image_id, "") == "" ? "latest" : ""
+        "publisher"       = try(deployer.os.publisher, "suse")
+        "offer"           = try(deployer.os.offer, "sles-sap-12-sp5")
+        "sku"             = try(deployer.os.sku, "gen1") 
+        "version"         = try(deployer.os.version, "latest") 
       },
+
       "authentication" = {
         "type"     = try(deployer.authentication.type, "key")
         "username" = local.username

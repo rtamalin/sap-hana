@@ -1,4 +1,18 @@
 {
+    "deployers": [
+        {
+            "size": "Standard_D2s_v3",
+            "disk_type": "StandardSSD_LRS",
+            "os": {
+                "os_type": "Linux",
+                "source_image_id": "",
+                "publisher": "suse",
+                "offer": "sles-sap-12-sp5",
+                "sku": "gen1",
+                "version": "latest"
+            }
+        }
+    ],
     "infrastructure": {
         "region": "eastus",
         "environment": "np",
@@ -19,8 +33,8 @@
     "key_vault": {
         "kv_user_id": "",
         "kv_prvt_id": "",
-        "kv_sshkey_prvt" : "",
-        "kv_sshkey_pub" : "",
+        "kv_sshkey_prvt": "",
+        "kv_sshkey_pub": "",
         "kv_pwd": ""
     }
 }
