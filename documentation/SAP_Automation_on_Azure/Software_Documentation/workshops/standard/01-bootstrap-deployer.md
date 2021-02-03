@@ -78,8 +78,8 @@
 3. Terraform
      ```bash
      mkdir -p ~/bin; cd $_
-     wget  https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip
-     unzip terraform_0.13.5_linux_amd64.zip
+     wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip
+     unzip terraform_0.13.6_linux_amd64.zip
      alias terraform=~/bin/terraform
      ```
 
