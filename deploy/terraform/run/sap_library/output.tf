@@ -52,7 +52,7 @@ output "remote_state_resource_group_name" {
 }
 
 output "deployer_tfstate_key" {
-  value = format("%s%s", local.deployer_rg_name, ".terraform.tfstate")
+  value = local.use_deployer ? format("%s%s", local.deployer_rg_name, ".terraform.tfstate") : ""
 }
 
 output "saplibrary_environment" {

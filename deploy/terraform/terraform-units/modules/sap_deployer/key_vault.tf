@@ -4,8 +4,8 @@ data "azurerm_client_config" "deployer" {}
 resource "azurerm_key_vault" "kv_prvt" {
   count                      = (local.enable_deployers && ! local.prvt_kv_exist) ? 1 : 0
   name                       = local.prvt_kv_name
-  location                   = azurerm_resource_group.deployer[0].location
-  resource_group_name        = azurerm_resource_group.deployer[0].name
+  resource_group_name        = local.rg_exists ? data.azurerm_resource_group.deployer[0].name : azurerm_resource_group.deployer[0].name
+  location                   = local.rg_exists ? data.azurerm_resource_group.deployer[0].location : azurerm_resource_group.deployer[0].location
   tenant_id                  = data.azurerm_client_config.deployer.tenant_id
   soft_delete_enabled        = true
   soft_delete_retention_days = 7
@@ -37,8 +37,8 @@ resource "azurerm_key_vault_access_policy" "kv_prvt_msi" {
 resource "azurerm_key_vault" "kv_user" {
   count                      = (local.enable_deployers && ! local.user_kv_exist) ? 1 : 0
   name                       = local.user_kv_name
-  location                   = azurerm_resource_group.deployer[0].location
-  resource_group_name        = azurerm_resource_group.deployer[0].name
+  resource_group_name        = local.rg_exists ? data.azurerm_resource_group.deployer[0].name : azurerm_resource_group.deployer[0].name
+  location                   = local.rg_exists ? data.azurerm_resource_group.deployer[0].location : azurerm_resource_group.deployer[0].location
   tenant_id                  = data.azurerm_client_config.deployer.tenant_id
   soft_delete_enabled        = true
   soft_delete_retention_days = 7
@@ -115,7 +115,7 @@ resource "tls_private_key" "deployer" {
     local.enable_deployers
     && local.enable_key
     && ! local.key_exist
-    && (try(file(var.sshkey.path_to_public_key), "") == "")
+    && (try(file(var.authentication.path_to_public_key), "") == "")
   ) ? 1 : 0
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -158,7 +158,11 @@ resource "random_password" "deployer" {
     && ! local.pwd_exist
     && local.input_pwd == null
   ) ? 1 : 0
-  length           = 16
+
+  length           = 32
+  min_upper        = 2
+  min_lower        = 2
+  min_numeric      = 2
   special          = true
   override_special = "_%@"
 }

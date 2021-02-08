@@ -69,9 +69,9 @@ resource "azurerm_linux_virtual_machine" "web" {
   )
 
   size                            = local.web_sizing.compute.vm_size
-  admin_username                  = local.sid_auth_username
+  admin_username                  = var.sid_username
   disable_password_authentication = ! local.enable_auth_password
-  admin_password                  = local.sid_auth_password
+  admin_password                  = local.enable_auth_key ? null : var.sid_password
 
   dynamic "os_disk" {
     iterator = disk
@@ -115,13 +115,18 @@ resource "azurerm_linux_virtual_machine" "web" {
   dynamic "admin_ssh_key" {
     for_each = range(local.enable_auth_password ? 0 : 1)
     content {
+<<<<<<< HEAD
       username   = local.sid_auth_username
       public_key = length(var.sdu_public_key) > 0 ? var.sdu_public_key :  data.azurerm_key_vault_secret.sid_pk[0].value
+=======
+      username   = var.sid_username
+      public_key = var.sdu_public_key
+>>>>>>> f64d29c0a434b15a1926a01068afb7e8b81c7cfa
     }
   }
 
   boot_diagnostics {
-    storage_account_uri = var.storage_bootdiag.primary_blob_endpoint
+    storage_account_uri = var.storage_bootdiag_endpoint
   }
 
   tags = local.web_tags
@@ -155,8 +160,8 @@ resource "azurerm_windows_virtual_machine" "web" {
   )
 
   size           = local.web_sizing.compute.vm_size
-  admin_username = local.sid_auth_username
-  admin_password = local.sid_auth_password
+  admin_username = var.sid_username
+  admin_password = var.sid_password
 
   dynamic "os_disk" {
     iterator = disk
@@ -198,7 +203,7 @@ resource "azurerm_windows_virtual_machine" "web" {
   }
 
   boot_diagnostics {
-    storage_account_uri = var.storage_bootdiag.primary_blob_endpoint
+    storage_account_uri = var.storage_bootdiag_endpoint
   }
 
   tags = local.web_tags
@@ -207,7 +212,7 @@ resource "azurerm_windows_virtual_machine" "web" {
 # Creates managed data disk
 resource "azurerm_managed_disk" "web" {
   count                  = local.enable_deployment ? length(local.web_data_disks) : 0
-  name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[count.index], local.web_data_disks[count.index].suffix)
+  name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.web_virtualmachine_names[local.web_data_disks[count.index].vm_index], local.web_data_disks[count.index].suffix)
   location               = var.resource_group[0].location
   resource_group_name    = var.resource_group[0].name
   create_option          = "Empty"

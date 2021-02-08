@@ -5,20 +5,22 @@ variable "tfstate_resource_id" {
 }
 
 locals {
-  
-  deployer_prefix         = module.sap_namegenerator.naming.prefix.DEPLOYER
+
+  deployer_prefix = module.sap_namegenerator.naming.prefix.DEPLOYER
   // If custom names are used for deployer, providing resource_group_name and msi_name will override the naming convention
   deployer_rg_name = try(var.deployer.resource_group_name, format("%s%s", local.deployer_prefix, module.sap_namegenerator.naming.resource_suffixes.deployer_rg))
 
   // Retrieve the arm_id of deployer's Key Vault from deployer's terraform.tfstate
-  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer.outputs.deployer_kv_user_arm_id, ""))
+  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer[0].outputs.deployer_kv_user_arm_id, ""))
+
+  use_deployer = length(trimspace(try(var.key_vault.kv_spn_id, ""))) == 0
 
   // Locate the tfstate storage account
   tfstate_resource_id          = try(var.tfstate_resource_id, "")
   saplib_subscription_id       = split("/", local.tfstate_resource_id)[2]
   saplib_resource_group_name   = split("/", local.tfstate_resource_id)[4]
   tfstate_storage_account_name = split("/", local.tfstate_resource_id)[8]
-  tfstate_container_name       = "tfstate"
+  tfstate_container_name       = module.sap_namegenerator.naming.resource_suffixes.tfstate
   deployer_tfstate_key         = format("%s%s", local.deployer_rg_name, ".terraform.tfstate")
 
   spn = {
