@@ -10,7 +10,7 @@ variable "vnet_sap" {
   description = "Details of the SAP Vnet"
 }
 
-variable "storage_bootdiag" {
+variable "storage_bootdiag_endpoint" {
   description = "Details of the boot diagnostics storage account"
 }
 
@@ -40,12 +40,24 @@ variable "storage_subnet" {
   description = "Information about storage subnet"
 }
 
-variable "sid_kv_user" {
+variable "sid_kv_user_id" {
   description = "Details of the user keyvault for sap_system"
 }
 
-variable "landscape_tfstate" {
-  description = "Landscape remote tfstate file"
+variable "sdu_public_key" {
+  description = "Public key used for authentication"
+}
+
+variable "sid_password" {
+  description = "SDU password"
+}
+
+variable "sid_username" {
+  description = "SDU username"
+}
+
+variable "sap_sid" {
+  description = "The SID of the application"
 }
 
 variable "sdu_public_key" {
@@ -69,7 +81,7 @@ locals {
   faults = jsondecode(file("${path.module}/../../../../../configs/max_fault_domain_count.json"))
 
   region = try(var.infrastructure.region, "")
-  sid    = upper(try(var.application.sid, ""))
+  sid    = upper(var.sap_sid)
   prefix = try(var.infrastructure.resource_group.name, trimspace(var.naming.prefix.SDU))
 
   rg_name = try(var.infrastructure.resource_group.name, format("%s%s", local.prefix, local.resource_suffixes.sdu_rg))
@@ -78,16 +90,11 @@ locals {
   offset = try(var.options.resource_offset, 0)
 
   // Retrieve information about Sap Landscape from tfstate file
-  landscape_tfstate  = var.landscape_tfstate
-  kv_landscape_id    = try(var.key_vault.kv_user_id, try(local.landscape_tfstate.landscape_key_vault_user_arm_id, ""))
-  secret_sid_pk_name = try(var.options.use_local_keyvault_for_secrets,false) ? (
-    format("%s-sshkey", local.prefix)) : (
-    try(local.landscape_tfstate.sid_public_key_secret_name, "")
-  )
-
+  landscape_tfstate = var.landscape_tfstate
+  kv_landscape_id   = try(local.landscape_tfstate.landscape_key_vault_user_arm_id, "")
 
   // Define this variable to make it easier when implementing existing kv.
-  sid_kv_user = try(var.sid_kv_user[0], null)
+  sid_kv_user_id = var.sid_kv_user_id
 
   hdb_list = [
     for db in var.databases : db
@@ -143,20 +150,11 @@ locals {
   sid_auth_type        = try(local.hdb.authentication.type, "key")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
-  sid_auth_username    = try(local.hdb.authentication.username, "azureadm")
-  sid_auth_password    = local.enable_auth_password ? try(local.hdb.authentication.password, random_password.password[0].result) : ""
-
-  db_systemdb_password   = "db_systemdb_password"
-  os_sidadm_password     = "os_sidadm_password"
-  os_sapadm_password     = "os_sapadm_password"
-  xsa_admin_password     = "xsa_admin_password"
-  cockpit_admin_password = "cockpit_admin_password"
-  ha_cluster_password    = "ha_cluster_password"
 
   hdb_auth = {
     "type"     = local.sid_auth_type
-    "username" = local.sid_auth_username
-    "password" = "hdb_vm_password"
+    "username" = var.sid_username
+    "password" = var.sid_password
   }
 
   node_count      = try(length(local.hdb.dbnodes), 1)
@@ -169,25 +167,36 @@ locals {
   xsa        = try(local.hdb.xsa, { routing = "ports" })
   shine      = try(local.hdb.shine, { email = "shinedemo@microsoft.com" })
 
-  dbnodes = flatten([[for idx, dbnode in try(local.hdb.dbnodes, [{}]) : {
-    name           = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
-    computername   = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
-    role           = try(dbnode.role, "worker")
-    admin_nic_ip   = lookup(dbnode, "admin_nic_ips", [false, false])[0]
-    db_nic_ip      = lookup(dbnode, "db_nic_ips", [false, false])[0]
-    storage_nic_ip = lookup(dbnode, "storage_nic_ips", [false, false])[0]
-    }
-    ],
-    [for idx, dbnode in try(local.hdb.dbnodes, [{}]) : {
-      name           = try("${dbnode.name}-1", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx + local.node_count], local.resource_suffixes.vm))
-      computername   = try("${dbnode.name}-1", local.computer_names[idx + local.node_count])
+  dbnodes = local.hdb_ha ? (
+    flatten([for idx, dbnode in try(local.hdb.dbnodes, [{}]) :
+      [
+        {
+          name           = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
+          computername   = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
+          role           = try(dbnode.role, "worker")
+          admin_nic_ip   = lookup(dbnode, "admin_nic_ips", [false, false])[0]
+          db_nic_ip      = lookup(dbnode, "db_nic_ips", [false, false])[0]
+          storage_nic_ip = lookup(dbnode, "storage_nic_ips", [false, false])[0]
+        },
+        {
+          name           = try("${dbnode.name}-1", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx + local.node_count], local.resource_suffixes.vm))
+          computername   = try("${dbnode.name}-1", local.computer_names[idx + local.node_count])
+          role           = try(dbnode.role, "worker")
+          admin_nic_ip   = lookup(dbnode, "admin_nic_ips", [false, false])[1]
+          db_nic_ip      = lookup(dbnode, "db_nic_ips", [false, false])[1]
+          storage_nic_ip = lookup(dbnode, "storage_nic_ips", [false, false])[1]
+        }
+      ]
+    ])) : (
+    flatten([for idx, dbnode in try(local.hdb.dbnodes, [{}]) : {
+      name           = try("${dbnode.name}-0", format("%s%s%s%s", local.prefix, var.naming.separator, local.virtualmachine_names[idx], local.resource_suffixes.vm))
+      computername   = try("${dbnode.name}-0", local.computer_names[idx], local.resource_suffixes.vm)
       role           = try(dbnode.role, "worker")
-      admin_nic_ip   = lookup(dbnode, "admin_nic_ips", [false, false])[1]
-      db_nic_ip      = lookup(dbnode, "db_nic_ips", [false, false])[1]
-      storage_nic_ip = lookup(dbnode, "storage_nic_ips", [false, false])[1]
-      } if local.hdb_ha
-    ]
-    ]
+      admin_nic_ip   = lookup(dbnode, "admin_nic_ips", [false, false])[0]
+      db_nic_ip      = lookup(dbnode, "db_nic_ips", [false, false])[0]
+      storage_nic_ip = lookup(dbnode, "storage_nic_ips", [false, false])[0]
+      }]
+    )
   )
 
   loadbalancer = try(local.hdb.loadbalancer, {})
@@ -207,12 +216,12 @@ locals {
       }
     },
     { credentials = {
-      db_systemdb_password   = local.db_systemdb_password,
-      os_sidadm_password     = local.os_sidadm_password,
-      os_sapadm_password     = local.os_sapadm_password,
-      xsa_admin_password     = local.xsa_admin_password,
-      cockpit_admin_password = local.cockpit_admin_password,
-      ha_cluster_password    = local.ha_cluster_password
+      db_systemdb_password   = "obsolete"
+      os_sidadm_password     = "obsolete"
+      os_sapadm_password     = "obsolete"
+      xsa_admin_password     = "obsolete"
+      cockpit_admin_password = "obsolete"
+      ha_cluster_password    = "obsolete"
       }
     },
     { components = local.components },
@@ -221,9 +230,6 @@ locals {
     { dbnodes = local.dbnodes },
     { loadbalancer = local.loadbalancer }
   )
-
-  // SAP SID used in HDB resource naming convention
-  sap_sid = try(var.application.sid, local.sid)
 
   // Numerically indexed Hash of HANA DB nodes to be created
   hdb_vms = [
@@ -269,7 +275,7 @@ locals {
 
   loadbalancer_ports = flatten([
     for port in local.lb_ports[split(".", local.hdb_version)[0]] : {
-      sid  = local.sap_sid
+      sid  = var.sap_sid
       port = tonumber(port) + (tonumber(local.hana_database.instance.instance_number) * 100)
     }
   ])

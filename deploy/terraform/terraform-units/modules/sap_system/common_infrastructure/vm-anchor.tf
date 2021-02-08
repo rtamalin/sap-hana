@@ -32,8 +32,9 @@ resource "azurerm_linux_virtual_machine" "anchor" {
     azurerm_network_interface.anchor[count.index].id
   ]
   size                            = local.anchor_size
-  admin_username                  = local.anchor_authentication.username
-  disable_password_authentication = true
+  admin_username                  = local.sid_auth_username
+  disable_password_authentication = ! local.enable_anchor_auth_password
+  admin_password                  = local.enable_anchor_auth_key ? null : local.sid_auth_password
 
   os_disk {
     name                   = format("%s%s%s%s", local.prefix, var.naming.separator, local.anchor_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
@@ -55,12 +56,12 @@ resource "azurerm_linux_virtual_machine" "anchor" {
   }
 
   admin_ssh_key {
-    username   = local.anchor_authentication.username
-    public_key = try(var.options.use_local_keyvault_for_secrets, false) ? tls_private_key.sdu[0].public_key_openssh : data.azurerm_key_vault_secret.sid_pk[0].value
+    username   = local.sid_auth_username
+    public_key = data.azurerm_key_vault_secret.sid_pk[0].value
   }
 
   boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
+    storage_account_uri = data.azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
   }
 
   additional_capabilities {
@@ -84,8 +85,8 @@ resource "azurerm_windows_virtual_machine" "anchor" {
   ]
 
   size           = local.anchor_size
-  admin_username = local.anchor_authentication.username
-  admin_password = local.anchor_authentication.password
+  admin_username = local.sid_auth_username
+  admin_password = local.sid_auth_password
 
   os_disk {
     name                 = format("%s%s%s%s", local.prefix, var.naming.separator, local.anchor_virtualmachine_names[count.index], local.resource_suffixes.osdisk)
@@ -106,7 +107,7 @@ resource "azurerm_windows_virtual_machine" "anchor" {
   }
 
   boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
+    storage_account_uri = data.azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
   }
 
   additional_capabilities {

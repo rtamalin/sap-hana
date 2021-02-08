@@ -14,7 +14,7 @@ variable "vnet_sap" {
   description = "Details of the SAP Vnet"
 }
 
-variable "storage_bootdiag" {
+variable "storage_bootdiag_endpoint" {
   description = "Details of the boot diagnostic storage device"
 }
 
@@ -41,12 +41,24 @@ variable "deployer_user" {
   default     = []
 }
 
-variable "sid_kv_user" {
+variable "sid_kv_user_id" {
   description = "Details of the user keyvault for sap_system"
 }
 
-variable "landscape_tfstate" {
-  description = "Landscape remote tfstate file"
+variable "sdu_public_key" {
+  description = "Public key used for authentication"
+}
+
+variable "sid_password" {
+  description = "SDU password"
+}
+
+variable "sid_username" {
+  description = "SDU username"
+}
+
+variable "sap_sid" {
+  description = "The SID of the application"
 }
 
 variable "sdu_public_key" {
@@ -98,25 +110,12 @@ locals {
   sid_auth_type        = try(var.application.authentication.type, upper(local.app_ostype) == "LINUX" ? "key" : "password")
   enable_auth_password = local.enable_deployment && local.sid_auth_type == "password"
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
-  sid_auth_username    = try(var.application.authentication.username, "azureadm")
-  sid_auth_password    = local.enable_auth_password ? try(var.application.authentication.password, random_password.password[0].result) : ""
 
   authentication = {
     "type"     = local.sid_auth_type
-    "username" = local.sid_auth_username
-    "password" = local.sid_auth_password
+    "username" = var.sid_username
+    "password" = var.sid_password
   }
-
-  // Retrieve information about Sap Landscape from tfstate file
-  landscape_tfstate  = var.landscape_tfstate
-  kv_landscape_id    = try(var.key_vault.kv_user_id, try(local.landscape_tfstate.landscape_key_vault_user_arm_id, ""))
-  secret_sid_pk_name = try(var.options.use_local_keyvault_for_secrets, false) ? (
-    format("%s-sshkey", local.prefix)) : (
-    try(local.landscape_tfstate.sid_public_key_secret_name, "")
-  )
-
-  // Define this variable to make it easier when implementing existing kv.
-  sid_kv_user = try(var.sid_kv_user[0], null)
 
   // SAP vnet
   vnet_sap                     = try(var.vnet_sap, {})
@@ -240,7 +239,7 @@ locals {
   web_ostype       = try(var.application.web_os.os_type, local.app_ostype)
 
   web_os = {
-    "source_image_id" = local.web_custom_image ? var.application.web_os.source_image_id : ""
+    "source_image_id" = try(var.application.web_os.source_image_id, local.web_custom_image ? local.app_os.source_image_id : null)
     "publisher"       = try(var.application.web_os.publisher, local.web_custom_image ? "" : local.app_os.publisher)
     "offer"           = try(var.application.web_os.offer, local.web_custom_image ? "" : local.app_os.offer)
     "sku"             = try(var.application.web_os.sku, local.web_custom_image ? "" : local.app_os.sku)

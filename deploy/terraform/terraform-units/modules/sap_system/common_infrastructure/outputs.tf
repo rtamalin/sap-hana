@@ -10,8 +10,8 @@ output "vnet_sap" {
   value = local.vnet_sap
 }
 
-output "storage_bootdiag" {
-  value = azurerm_storage_account.storage_bootdiag
+output "storage_bootdiag_endpoint" {
+  value = data.azurerm_storage_account.storage_bootdiag.primary_blob_endpoint
 }
 
 output "random_id" {
@@ -19,7 +19,7 @@ output "random_id" {
 }
 
 output "iscsi_private_ip" {
-  value = local.iscsi_private_ip
+  value = try(var.landscape_tfstate.iscsi_private_ip, [])
 }
 
 output "ppg" {
@@ -38,25 +38,12 @@ output "db_subnet" {
   value = local.enable_db_deployment ? local.sub_db_exists ? data.azurerm_subnet.db[0] : azurerm_subnet.db[0] : null
 }
 
-// Return the key vault in which the secrets should be stored
-output "sid_kv_user" {
-  value = local.enable_sid_deployment ? (
-    try(var.options.use_local_keyvault_for_secrets, false) ? (
-      azurerm_key_vault.sid_kv_user) : (
-      data.azurerm_key_vault.sid_kv_user
-    )) : (
-    null
-  )
+output "sid_kv_user_id" {
+  value = local.enable_sid_deployment ? azurerm_key_vault.sid_kv_user[0].id : data.azurerm_key_vault.sid_kv_user[0].id
 }
 
-output "sid_kv_prvt" {
-  value = local.enable_sid_deployment ? (
-    local.prvt_kv_exist ? (
-      data.azurerm_key_vault.sid_kv_prvt) : (
-      azurerm_key_vault.sid_kv_prvt
-    )) : (
-    null
-  )
+output "sid_kv_prvt_id" {
+  value = local.enable_sid_deployment ? azurerm_key_vault.sid_kv_prvt[0].id : data.azurerm_key_vault.sid_kv_prvt[0].id
 }
 
 output "storage_subnet" {
@@ -69,6 +56,24 @@ output "storage_subnet" {
   )
 }
 
+output "sid_password" {
+  value = local.sid_auth_password
+}
+
+output "sid_username" {
+  value = local.sid_auth_username
+}
+
+//Output the SDU specific SSH key
 output "sdu_public_key" {
-  value = try(var.options.use_local_keyvault_for_secrets, false) ? tls_private_key.sdu[0].public_key_openssh : ""
+  value = local.sid_public_key
+}
+
+output "sid_password" {
+  value = trimspace(coalesce(
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    try(random_password.password[0].result, ""),
+    " "
+  ))
 }

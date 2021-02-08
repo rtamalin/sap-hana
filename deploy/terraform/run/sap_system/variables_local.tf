@@ -103,20 +103,19 @@ locals {
   anchor        = try(local.var_infra.anchor_vms, {})
   anchor_ostype = upper(try(local.anchor.os.os_type, "LINUX"))
 
-  // Import deployer information for ansible.tf
-  import_deployer = data.terraform_remote_state.deployer.outputs.deployer
-
   // Locate the tfstate storage account
   tfstate_resource_id          = try(var.tfstate_resource_id, "")
   saplib_subscription_id       = split("/", local.tfstate_resource_id)[2]
   saplib_resource_group_name   = split("/", local.tfstate_resource_id)[4]
   tfstate_storage_account_name = split("/", local.tfstate_resource_id)[8]
-  tfstate_container_name       = "tfstate"
+  tfstate_container_name       = module.sap_namegenerator.naming.resource_suffixes.tfstate
   deployer_tfstate_key         = try(var.deployer_tfstate_key, "")
   landscape_tfstate_key        = try(var.landscape_tfstate_key, "")
 
+
+  use_deployer_state = length(local.deployer_tfstate_key) > 0 && length(trimspace(try(var.key_vault.kv_spn_id, ""))) == 0 
   // Retrieve the arm_id of deployer's Key Vault from deployer's terraform.tfstate
-  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer.outputs.deployer_kv_user_arm_id, ""))
+  deployer_key_vault_arm_id = try(var.key_vault.kv_spn_id, try(data.terraform_remote_state.deployer[0].outputs.deployer_kv_user_arm_id, ""))
 
   spn = {
     subscription_id = data.azurerm_key_vault_secret.subscription_id.value,

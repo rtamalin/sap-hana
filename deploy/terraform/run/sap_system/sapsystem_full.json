@@ -6,14 +6,12 @@
     "region": "eastus",
     "environment": "NP",
     "resource_group": {
-      "name": "",
       "arm_id": ""
     },
     "anchor_vms": {
       "sku": "Standard_D4s_v4",
       "authentication": {
-        "type": "key",
-        "username": "azureadm"
+        "type": "key"
       },
       "accelerated_networking": true,
       "os": {
@@ -41,6 +39,10 @@
       }
     }
   },
+  "key_vault": {
+    "kv_user_id": "",
+    "kv_prvt_id": ""
+  },
   "databases": [
     {
       "platform": "HANA",
@@ -53,13 +55,8 @@
         "sku": "gen1"
       },
       "zones": ["1"],
-      "credentials": {
-        "db_systemdb_password": "<db_systemdb_password>",
-        "os_sidadm_password": "<os_sidadm_password>",
-        "os_sapadm_password": "<os_sapadm_password>",
-        "xsa_admin_password": "<xsa_admin_password>",
-        "cockpit_admin_password": "<cockpit_admin_password>",
-        "ha_cluster_password": "<ha_cluster_password>"
+      "authentication": {
+        "type": "key"
       },
       "avset_arm_ids": [
         "/subscriptions/xxxx/resourceGroups/yyyy/providers/Microsoft.Compute/availabilitySets/PROTO-SID_db_avset"
@@ -94,16 +91,18 @@
     "web_zones": ["1"],
     "use_DHCP": false,
     "authentication": {
-      "type": "key",
-      "username": "azureadm"
+      "type": "key"
     }
   },
-  "sshkey": {
+  "authentication": {
+    "username": "azureadm",
+    "password": "T0pS€cr€t",
     "path_to_public_key": "sshkey.pub",
     "path_to_private_key": "sshkey"
   },
   "options": {
     "enable_secure_transfer": true,
+<<<<<<< HEAD
     "enable_prometheus": true,
     "resource_offset": 0,
     "disk_encryption_set_id": "",
@@ -115,5 +114,9 @@
     "kv_sid_sshkey_prvt" : "",
     "kv_sid_sshkey_pub" : "",
     "kv_spn_id": ""
+=======
+    "resource_offset" : 0,
+    "disk_encryption_set_id" : ""
+>>>>>>> f64d29c0a434b15a1926a01068afb7e8b81c7cfa
   }
 }

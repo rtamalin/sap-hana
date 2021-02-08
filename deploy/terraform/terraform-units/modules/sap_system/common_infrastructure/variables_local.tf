@@ -40,7 +40,6 @@ variable "custom_disk_sizes_filename" {
 locals {
   // Resources naming
   vnet_prefix                 = trimspace(var.naming.prefix.VNET)
-  storageaccount_name         = var.naming.storageaccount_names.SDU
   sid_keyvault_names          = var.naming.keyvault_names.SDU
   anchor_virtualmachine_names = var.naming.virtualmachine_names.ANCHOR_VMNAME
   anchor_computer_names       = var.naming.virtualmachine_names.ANCHOR_COMPUTERNAME
@@ -68,14 +67,8 @@ locals {
   // Retrieve information about Deployer from tfstate file
   deployer_tfstate = var.deployer_tfstate
 
-  // Retrieve information about Sap Landscape from tfstate file
-  landscape_tfstate = var.landscape_tfstate
-  kv_landscape_id    = try(var.key_vault.kv_user_id, try(local.landscape_tfstate.landscape_key_vault_user_arm_id, ""))
-  secret_sid_pk_name = try(var.options.use_local_keyvault_for_secrets, false) ? (
-    format("%s-sshkey", local.prefix)) : (
-    try(local.landscape_tfstate.sid_public_key_secret_name, "")
-  )
-  iscsi_private_ip = try(local.landscape_tfstate.iscsi_private_ip, [])
+  storageaccount_name    = try(var.landscape_tfstate.storageaccount_name, "")
+  storageaccount_rg_name = try(var.landscape_tfstate.storageaccount_rg_name, "")
 
   //Filter the list of databases to only HANA platform entries
   databases = [
@@ -101,8 +94,7 @@ locals {
 
   db_auth = try(local.db.authentication,
     {
-      "type"     = "key"
-      "username" = "azureadm"
+      "type" = "key"
   })
 
   //Enable DB deployment 
@@ -156,7 +148,44 @@ locals {
   anchor_authentication       = try(local.anchor.authentication, local.db_auth)
   anchor_auth_type            = try(local.anchor.authentication.type, "key")
   enable_anchor_auth_password = local.deploy_anchor && local.anchor_auth_type == "password"
-  enable_anchor_auth_key      = local.deploy_anchor && local.anchor_auth_type == "key"
+  enable_anchor_auth_key      = ! local.enable_anchor_auth_password
+
+  anchor_auth_password = try(local.anchor_authentication.password, "")
+
+  sid_username_secret_name = try(local.landscape_tfstate.sid_username_secret_name, "")
+  sid_password_secret_name = try(local.landscape_tfstate.sid_password_secret_name, "")
+
+  sid_local_username_exists = length(
+    coalesce(
+      try(local.anchor.authentication.username, ""),
+      try(var.sshkey.username, ""),
+      " "
+  )) > 1
+
+  sid_local_password_exists = length(
+    coalesce(
+      try(local.anchor.authentication.password, ""),
+      try(var.sshkey.password, ""),
+      " "
+  )) > 1
+
+
+  use_landscape_credentials = length(local.sid_password_secret_name) > 0 ? true : false
+
+  sid_auth_username = coalesce(
+    try(local.anchor.authentication.username, ""),
+    try(var.sshkey.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, ""),
+    "azureadm"
+  )
+
+  sid_auth_password = trimspace(coalesce(
+    try(local.anchor.authentication.password, ""),
+    try(var.sshkey.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, ""),
+    try(random_password.password[0].result, ""),
+    " "
+  ))
 
   //If the db uses ultra disks ensure that the anchore sets the ultradisk flag but only for the zones that will contain db servers
   enable_anchor_ultra = [
@@ -181,7 +210,6 @@ locals {
   // Support dynamic addressing
   anchor_use_DHCP = try(local.anchor.use_DHCP, false)
 
-
   //Resource group
   var_rg    = try(local.var_infra.resource_group, {})
   rg_arm_id = try(local.var_rg.arm_id, "")
@@ -200,7 +228,7 @@ locals {
   */
 
   //SAP vnet
-  vnet_sap_arm_id              = try(local.landscape_tfstate.vnet_sap_arm_id, "")
+  vnet_sap_arm_id              = try(var.landscape_tfstate.vnet_sap_arm_id, "")
   vnet_sap_name                = split("/", local.vnet_sap_arm_id)[8]
   vnet_sap_resource_group_name = split("/", local.vnet_sap_arm_id)[4]
   vnet_sap                     = data.azurerm_virtual_network.vnet_sap
@@ -262,70 +290,76 @@ locals {
   sub_storage_nsg_exists = length(local.sub_storage_nsg_arm_id) > 0 ? true : false
   sub_storage_nsg_name   = local.sub_storage_nsg_exists ? try(split("/", local.sub_storage_nsg_arm_id)[8], "") : try(local.sub_storage_nsg.name, format("%s%s", local.prefix, local.resource_suffixes.storage_subnet_nsg))
 
-  // If the user specifies arm id of key vaults in input, the key vault will be imported instead of creating new key vaults
-  user_key_vault_id = try(var.key_vault.kv_user_id, "")
-  prvt_key_vault_id = try(var.key_vault.kv_prvt_id, "")
-  user_kv_exist     = try(length(local.user_key_vault_id) > 0, false)
-  prvt_kv_exist     = try(length(local.prvt_key_vault_id) > 0, false)
+  // If the user specifies arm id of key vaults in input, the key vault will be imported instead of using the landscape key vault
+  user_key_vault_id = try(var.key_vault.kv_user_id, var.landscape_tfstate.landscape_key_vault_user_arm_id)
+  prvt_key_vault_id = try(var.key_vault.kv_prvt_id, var.landscape_tfstate.landscape_key_vault_private_arm_id)
+
+  //Override 
+  user_kv_override = length(try(var.key_vault.kv_user_id, "")) > 0
+  prvt_kv_override = length(try(var.key_vault.kv_prvt_id, "")) > 0
 
   // Extract information from the specified key vault arm ids
-  user_kv_name    = local.user_kv_exist ? split("/", local.user_key_vault_id)[8] : local.sid_keyvault_names.user_access
-  user_kv_rg_name = local.user_kv_exist ? split("/", local.user_key_vault_id)[4] : ""
+  user_kv_name    = local.user_kv_override ? split("/", local.user_key_vault_id)[8] : local.sid_keyvault_names.user_access
+  user_kv_rg_name = local.user_kv_override ? split("/", local.user_key_vault_id)[4] : ""
 
-  prvt_kv_name    = local.prvt_kv_exist ? split("/", local.prvt_key_vault_id)[8] : local.sid_keyvault_names.private_access
-  prvt_kv_rg_name = local.prvt_kv_exist ? split("/", local.prvt_key_vault_id)[4] : ""
+  prvt_kv_name    = local.prvt_kv_override ? split("/", local.prvt_key_vault_id)[8] : local.sid_keyvault_names.private_access
+  prvt_kv_rg_name = local.prvt_kv_override ? split("/", local.prvt_key_vault_id)[4] : ""
 
-  // If the user specifies the secret name of key pair/password in input, the secrets will be imported instead of creating new secrets
-  input_sid_public_key_secret_name  = try(var.key_vault.kv_sid_sshkey_pub, "")
-  input_sid_private_key_secret_name = try(var.key_vault.kv_sid_sshkey_prvt, "")
-  sid_key_exist                     = try(length(local.input_sid_public_key_secret_name) > 0, false)
+  use_local_credentials = length(var.authentication) > 0
 
+  // If local credentials are used then try the parameter file.
+  // If the username is empty retrieve it from the keyvault
+  // If password or sshkeys are empty create them
+  sid_auth_username = coalesce(
+    try(var.authentication.username, ""),
+    try(data.azurerm_key_vault_secret.sid_username[0].value, "azureadm")
+  )
+  
+  sid_auth_password = coalesce(
+    try(var.authentication.password, ""),
+    try(data.azurerm_key_vault_secret.sid_password[0].value, local.use_local_credentials ? random_password.password[0].result : "")
+  )
+
+  sid_public_key    = local.use_local_credentials ? try(file(var.authentication.path_to_public_key), tls_private_key.sdu[0].public_key_openssh) : data.azurerm_key_vault_secret.sid_pk[0].value
+  sid_private_key   = local.use_local_credentials ? try(file(var.authentication.path_to_private_key), tls_private_key.sdu[0].private_key_pem) : ""
 
   //---- Update infrastructure with defaults ----//
   infrastructure = {
     resource_group = {
-      is_existing = local.rg_exists,
-      name        = local.rg_name,
-      arm_id      = local.rg_arm_id
+      name   = local.rg_name,
+      arm_id = local.rg_arm_id
     },
     ppg = {
-      is_existing = local.ppg_exists,
-      name        = local.ppg_names,
-      arm_id      = local.ppg_arm_ids
+      name   = local.ppg_names,
+      arm_id = local.ppg_arm_ids
     },
     vnets = {
       sap = merge({
         subnet_admin = {
-          is_existing = local.sub_admin_exists,
-          arm_id      = local.sub_admin_arm_id,
-          name        = local.sub_admin_name,
-          prefix      = local.sub_admin_prefix,
+          arm_id = local.sub_admin_arm_id,
+          name   = local.sub_admin_name,
+          prefix = local.sub_admin_prefix,
           nsg = {
-            is_existing = local.sub_admin_nsg_exists,
-            arm_id      = local.sub_admin_nsg_arm_id,
-            name        = local.sub_admin_nsg_name
+            arm_id = local.sub_admin_nsg_arm_id,
+            name   = local.sub_admin_nsg_name
           }
         },
         subnet_db = {
-          is_existing = local.sub_db_exists,
-          arm_id      = local.sub_db_arm_id,
-          name        = local.sub_db_name,
-          prefix      = local.sub_db_prefix,
+          arm_id = local.sub_db_arm_id,
+          name   = local.sub_db_name,
+          prefix = local.sub_db_prefix,
           nsg = {
-            is_existing = local.sub_db_nsg_exists,
-            arm_id      = local.sub_db_nsg_arm_id,
-            name        = local.sub_db_nsg_name
+            arm_id = local.sub_db_nsg_arm_id,
+            name   = local.sub_db_nsg_name
           }
         },
         subnet_app = {
-          is_existing = local.sub_app_exists,
-          arm_id      = local.sub_app_arm_id,
-          name        = local.sub_app_name,
-          prefix      = local.sub_app_prefix,
+          arm_id = local.sub_app_arm_id,
+          name   = local.sub_app_name,
+          prefix = local.sub_app_prefix,
           nsg = {
-            is_existing = local.sub_app_nsg_exists,
-            arm_id      = local.sub_app_nsg_arm_id,
-            name        = local.sub_app_nsg_name
+            arm_id = local.sub_app_nsg_arm_id,
+            name   = local.sub_app_nsg_name
           }
         }
       })
