@@ -34,7 +34,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -58,7 +58,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -82,7 +82,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -106,7 +106,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -130,7 +130,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -154,7 +154,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -178,7 +178,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -202,7 +202,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -226,7 +226,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -250,7 +250,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -274,7 +274,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -298,7 +298,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -322,7 +322,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -346,7 +346,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -370,7 +370,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -394,7 +394,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -418,7 +418,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -442,7 +442,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -466,7 +466,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -490,7 +490,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -514,7 +514,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -538,7 +538,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -562,7 +562,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -586,7 +586,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -636,7 +636,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -660,7 +660,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -684,7 +684,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -708,7 +708,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -732,7 +732,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -756,7 +756,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -780,7 +780,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -804,7 +804,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -828,7 +828,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -852,7 +852,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -876,7 +876,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -900,7 +900,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -924,7 +924,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -948,7 +948,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -972,7 +972,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -996,7 +996,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1020,7 +1020,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1044,7 +1044,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1068,7 +1068,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1092,7 +1092,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1116,7 +1116,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1140,7 +1140,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1164,7 +1164,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1188,7 +1188,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1238,7 +1238,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1262,7 +1262,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1286,7 +1286,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1310,7 +1310,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1334,7 +1334,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1358,7 +1358,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1382,7 +1382,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1406,7 +1406,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1430,7 +1430,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1454,7 +1454,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1478,7 +1478,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1502,7 +1502,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1526,7 +1526,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1550,7 +1550,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1574,7 +1574,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1598,7 +1598,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1622,7 +1622,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1646,7 +1646,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1670,7 +1670,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1694,7 +1694,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1718,7 +1718,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1742,7 +1742,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1766,7 +1766,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
@@ -1790,7 +1790,7 @@
           "count": 1,
           "name": "os",
           "disk_type": "Premium_LRS",
-          "size_gb": 31,
+          "size_gb": 64,
           "caching": "ReadWrite",
           "write_accelerator": false
         },
