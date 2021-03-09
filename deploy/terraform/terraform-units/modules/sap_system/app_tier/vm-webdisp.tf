@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   )
 
   network_interface_ids = local.apptier_dual_nics ? (
-    local.legacy_order ? (
+    local.legacy_nic_order ? (
       [azurerm_network_interface.web_admin[count.index].id, azurerm_network_interface.web[count.index].id]) : (
       [azurerm_network_interface.web[count.index].id, azurerm_network_interface.web_admin[count.index].id]
     )
@@ -154,7 +154,7 @@ resource "azurerm_windows_virtual_machine" "web" {
   )
 
   network_interface_ids = local.apptier_dual_nics ? (
-    local.legacy_order ? (
+    local.legacy_nic_order ? (
       [azurerm_network_interface.web_admin[count.index].id, azurerm_network_interface.web[count.index].id]) : (
       [azurerm_network_interface.web[count.index].id, azurerm_network_interface.web_admin[count.index].id]
     )
