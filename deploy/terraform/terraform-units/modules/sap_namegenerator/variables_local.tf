@@ -235,6 +235,7 @@ variable resource_suffixes {
     "osdisk"              = "-OsDisk"
     "pip"                 = "-pip"
     "ppg"                 = "-ppg"
+    "routetable"          = "route-table"
     "sapbits"             = "sapbits"
     "storage_nic"         = "-storage-nic"
     "storage_subnet"      = "_storage-subnet"
@@ -262,6 +263,7 @@ variable resource_suffixes {
     "web_avset"           = "web-avset"
     "web_subnet"          = "web-subnet"
     "web_subnet_nsg"      = "webSubnet-nsg"
+    "witness"             = "-witness"
 
   }
 }
