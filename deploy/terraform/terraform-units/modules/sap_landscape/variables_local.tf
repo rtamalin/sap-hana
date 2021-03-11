@@ -34,9 +34,7 @@ locals {
 
   // Retrieve information about Deployer from tfstate file
   deployer_tfstate = var.deployer_tfstate
-  vnet_mgmt        = local.deployer_tfstate.vnet_mgmt
-  subnet_mgmt      = local.deployer_tfstate.subnet_mgmt
-  nsg_mgmt         = local.deployer_tfstate.nsg_mgmt
+  vnet_mgmt_id     = local.deployer_tfstate.vnet_mgmt_id
 
   // Resource group
   var_rg    = try(local.var_infra.resource_group, {})
