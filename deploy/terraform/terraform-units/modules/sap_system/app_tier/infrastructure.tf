@@ -6,6 +6,14 @@ resource "azurerm_subnet" "subnet_sap_app" {
   resource_group_name  = local.vnet_sap_resource_group_name
   virtual_network_name = local.vnet_sap_name
   address_prefixes     = [local.sub_app_prefix]
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 resource "azurerm_subnet_route_table_association" "subnet_sap_app" {
@@ -29,6 +37,13 @@ resource "azurerm_subnet" "subnet_sap_web" {
   resource_group_name  = local.vnet_sap_resource_group_name
   virtual_network_name = local.vnet_sap_name
   address_prefixes     = [local.sub_web_prefix]
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_subnet_route_table_association" "subnet_sap_web" {
@@ -76,6 +91,13 @@ resource "azurerm_lb" "scs" {
       try(local.scs_lb_ips[1], cidrhost(local.sub_app_prefix, 1 + local.ip_offsets.scs_lb))
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }
 
@@ -141,6 +163,13 @@ resource "azurerm_availability_set" "scs" {
   platform_fault_domain_count  = local.faultdomain_count
   proximity_placement_group_id = local.scs_zonal_deployment ? var.ppg[count.index % length(local.scs_zones)].id : var.ppg[0].id
   managed                      = true
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 /*
@@ -157,6 +186,13 @@ resource "azurerm_availability_set" "app" {
   platform_fault_domain_count  = local.faultdomain_count
   proximity_placement_group_id = local.app_zonal_deployment ? var.ppg[count.index % local.app_zone_count].id : var.ppg[0].id
   managed                      = true
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 /*
@@ -180,6 +216,13 @@ resource "azurerm_lb" "web" {
       try(local.web_lb_ips[0], cidrhost(local.sub_web_deployed.address_prefixes[0], local.ip_offsets.web_lb))
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }
 
@@ -227,6 +270,13 @@ resource "azurerm_availability_set" "web" {
   platform_fault_domain_count  = local.faultdomain_count
   proximity_placement_group_id = local.web_zonal_deployment ? var.ppg[count.index % length(local.web_zones)].id : var.ppg[0].id
   managed                      = true
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # FIREWALL
@@ -245,5 +295,12 @@ resource "azurerm_firewall_network_rule_collection" "firewall-azure-app" {
     destination_ports     = ["*"]
     destination_addresses = [local.firewall_service_tags] 
     protocols             = ["Any"]
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }

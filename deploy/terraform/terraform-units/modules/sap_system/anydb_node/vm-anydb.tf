@@ -24,6 +24,15 @@ resource "azurerm_network_interface" "anydb_db" {
 
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 # Creates the Admin traffic NIC and private IP address for database nodes
@@ -48,6 +57,14 @@ resource "azurerm_network_interface" "anydb_admin" {
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 // Section for Linux Virtual machine 
@@ -127,6 +144,14 @@ resource "azurerm_linux_virtual_machine" "dbserver" {
   }
 
   tags = local.tags
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 // Section for Windows Virtual machine 
@@ -198,6 +223,14 @@ resource "azurerm_windows_virtual_machine" "dbserver" {
   }
 
   tags = local.tags
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 // Creates managed data disks
@@ -216,6 +249,13 @@ resource "azurerm_managed_disk" "disks" {
       [azurerm_linux_virtual_machine.dbserver[local.anydb_disks[count.index].vm_index].zone]) : (
       [azurerm_windows_virtual_machine.dbserver[local.anydb_disks[count.index].vm_index].zone]
   )) : null
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 
 }
 

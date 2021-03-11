@@ -32,6 +32,13 @@ resource "azurerm_network_interface" "nics_dbnodes_admin" {
 
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Creates the DB traffic NIC and private IP address for database nodes
@@ -57,6 +64,13 @@ resource "azurerm_network_interface" "nics_dbnodes_db" {
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 // Creates the NIC for Hana storage
@@ -79,6 +93,13 @@ resource "azurerm_network_interface" "nics_dbnodes_storage" {
 
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }
 
@@ -161,6 +182,13 @@ resource "azurerm_linux_virtual_machine" "vm_dbnode" {
   }
 
   tags = local.tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Creates managed data disk
@@ -178,6 +206,13 @@ resource "azurerm_managed_disk" "data_disk" {
     [azurerm_linux_virtual_machine.vm_dbnode[local.data_disk_list[count.index].vm_index].zone]) : (
     null
   )
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Manages attaching a Disk to a Virtual Machine

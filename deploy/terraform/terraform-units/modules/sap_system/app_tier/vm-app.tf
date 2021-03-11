@@ -21,6 +21,13 @@ resource "azurerm_network_interface" "app" {
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Create Application NICs
@@ -43,6 +50,13 @@ resource "azurerm_network_interface" "app_admin" {
       )
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }
 
@@ -135,6 +149,13 @@ resource "azurerm_linux_virtual_machine" "app" {
   }
 
   tags = local.app_tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 
 }
 
@@ -217,6 +238,13 @@ resource "azurerm_windows_virtual_machine" "app" {
   }
 
   tags = local.app_tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 
 }
 
@@ -238,6 +266,13 @@ resource "azurerm_managed_disk" "app" {
     )) : (
     null
   )
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "app" {

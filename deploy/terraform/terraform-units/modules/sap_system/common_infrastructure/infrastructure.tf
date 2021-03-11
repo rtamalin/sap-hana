@@ -3,6 +3,13 @@ resource "azurerm_resource_group" "resource_group" {
   count    = local.rg_exists ? 0 : 1
   name     = local.rg_name
   location = local.region
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 // Imports data of existing resource group
@@ -24,6 +31,14 @@ resource "azurerm_subnet" "admin" {
   resource_group_name  = local.vnet_sap_resource_group_name
   virtual_network_name = local.vnet_sap_name
   address_prefixes     = [local.sub_admin_prefix]
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 resource "azurerm_subnet_route_table_association" "admin" {
@@ -57,12 +72,26 @@ resource "azurerm_subnet" "db" {
   resource_group_name  = local.vnet_sap_resource_group_name
   virtual_network_name = local.vnet_sap_name
   address_prefixes     = [local.sub_db_prefix]
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_subnet_route_table_association" "db" {
   count          = ! local.sub_admin_exists && length(local.route_table_id) > 0 ? 1 : 0
   subnet_id      = azurerm_subnet.db[0].id
   route_table_id = local.route_table_id
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 // Imports data of existing db subnet
@@ -80,6 +109,13 @@ resource "azurerm_subnet" "storage" {
   resource_group_name  = local.vnet_sap_resource_group_name
   virtual_network_name = local.vnet_sap_name
   address_prefixes     = [local.sub_storage_prefix]
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 // Imports data of existing db subnet
@@ -102,6 +138,13 @@ resource "azurerm_proximity_placement_group" "ppg" {
   name                = local.zonal_deployment ? format("%s%sz%s%s", local.prefix, var.naming.separator, local.zones[count.index], local.resource_suffixes.ppg) : local.ppg_names[count.index]
   resource_group_name = local.rg_exists ? data.azurerm_resource_group.resource_group[0].name : azurerm_resource_group.resource_group[0].name
   location            = local.rg_exists ? data.azurerm_resource_group.resource_group[0].location : azurerm_resource_group.resource_group[0].location
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 data "azurerm_proximity_placement_group" "ppg" {
@@ -126,5 +169,12 @@ resource "azurerm_firewall_network_rule_collection" "firewall-azure" {
     destination_ports     = ["*"]
     destination_addresses = [local.firewall_service_tags] 
     protocols             = ["Any"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }

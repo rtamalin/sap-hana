@@ -68,6 +68,13 @@ resource "azurerm_linux_virtual_machine" "anchor" {
     ultra_ssd_enabled = local.enable_anchor_ultra[count.index]
   }
 
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 # Create the Windows Application VM(s)

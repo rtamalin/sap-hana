@@ -19,6 +19,14 @@ resource "azurerm_network_interface" "observer" {
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
 
   }
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 # Create the Linux Application VM(s)
@@ -78,6 +86,14 @@ resource "azurerm_linux_virtual_machine" "observer" {
   }
 
   tags = local.tags
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 # Create the Windows Application VM(s)
@@ -131,4 +147,11 @@ resource "azurerm_windows_virtual_machine" "observer" {
   }
 
   tags = local.tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }

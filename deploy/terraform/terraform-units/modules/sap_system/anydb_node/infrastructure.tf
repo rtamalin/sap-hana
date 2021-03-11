@@ -22,6 +22,14 @@ resource "azurerm_lb" "anydb" {
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 resource "azurerm_lb_backend_address_pool" "anydb" {
@@ -79,6 +87,14 @@ resource "azurerm_availability_set" "anydb" {
   platform_fault_domain_count  = local.faultdomain_count
   proximity_placement_group_id = local.zonal_deployment ? var.ppg[count.index % length(local.zones)].id : var.ppg[0].id
   managed                      = true
+    
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 data "azurerm_availability_set" "anydb" {

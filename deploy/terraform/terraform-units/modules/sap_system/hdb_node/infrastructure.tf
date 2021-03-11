@@ -11,6 +11,13 @@ resource "azurerm_availability_set" "hdb" {
   platform_fault_domain_count  = local.faultdomain_count
   proximity_placement_group_id = local.zonal_deployment ? var.ppg[count.index % length(local.zones)].id : var.ppg[0].id
   managed                      = true
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 data "azurerm_availability_set" "hdb" {
@@ -36,6 +43,13 @@ resource "azurerm_lb" "hdb" {
     subnet_id                     = var.db_subnet.id
     private_ip_address            = local.use_DHCP ? null : try(local.hana_database.loadbalancer.frontend_ip, cidrhost(var.db_subnet.address_prefixes[0], tonumber(count.index) + local.hdb_ip_offsets.hdb_lb))
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 
 }

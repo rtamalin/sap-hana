@@ -18,6 +18,13 @@ resource "azurerm_network_interface" "web" {
     )
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
   }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Create Application NICs
@@ -38,6 +45,13 @@ resource "azurerm_network_interface" "web_admin" {
         )
     ))
     private_ip_address_allocation = local.use_DHCP ? "Dynamic" : "Static"
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
   }
 }
 
@@ -129,6 +143,13 @@ resource "azurerm_linux_virtual_machine" "web" {
   }
 
   tags = local.web_tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Create the Windows Web dispatcher VM(s)
@@ -210,6 +231,13 @@ resource "azurerm_windows_virtual_machine" "web" {
   }
 
   tags = local.web_tags
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 # Creates managed data disk
@@ -230,6 +258,13 @@ resource "azurerm_managed_disk" "web" {
     )) : (
     null
   )
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "web" {

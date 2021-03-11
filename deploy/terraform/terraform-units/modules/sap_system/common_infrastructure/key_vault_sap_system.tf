@@ -44,6 +44,13 @@ resource "azurerm_key_vault" "sid_kv_prvt" {
     ]
   }
 
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 // Import an existing private Key Vault
@@ -77,6 +84,15 @@ resource "azurerm_key_vault" "sid_kv_user" {
     ]
 
   }
+
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags
+      tags,
+    ]
+  }
+
 }
 
 // Import an existing user Key Vault
