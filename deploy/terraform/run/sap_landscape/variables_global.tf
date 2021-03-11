@@ -31,7 +31,10 @@ variable "options" {
 variable "authentication" {
   description = "Details of ssh key pair"
   default = {
-    username = "azureadm"
+    username = "azureadm",
+    path_to_public_key = "",
+    path_to_private_key = ""
+
   }
 
   validation {
@@ -58,6 +61,13 @@ variable "key_vault" {
 
 variable "diagnostics_storage_account" {
   description = "Storage account information for diagnostics account"
+  default     = {
+    arm_id = ""
+  }
+}
+
+variable "witness_storage_account" {
+  description = "Storage account information for witness storage account"
   default     = {
     arm_id = ""
   }

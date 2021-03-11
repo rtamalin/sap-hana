@@ -1,0 +1,14 @@
+{
+  "infrastructure": {
+    "region": "westeurope",
+    "environment": "DEV",
+    "resource_group": {
+      "name": "WEEU-SAP_LIBRARY"
+    }
+  },
+  "deployer": {
+    "environment": "DEV",
+    "region": "westeurope",
+    "vnet": "MGMT00"
+  }
+}

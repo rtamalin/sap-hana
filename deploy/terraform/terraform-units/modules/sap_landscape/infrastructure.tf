@@ -34,7 +34,7 @@ data "azurerm_virtual_network" "vnet_sap" {
 
 // Peers management VNET to SAP VNET
 resource "azurerm_virtual_network_peering" "peering_management_sap" {
-  count                        = local.vnet_sap_exists ? 0 : 1
+  count                        = local.vnet_sap_exists || !var.use_deployer ? 0 : 1
   name                         = substr(format("%s_to_%s", local.vnet_mgmt.name, local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].name : azurerm_virtual_network.vnet_sap[0].name), 0, 80)
   virtual_network_name         = split("/", local.vnet_mgmt_id)[8] 
   resource_group_name          = split("/", local.vnet_mgmt_id)[4] 
@@ -44,7 +44,7 @@ resource "azurerm_virtual_network_peering" "peering_management_sap" {
 
 // Peers SAP VNET to management VNET
 resource "azurerm_virtual_network_peering" "peering_sap_management" {
-  count                        = local.vnet_sap_exists ? 0 : 1
+  count                        = local.vnet_sap_exists || !var.use_deployer ? 0 : 1
   name                         = substr(format("%s_to_%s", local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].name : azurerm_virtual_network.vnet_sap[0].name, local.vnet_mgmt.name), 0, 80)
   resource_group_name          = local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].resource_group_name : azurerm_virtual_network.vnet_sap[0].resource_group_name
   virtual_network_name         = local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].name : azurerm_virtual_network.vnet_sap[0].name
@@ -68,4 +68,30 @@ data "azurerm_storage_account" "storage_bootdiag" {
   count               = length(var.diagnostics_storage_account.arm_id) > 0 ? 1 : 0
   name                = split("/", var.diagnostics_storage_account.arm_id)[8]
   resource_group_name = split("/", var.diagnostics_storage_account.arm_id)[4]
+}
+
+//Route table
+resource "azurerm_route_table" "rt" {
+  count                         = local.vnet_sap_exists ? 0 : 1
+  name                          = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.routetable)
+  resource_group_name           = local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].resource_group_name : azurerm_virtual_network.vnet_sap[0].resource_group_name
+  location                      = local.vnet_sap_exists ? data.azurerm_virtual_network.vnet_sap[0].location : azurerm_virtual_network.vnet_sap[0].location
+  disable_bgp_route_propagation = false
+}
+
+// Creates witness storage account
+resource "azurerm_storage_account" "witness_storage" {
+  count                     = length(var.witness_storage_account.arm_id) > 0 ? 0 : 1
+  name                      = local.witness_storageaccount_name
+  resource_group_name       = local.rg_exists ? data.azurerm_resource_group.resource_group[0].name : azurerm_resource_group.resource_group[0].name
+  location                  = local.rg_exists ? data.azurerm_resource_group.resource_group[0].location : azurerm_resource_group.resource_group[0].location
+  account_replication_type  = "LRS"
+  account_tier              = "Standard"
+  enable_https_traffic_only = var.options.enable_secure_transfer == "" ? true : var.options.enable_secure_transfer
+}
+
+data "azurerm_storage_account" "witness_storage" {
+  count               = length(var.witness_storage_account.arm_id) > 0 ? 1 : 0
+  name                = split("/", var.witness_storage_account.arm_id)[8]
+  resource_group_name = split("/", var.witness_storage_account.arm_id)[4]
 }
