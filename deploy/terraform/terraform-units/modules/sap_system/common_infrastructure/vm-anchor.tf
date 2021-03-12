@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "anchor" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 

@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "observer" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 
@@ -90,7 +90,7 @@ resource "azurerm_linux_virtual_machine" "observer" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 
@@ -151,7 +151,7 @@ resource "azurerm_windows_virtual_machine" "observer" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }

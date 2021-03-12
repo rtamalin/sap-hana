@@ -141,7 +141,7 @@ locals {
   enable_auth_key      = local.enable_deployment && local.sid_auth_type == "key"
 
   // Tags
-  tags = try(local.anydb.tags, {})
+  tags = try(local.anydb.tags[all] {})
 
   authentication = {
     "type"     = local.sid_auth_type

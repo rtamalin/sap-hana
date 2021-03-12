@@ -26,7 +26,7 @@ resource "azurerm_lb" "anydb" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 
@@ -91,7 +91,7 @@ resource "azurerm_availability_set" "anydb" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 

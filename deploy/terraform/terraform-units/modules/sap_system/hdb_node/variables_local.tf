@@ -117,7 +117,7 @@ locals {
   ])[0]), 2)
 
   // Tags
-  tags = try(local.hdb.tags, {})
+  tags = try(local.hdb.tags[all] {})
 
   // Support dynamic addressing
   use_DHCP = try(local.hdb.use_DHCP, false)

@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "resource_group" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -35,7 +35,7 @@ resource "azurerm_subnet" "admin" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 
@@ -76,7 +76,7 @@ resource "azurerm_subnet" "db" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -89,7 +89,7 @@ resource "azurerm_subnet_route_table_association" "db" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -113,7 +113,7 @@ resource "azurerm_subnet" "storage" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -142,7 +142,7 @@ resource "azurerm_proximity_placement_group" "ppg" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -174,7 +174,7 @@ resource "azurerm_firewall_network_rule_collection" "firewall-azure" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }

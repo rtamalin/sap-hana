@@ -10,7 +10,7 @@ resource "azurerm_subnet" "subnet_sap_app" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 
@@ -41,7 +41,7 @@ resource "azurerm_subnet" "subnet_sap_web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -96,7 +96,7 @@ resource "azurerm_lb" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -167,7 +167,7 @@ resource "azurerm_availability_set" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -190,7 +190,7 @@ resource "azurerm_availability_set" "app" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -221,7 +221,7 @@ resource "azurerm_lb" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -274,7 +274,7 @@ resource "azurerm_availability_set" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -300,7 +300,7 @@ resource "azurerm_firewall_network_rule_collection" "firewall-azure-app" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }

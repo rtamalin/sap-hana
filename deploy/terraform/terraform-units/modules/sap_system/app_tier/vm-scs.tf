@@ -25,7 +25,7 @@ resource "azurerm_network_interface" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -55,7 +55,7 @@ resource "azurerm_network_interface" "scs_admin" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -161,7 +161,7 @@ resource "azurerm_linux_virtual_machine" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -250,7 +250,7 @@ resource "azurerm_windows_virtual_machine" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -277,7 +277,7 @@ resource "azurerm_managed_disk" "scs" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }

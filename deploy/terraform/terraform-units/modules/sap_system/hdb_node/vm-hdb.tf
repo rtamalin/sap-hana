@@ -36,7 +36,7 @@ resource "azurerm_network_interface" "nics_dbnodes_admin" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -68,7 +68,7 @@ resource "azurerm_network_interface" "nics_dbnodes_db" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -98,7 +98,7 @@ resource "azurerm_network_interface" "nics_dbnodes_storage" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -186,7 +186,7 @@ resource "azurerm_linux_virtual_machine" "vm_dbnode" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -210,7 +210,7 @@ resource "azurerm_managed_disk" "data_disk" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }

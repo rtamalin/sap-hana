@@ -22,7 +22,7 @@ resource "azurerm_network_interface" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -50,7 +50,7 @@ resource "azurerm_network_interface" "web_admin" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -147,7 +147,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -235,7 +235,7 @@ resource "azurerm_windows_virtual_machine" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
@@ -262,7 +262,7 @@ resource "azurerm_managed_disk" "web" {
   lifecycle {
     ignore_changes = [
       # Ignore changes to tags
-      tags,
+      tags[all]
     ]
   }
 }
