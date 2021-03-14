@@ -37,7 +37,8 @@ locals {
   region = try(local.var_infra.region, "")
   prefix = try(var.infrastructure.resource_group.name, var.naming.prefix.VNET)
 
-  vnet_mgmt        = try(var.deployer_tfstate.vnet_mgmt, {})
+  deployer_tfstate = var.deployer_tfstate
+  vnet_mgmt_id     = local.deployer_tfstate.vnet_mgmt_id
 
   // Resource group
   var_rg    = try(local.var_infra.resource_group, {})
