@@ -312,7 +312,7 @@ locals {
   )
 
     // Zones
-  zones            = try(local.anydb.zones, [])
+  zones            = try(local.hdb.zones, [])
   db_zone_count    = length(local.zones)
   
   //Ultra disk requires zonal deployment
