@@ -9,7 +9,7 @@ resource "azurerm_subnet" "subnet_sap_app" {
 }
 
 resource "azurerm_subnet_route_table_association" "subnet_sap_app" {
-  count          = ! local.sub_app_exists && length(var.route_table_id) > 0 ? 1 : 0
+  count          = !local.sub_app_exists && length(var.route_table_id) > 0 ? 1 : 0
   subnet_id      = azurerm_subnet.subnet_sap_app[0].id
   route_table_id = var.route_table_id
 }
@@ -80,9 +80,9 @@ resource "azurerm_lb" "scs" {
 }
 
 resource "azurerm_lb_backend_address_pool" "scs" {
-  count               = local.enable_deployment && local.scs_server_count > 0 ? 1 : 0
-  name                = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.scs_alb_bepool)
-  loadbalancer_id     = azurerm_lb.scs[0].id
+  count           = local.enable_deployment && local.scs_server_count > 0 ? 1 : 0
+  name            = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.scs_alb_bepool)
+  loadbalancer_id = azurerm_lb.scs[0].id
 
 }
 
@@ -237,15 +237,15 @@ resource "random_integer" "app_priority" {
   min = 3000
   max = 3999
   keepers = {
-     # Generate a new ID only when a new resource group is defined
-      resource_group = var.resource_group[0].name
+    # Generate a new ID only when a new resource group is defined
+    resource_group = var.resource_group[0].name
   }
 }
 
 # Create a Azure Firewall Network Rule for Azure Management API
 resource "azurerm_firewall_network_rule_collection" "firewall-azure-app" {
   count               = local.firewall_exists ? 1 : 0
-  name                = format("%s%s%s", local.prefix, var.naming.separator, "firewall-rule-app")
+  name                = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.firewall_rule_app)
   azure_firewall_name = local.firewall_name
   resource_group_name = local.firewall_rgname
   priority            = random_integer.app_priority.result
@@ -254,7 +254,21 @@ resource "azurerm_firewall_network_rule_collection" "firewall-azure-app" {
     name                  = "Azure-Cloud"
     source_addresses      = local.sub_web_defined ? [local.sub_app_prefix, local.sub_web_prefix] : [local.sub_app_prefix]
     destination_ports     = ["*"]
-    destination_addresses = [local.firewall_service_tags] 
+    destination_addresses = [local.firewall_service_tags]
     protocols             = ["Any"]
   }
+}
+
+//ASG
+
+resource "azurerm_application_security_group" "app" {
+  name                = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.app_asg)
+  resource_group_name = var.resource_group[0].name
+  location            = var.resource_group[0].location
+}
+
+resource "azurerm_application_security_group" "web" {
+  name                = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.web_asg)
+  resource_group_name = var.resource_group[0].name
+  location            = var.resource_group[0].location
 }
