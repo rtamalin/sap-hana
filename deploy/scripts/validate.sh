@@ -100,9 +100,10 @@ environment=$(jq --raw-output .infrastructure.environment "${parameterfile}")
 region=$(jq --raw-output .infrastructure.region "${parameterfile}")
 
 rg_name=$(jq --raw-output .infrastructure.resource_group.name "${parameterfile}")
-rg_arm_id=$(jq --raw-output .infrastructure.resource_group.arm_id "${parameterfile}")
+# If not specified at all then value will be 'null'
+rg_arm_id="$(jq --raw-output .infrastructure.resource_group.arm_id "${parameterfile}")"
 
-if [ -n "${rg_arm_id}" ]
+if [ \( -n "${rg_arm_id}" \) -a \( "${rg_arm_id}" != "null" \) ]
 then
     rg_name=$(echo $rg_arm_id | cut -d/ -f5 | xargs)
 fi
