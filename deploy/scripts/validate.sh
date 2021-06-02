@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ -n "${DEBUG:+true}" ]] && set -vx
+
 exit_status=0
 
 #colors for terminal

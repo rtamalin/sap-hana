@@ -2,6 +2,8 @@
 
 #error codes include those from /usr/include/sysexits.h
 
+[[ -n "${DEBUG:+true}" ]] && set -vx
+
 #colors for terminal
 boldreduscore="\e[1;4;31m"
 boldred="\e[1;31m"
