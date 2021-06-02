@@ -44,7 +44,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "StandardSSD_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -109,7 +109,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "StandardSSD_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -174,7 +174,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "StandardSSD_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -239,7 +239,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "StandardSSD_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -304,7 +304,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "StandardSSD_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -499,7 +499,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "Premium_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -564,7 +564,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "Premium_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -629,7 +629,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "Premium_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
@@ -759,7 +759,7 @@
                     "name": "os",
                     "count": 1,
                     "disk_type": "Premium_LRS",
-                    "size_gb": 64,
+                    "size_gb": 128,
                     "caching": "ReadWrite"
                 },
                 {
