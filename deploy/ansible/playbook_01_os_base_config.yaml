@@ -60,6 +60,12 @@
 
   - block:
       - include_role:
+          name:     roles-os/1.14-partitions
+    tags:
+      - 1.14-partitions
+
+  - block:
+      - include_role:
           name:     roles-os/1.5-disk-setup
     tags:
       - 1.5-disk-setup
