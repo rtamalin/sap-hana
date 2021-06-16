@@ -1,5 +1,70 @@
 {
     "db": {
+        "Mini": {
+            "compute": {
+                "vm_size": "Standard_DS2_v2",
+                "swap_size_gb": 2
+            },
+            "storage": [
+                {
+                    "name": "os",
+                    "count": 1,
+                    "disk_type": "StandardSSD_LRS",
+                    "size_gb": 64,
+                    "caching": "ReadWrite"
+                },
+                {
+                    "name": "data",
+                    "count": 1,
+                    "disk_type": "Premium_LRS",
+                    "size_gb": 512,
+                    "caching": "None",
+                    "write_accelerator": false,
+                    "mount_point": "/hana/data",
+                    "lun_start": 0
+                },
+                {
+                    "name": "log",
+                    "count": 1,
+                    "disk_type": "Premium_LRS",
+                    "size_gb": 512,
+                    "caching": "None",
+                    "write_accelerator": false,
+                    "mount_point": "/hana/log",
+                    "lun_start": 9
+                },
+                {
+                    "name": "shared",
+                    "count": 1,
+                    "disk_type": "StandardSSD_LRS",
+                    "size_gb": 512,
+                    "caching": "ReadOnly",
+                    "write_accelerator": false,
+                    "mount_point": "/hana/shared",
+                    "lun_start": 13
+                },
+                {
+                    "name": "sap",
+                    "count": 1,
+                    "disk_type": "StandardSSD_LRS",
+                    "size_gb": 320,
+                    "caching": "ReadOnly",
+                    "write_accelerator": false,
+                    "mount_point": "/usr/sap",
+                    "lun_start": 14
+                },
+                {
+                    "name": "backup",
+                    "count": 1,
+                    "disk_type": "StandardSSD_LRS",
+                    "size_gb": 512,
+                    "caching": "ReadOnly",
+                    "write_accelerator": false,
+                    "mount_point": "/hana/backup",
+                    "lun_start": 15
+                }
+            ]
+        },
         "LargeInstance": {
             "compute": {},
             "storage": [

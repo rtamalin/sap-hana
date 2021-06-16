@@ -1,5 +1,30 @@
 {
   "app": {
+    "Mini": {
+      "compute": {
+        "vm_size": "Standard_DS2_v2",
+        "accelerated_networking": true
+      },
+      "storage": [
+        {
+          "count": 1,
+          "name": "os",
+          "disk_type": "Premium_LRS",
+          "size_gb": 30,
+          "caching": "ReadWrite",
+          "write_accelerator": false
+        },
+        {
+          "count": 1,
+          "name": "data",
+          "disk_type": "Premium_LRS",
+          "size_gb": 512,
+          "caching": "None",
+          "write_accelerator": false,
+          "lun_start": 0
+        }
+      ]
+    },
     "Default": {
       "compute": {
         "vm_size": "Standard_D4s_v3",
