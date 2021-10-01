@@ -6,7 +6,7 @@
 #
 - name:                                Check required variables are present and not empty
   ansible.builtin.debug:
-    msg:                               "{{sap_fqdn | type_debug}}"
+    msg:                               "{{ sap_fqdn | type_debug }}"
 
 # -------------------------------------+---------------------------------------8
 
