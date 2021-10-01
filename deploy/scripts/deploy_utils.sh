@@ -363,6 +363,25 @@ function print_script_name_and_function() {
     echo -e "\t[$(basename "")]: $(basename "$0") $1"
 }
 
+#
+# Input validation routines
+#
+
+# An environment value must be a string that is at most 5 characters
+# long, made up of uppercase letters and numbers, and must start with
+# an uppercase letter.
+function valid_environment() {
+    [[ "${environment}" =~ ^[[:upper:]][[:upper:][:digit:]]{1,4}$ ]]
+}
+
+# A region name must be a valid Azure lowercase region name, made
+# up of lowercase latters optionally followed by numbers.
+# NOTE: If we have the list of possible regions in a file somewhere
+# we can validate it is one of the entries in that list.
+function valid_region_name() {
+    [[ "${region}" =~ ^[[:lower:]]+[[:digit:]]?$ ]]
+}
+
 #print the function name being executed
 #printf maybe instead of echo
 #printf "%s\n" "${FUNCNAME[@]}"

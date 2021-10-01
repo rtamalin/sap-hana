@@ -110,19 +110,14 @@ while [ -z "${region}" ]; do
     read -r -p "Region name: " region
 done
 
-# NOTE: If we want to be more specific on the permitted number of
-# letters in the environment name, e.g. between 3 and 6 letters,
-# replate the '\+' in the next line with '\{3,6\}'.
-if [[ ! "${environment}" =~ ^[[:upper:]]\+$ ]]; then
-    echo "The 'environment' must be specified as an non-empty uppercase string!"
+if ! valid_environment "${environment}"; then
+    echo "The 'environment' must be at most 5 characters long, composed of uppercase letters and numbers!"
     showhelp
     exit 65	#/* data format error */
 fi
 
-# NOTE: If we have the list of possible regions in a file somewhere
-# we can validate it is one of the entries in that list.
-if [[ ! "${region}" =~ ^[[:lower:]]\+$ ]]; then
-    echo "The 'region' must be specified as an non-empty lower string!"
+if ! valid_region_name "${region}"; then
+    echo "The 'region' must be a non-empty string composed of lowercase letters followed by numbers!"
     showhelp
     exit 65	#/* data format error */
 fi
