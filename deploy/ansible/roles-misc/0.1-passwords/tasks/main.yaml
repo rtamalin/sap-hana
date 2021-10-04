@@ -1,6 +1,7 @@
+
 - name: Construct SAP system password secret name
   ansible.builtin.set_fact:
-    sap_password_id: "{{ secret_prefix }}-{{ sap_sid }}-sap-password"
+    sap_password_id: "{{ secret_prefix }}-{{ sap_sid }}-sap-passwordz"
 
 - name: "Create Password secret"
   ansible.builtin.shell: |
@@ -25,14 +26,19 @@
 
       changed_when: false
       register: keyvault_secret_show_sap_password_id
-      no_log: false
+      no_log: true
   rescue:
-    - name: "Debug, Error code"
+    - name: "Performing rescue action"
       ansible.builtin.debug:
         msg: "{{ keyvault_secret_show_sap_password_id.rc }}"
+
+    - name: Construct SAP system password
+      ansible.builtin.file:
+        path: /tmp/sappasswordfile
+        state: absent
     - name: Construct SAP system password
       ansible.builtin.set_fact:
-        sap_password: "{{ lookup('password', '/tmp/sappasswordfile length=12 chars=ascii_lowercase,ascii_uppercase,digits,printable') }}"
+        sap_password: "{{ lookup('password', '/tmp/sappasswordfile length=12 chars=ascii_letters,hexdigits') }}"
       when: 3 == keyvault_secret_show_sap_password_id.rc
 
     - name: "Debug, pwd"
