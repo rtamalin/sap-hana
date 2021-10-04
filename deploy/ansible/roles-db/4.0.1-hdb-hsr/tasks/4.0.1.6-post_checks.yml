@@ -11,6 +11,7 @@
     (python systemReplicationStatus.py; echo) | grep -q 'overall system replication status: ACTIVE'
   register:                            grep_result
   until:                               grep_result.rc == 0 or grep_result.rc == 1
+  failed_when:                         grep_result.rc != 0 and grep_result.rc != 1
   changed_when:                        false
   retries:                             10
   delay:                               5
