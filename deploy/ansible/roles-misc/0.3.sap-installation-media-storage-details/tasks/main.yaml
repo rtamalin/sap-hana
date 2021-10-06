@@ -14,7 +14,6 @@
 - name:                                Workload Keyvault name
   ansible.builtin.set_fact:
     workload_kv_name:                  "{{ kv_name }}"
-  when:                                bom_processing is defined
 
 - name:                                Get Deployer Keyvault name from keyvault
   ansible.builtin.command: >-
