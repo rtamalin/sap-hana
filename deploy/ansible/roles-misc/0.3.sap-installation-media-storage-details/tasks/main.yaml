@@ -18,8 +18,8 @@
 - name:                                Get Deployer Keyvault name from keyvault
   ansible.builtin.command: >-
     az keyvault secret show
-      --vault-name {{ kv_name }}
-      --name {{ workload_kv_name }}
+      --vault-name {{ workload_kv_name }}
+      --name deployer-kv-name
   changed_when:                        false
   register:                            deployer_kv_name_secret
   when:                                bom_processing is not defined
