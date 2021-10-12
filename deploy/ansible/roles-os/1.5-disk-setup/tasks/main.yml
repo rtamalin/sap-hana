@@ -92,24 +92,35 @@
   register:                            vgscreated
   when:
     - tier == "sapos"
-  
 
 - name:                                "Filter the vg name from vgscreated results"
   ansible.builtin.set_fact:
     vgcreatedlist:                     "{{ vgscreated | json_query('results[*].item.vg') }}"
   when:
     - tier == "sapos"
-    - vgsgreated is defined
+
 # Debug for testing
 - name:                                "Print vgcreated details"
   ansible.builtin.debug:
-    var:
-      - vgcreatedlist
-      - logical_volumes
-      - vgscreated.results
+    var:                               vgscreated.results
     verbosity:                         2
   when:
     - tier == "sapos"
+
+- name:                                "Print vgcreated details"
+  ansible.builtin.debug:
+    var:                               vgcreatedlist
+    verbosity:                         2
+  when:
+    - tier == "sapos"
+
+- name:                                "Print vgcreated details"
+  ansible.builtin.debug:
+    var:                               logical_volumes
+    verbosity:                         2
+  when:
+    - tier == "sapos"
+
 
 # Debug testing end of line 
 
