@@ -65,6 +65,8 @@
           ansible.builtin.shell: >
             . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_cmd_for_tenant }}"
           when:                        backup_tenantdb
-      when:                            hana_has_tenant_db
+      when:                            
+        - hana_has_tenant_db is defined
+        - hana_has_tenant_db
 
   when:                                ansible_hostname == primary_instance_name #and not hana_system_replication_enabled

@@ -16,7 +16,6 @@ product_ids:
 materials:
   dependencies:
     - name:     HANA_2_00_055_v0004ms
-    - name:     SWPM20SP09_v0001ms
 
 #   templates:
     # - name:     X
@@ -94,6 +93,14 @@ materials:
       archive:      igshelper_17-10010245.sar
       path:         download_basket
       url:          https://softwaredownloads.sap.com/file/0020000000703122018
+
+   # SWPM
+    - name:         "SWPM20SP09; OS: Linux on x86_64 64bit"
+      archive:      SWPM20SP09_6-80003424.SAR
+      extract:      true
+      extractDir:   SWPM
+      creates:      SIGNATURE.SMF
+      url:          https://softwaredownloads.sap.com/file/0020000001436152021
 
     # DB Export
     - name:         "File on DVD"
