@@ -52,3 +52,8 @@
   ansible.builtin.debug:
     var:                               saphanasr
     verbosity:                         2
+
+- name:                                "HANA PCM Install: reset"
+  ansible.builtin.file:
+    path:                              /etc/sap_deployment_automation/sap_deployment_hana_pcm.txt
+    state:                             touch

@@ -198,6 +198,7 @@ resource "local_file" "sap-parameters_yml" {
     disks         = var.disks
     scs_ha        = var.scs_ha
     scs_lb_ip     = var.scs_lb_ip
+    ers_lb_ip     = var.ers_lb_ip
     db_lb_ip      = var.db_lb_ip
     db_ha         = var.db_ha
     dns           = local.dns_label
