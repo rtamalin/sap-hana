@@ -49,6 +49,10 @@
                                        crm configure clone cln_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ hdb_instance_number }}
                                        rsc_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ hdb_instance_number }}
                                        meta clone-node-max="1" target-role="Started" interleave="true"
+      register:                        SAPHanaTopology_cln
+      failed_when:                     SAPHanaTopology_cln.rc > 1
+
+
     - name:                            Ensure SAP HANA primitive resource is configured
       ansible.builtin.shell: >
                                        crm configure primitive rsc_SAPHana_{{ db_sid | upper }}_HDB{{ hdb_instance_number }}
@@ -65,6 +69,9 @@
                                        PREFER_SITE_TAKEOVER="true"
                                        DUPLICATE_PRIMARY_TIMEOUT="7200"
                                        AUTOMATED_REGISTER="false"
+      register:                        SAPHanaTopology_rsc
+      failed_when:                     SAPHanaTopology_rec.rc > 1
+
     - name:                            Ensure SAP HANA master-slave resource is configured
       ansible.builtin.shell: >
                                        crm configure ms msl_SAPHana_{{ db_sid | upper }}_HDB{{ hdb_instance_number }}

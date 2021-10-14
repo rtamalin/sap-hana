@@ -113,7 +113,7 @@ do
     -o | --storageaccountname)                 REMOTE_STATE_SA="$2"             ; shift 2 ;;
     -s | --subscription)                       subscription="$2"                ; shift 2 ;;
     -c | --spn_id)                             client_id="$2"                   ; shift 2 ;;
-    -v | --vault)                              keyvault="$2"                    ; shift 2 ;;
+    -v | --keyvault)                              keyvault="$2"                    ; shift 2 ;;
     -p | --spn_secret)                         spn_secret="$2"                  ; shift 2 ;;
     -a | --ado)                                called_from_ado=1                ; shift ;;
     -t | --tenant_id)                          tenant_id="$2"                   ; shift 2 ;;
