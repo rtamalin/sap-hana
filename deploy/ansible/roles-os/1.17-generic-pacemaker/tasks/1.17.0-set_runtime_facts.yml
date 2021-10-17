@@ -37,6 +37,25 @@
     resource_group_name:               "{{ jsondata | json_query('compute.resourceGroupName') }}"
   no_log:                              true
 
+- name:                                Extract VM Name
+  ansible.builtin.set_fact:
+    primary_vm_name:                  "{{ jsondata | json_query('compute.name') }}"
+  when:                               ansible_hostname == primary_instance_name
+  no_log:                             true
+
+- name:                                Extract VM Name
+  ansible.builtin.set_fact:
+    secondary_vm_name:                "{{ jsondata | json_query('compute.name') }}"
+  when:                               ansible_hostname == secondary_instance_name
+  no_log:                             true
+
+
+- name: "Extract ResourceGroup Name "
+  ansible.builtin.set_fact:
+    resource_group_name:               "{{ jsondata | json_query('compute.resourceGroupName') }}"
+  no_log:                              true
+
+
 - name:                                Set the primary intance db nic and admin nic IP
   ansible.builtin.set_fact:
     primary_instance_ip_db:            "{{ hostvars[primary_instance_name]['ansible_eth0']['ipv4']['address'] }}"
@@ -47,11 +66,14 @@
     secondary_instance_ip_db:          "{{ hostvars[secondary_instance_name]['ansible_eth0']['ipv4']['address'] }}"
     secondary_instance_ip_admin:       "{{ hostvars[secondary_instance_name]['ansible_eth1']['ipv4']['address'] }}"
 
-- name:                                "Show Subscription ID and Resource Group name"
+- name:                                "Show Subscription ID"
   ansible.builtin.debug:
-    var:
-      - sap_hana_fencing_spn_subscription_id
-      - resource_group_name
+    var:                                sap_hana_fencing_spn_subscription_id
+    verbosity:                         2
+
+- name:                                "Show Resource Group name"
+  ansible.builtin.debug:
+    var:                               resource_group_name
     verbosity:                         2
 
 # /*---------------------------------------------------------------------------8

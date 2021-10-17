@@ -22,7 +22,7 @@
     creates:                           /root/.ssh/id_rsa.pub
 
 - name:                                Ensure the Public SSH keys are available for exchanging SSH key trust between nodes
-  ansible.builtin.command:               cat /root/.ssh/id_rsa.pub
+  ansible.builtin.command:             cat /root/.ssh/id_rsa.pub
   register:                            cluster_public_ssh_key
   changed_when:                        false
 
