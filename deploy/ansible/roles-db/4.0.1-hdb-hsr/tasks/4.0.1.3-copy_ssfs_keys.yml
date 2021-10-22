@@ -69,6 +69,8 @@
           import_tasks:                4.0.1.3.0-copy_single_ssfs_key.yml
           vars:
             ssfs_file_path:            "{{ path_xsa_ssfs_key }}"
-      when:                            xsa_installed
+      when:                            
+        - xsa_installed is defined 
+        - xsa_installed
 
   when: not hana_system_replication_enabled

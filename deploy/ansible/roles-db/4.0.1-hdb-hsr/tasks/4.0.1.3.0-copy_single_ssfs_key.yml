@@ -44,16 +44,12 @@
     # Note that we use the IP of the primary node and not its hostname, because
     # it appears that the RTI attempts to resolve the hostname itself and fails.
 
-    - name:                            HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node
-#      become_user:                     "{{ db_sid | lower }}adm"
+    - name:                            "HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node"
+      become_user:                     "{{ db_sid | lower }}adm"
       become:                          true
-      synchronize:
-        src:                           "{{ ssfs_file_path }}"
-#        src:                           "{{ db_sid | lower }}adm@{{ primary_instance_ip_db }}:{{ ssfs_file_path }}"
-        dest:                          "{{ ssfs_file_path }}" #"{{ ssfs_file_path }}"
-        mode:                          pull
-        archive:                       true
-      delegate_to:                     "{{ primary_instance_ip_db }}"        
-      environment:
-        RSYNC_PASSWORD:                "{{ main_password }}"
+      ansible.builtin.shell: >         
+                                       export SSHPASS={{ main_password }};
+                                       sshpass -e scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no {{ db_sid | lower }}adm@{{ primary_instance_ip_db }}:{{ ssfs_file_path }} {{ ssfs_file_path }}
+      creates:                         "{{ ssfs_file_path }}"
+    
   when:                                ansible_hostname == secondary_instance_name
