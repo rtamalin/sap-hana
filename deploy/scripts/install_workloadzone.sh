@@ -834,6 +834,37 @@ save_config_var "landscape_tfstate_key" "${workload_config_information}"
 
 
 if [ 0 == $return_value ] ; then
+
+  keyvault=$(terraform -chdir="${terraform_module_directory}"  output workloadzone_kv_name | tr -d \")
+
+  return_value=-1
+  temp=$(echo "${keyvault}" | grep "Warning")
+  if [ -z "${temp}" ]
+  then
+      temp=$(echo "${keyvault}" | grep "Backend reinitialization required")
+      if [ -z "${temp}" ]
+      then
+  
+          printf -v val %-.20s "$keyvault"            
+  
+          echo ""
+          echo "#########################################################################################"
+          echo "#                                                                                       #"
+          echo -e "#                Keyvault to use for System details:$cyan $val $resetformatting                 #"
+          echo "#                                                                                       #"
+          echo "#########################################################################################"
+          echo ""
+  
+          save_config_var "workloadkeyvault" "${workload_config_information}"
+          return_value=0
+      else
+          return_value=-1
+      fi
+  fi
+  unset TF_DATA_DIR
+  exit $return_value
+
+
     if [ "$private_link_used" == "true" ]; then
         echo "#########################################################################################"
         echo "#                                                                                       #"

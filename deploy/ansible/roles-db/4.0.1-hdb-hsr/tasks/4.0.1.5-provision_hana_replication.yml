@@ -100,4 +100,4 @@
         - skip_ansible_lint
 
     - import_tasks:                    ../../../roles-misc/0.4-helpers/tasks/04.01-start_hana.yml
-  when:                                ansible_hostname == secondary_instance_name and not hana_system_replication_enabled
+  when:                                ansible_hostname == secondary_instance_name 

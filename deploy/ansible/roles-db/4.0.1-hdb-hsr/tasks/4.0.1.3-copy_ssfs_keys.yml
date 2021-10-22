@@ -8,7 +8,6 @@
 
 
 - name:                                HSR - Ensure the Primary node SSFS files are present on the primary node
-  when:                            ansible_hostname == primary_instance_name
   block:
 
     - name:                            HSR - Ensure the Primary node SSFS_{{ hdb_db_sid | upper }}.DAT file exists
@@ -24,21 +23,22 @@
       register:                        primary_key_file_result
       failed_when:                     primary_key_file_result.failed
       
-- name:                                HSR - Ensure the Primary node XSA SSFS_{{ db_sid | upper }}.DAT file exists
-  ansible.builtin.stat:
-    path:                              "{{ path_xsa_ssfs_dat }}"
-  register:                            primary_xsa_dat_file_result
-  failed_when:                         false
+    - name:                            HSR - Ensure the Primary node XSA SSFS_{{ db_sid | upper }}.DAT file exists
+      ansible.builtin.stat:
+        path:                          "{{ path_xsa_ssfs_dat }}"
+      register:                        primary_xsa_dat_file_result
+      failed_when:                     false
+    
+    - name:                            HSR - Ensure the Primary node XSA SSFS_{{ db_sid | upper }}.KEY file exists
+      ansible.builtin.stat:
+        path:                          "{{ path_xsa_ssfs_key }}"
+      register:                        primary_xsa_key_file_result
+      failed_when:                     false
 
-- name:                                HSR - Ensure the Primary node XSA SSFS_{{ db_sid | upper }}.KEY file exists
-  ansible.builtin.stat:
-    path:                              "{{ path_xsa_ssfs_key }}"
-  register:                            primary_xsa_key_file_result
-  failed_when:                         false
-
-- name:                                HSR - Ensure XSA install fact set
-  ansible.builtin.set_fact:
-    xsa_installed:                     "{{ (primary_xsa_dat_file_result.stat.exists and primary_xsa_key_file_result.stat.exists) | bool }}"
+    - name:                            HSR - Ensure XSA install fact set
+      ansible.builtin.set_fact:
+        xsa_installed:                 "{{ (primary_xsa_dat_file_result.stat.exists and primary_xsa_key_file_result.stat.exists) | bool }}"
+  when:                                ansible_hostname == primary_instance_name
     # Note. Both files need to be present to confirm xsa has been installed.
     # If both files are missing, we skip the xsa file copy tasks.
     # If only one file is present, the copy tasks will fail, which is sensible.

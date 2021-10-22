@@ -27,6 +27,17 @@
         state:                         absent
   when:                                ansible_hostname != primary_instance_name
 
+# - name:                                "HSR - Check {{ ssfs_file_path }}"
+#   ansible.builtin.stat:
+#     path:                              "{{ ssfs_file_path }}"
+#   register:                            ssfs_result
+
+
+# - name:                                "HSR - Debug Check {{ ssfs_file_path }}"
+#   ansible.builtin.debug:
+#     var:                               ssfs_result
+
+
 - name:                                HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node
   block:
 
@@ -34,11 +45,15 @@
     # it appears that the RTI attempts to resolve the hostname itself and fails.
 
     - name:                            HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node
+#      become_user:                     "{{ db_sid | lower }}adm"
+      become:                          true
       synchronize:
-        set_remote_user:               false
         src:                           "{{ ssfs_file_path }}"
-        dest:                          "{{ ssfs_file_path }}"
-        mode:                          push
+#        src:                           "{{ db_sid | lower }}adm@{{ primary_instance_ip_db }}:{{ ssfs_file_path }}"
+        dest:                          "{{ ssfs_file_path }}" #"{{ ssfs_file_path }}"
+        mode:                          pull
         archive:                       true
-      delegate_to:                     "{{ primary_instance_ip_db }}"
+      delegate_to:                     "{{ primary_instance_ip_db }}"        
+      environment:
+        RSYNC_PASSWORD:                "{{ main_password }}"
   when:                                ansible_hostname == secondary_instance_name
