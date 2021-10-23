@@ -1,5 +1,7 @@
 ---
 
+
+
 - name:                                HSR - Ensure replication status is active
   become_user:                         "{{ db_sid_admin_user }}"
   # Note: ideally we should be using set -o pipefail here (see for example https://xanmanning.co.uk/2019/03/21/ansible-lint-rule-306.html).
@@ -23,3 +25,17 @@
   ansible.builtin.debug:
     var:                               grep_result
     verbosity:                         2
+
+- name:                            HSR - Reset temporary changes to primary node 
+  ansible.builtin.lineinfile:
+    state:                         present
+    dest:                          /etc/ssh/sshd_config
+    regexp:                        'PasswordAuthentication yes'
+    line:                          'PasswordAuthentication no'
+  become:                          true
+  notify:
+    - restart sshd service
+  when:                            
+    - auth_is_changed is defined
+    - auth_is_changed
+    - ansible_hostname == primary_instance_name
