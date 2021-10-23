@@ -661,12 +661,6 @@ echo "##########################################################################
 if [ 5 == $step ]; then
     cd "${curdir}" || exit
     
-    echo "#########################################################################################"
-    echo "#                                                                                       #"
-    echo -e "#                         $cyan  Copying the parameterfiles $resetformatting                                 #"
-    echo "#                                                                                       #"
-    echo "#########################################################################################"
-    echo ""
     
     ssh_timeout_s=10
     
@@ -675,6 +669,12 @@ if [ 5 == $step ]; then
     load_config_vars "${deployer_config_information}" "deployer_public_ip_address"
     if [ "$this_ip" != "$deployer_public_ip_address" ] ; then
         # Only run this when not on deployer
+      echo "#########################################################################################"
+      echo "#                                                                                       #"
+      echo -e "#                         $cyan  Copying the parameterfiles $resetformatting                                 #"
+      echo "#                                                                                       #"
+      echo "#########################################################################################"
+      echo ""
     
         if [ ! -z ${sshsecret} ]
         then
