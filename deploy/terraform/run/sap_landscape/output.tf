@@ -7,7 +7,7 @@ output "landscape_key_vault_user_arm_id" {
 }
 
 output "workloadzone_kv_name" {
-  value = try(split("/", local.module.sap_landscape.kv_user)[8], "")
+  value = try(split("/", module.sap_landscape.kv_user)[8], "")
 }
 
 
