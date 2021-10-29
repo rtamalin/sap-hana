@@ -18,4 +18,32 @@
     line:                              DHCLIENT_SET_HOSTNAME="no"
   when:                                ansible_os_family|upper == 'SUSE'
 
+
+#----------------------------------------
+# BEGIN OLD CODE
+#----------------------------------------
+
+# The intention of the following is to map the hostname to the IP for the Admin NIC
+
+# - name: Create mapping between IP and hostname for HANA VMs
+#   run_once: true
+#   set_fact:
+#     hanadbnodes_dict: "{{ hanadbnodes_dict | combine({item.ip_admin_nic : item.dbname}) }}"
+#   loop: "{{ hana_database.nodes }}"
+
+# - name: Ensure the correct hostnames are set on HANA VMs
+#   hostname:
+#     name: "{{ hanadbnodes_dict[inventory_hostname] }}"
+#   when: ansible_hostname != hanadbnodes_dict[inventory_hostname]
+
+# # To prevent situation where setting hostname does not work 100%
+# - name: Check if the correct hostnames are set on HANA VMs
+#   fail:
+#     msg: "Hostname is not set properly for {{ inventory_hostname }}: should be {{ hanadbnodes_dict[inventory_hostname] }} but seen {{ ansible_hostname }}"
+#   when: ansible_hostname != hanadbnodes_dict[inventory_hostname]
+
+#----------------------------------------
+# END OLD CODE
+#----------------------------------------
+
 ...

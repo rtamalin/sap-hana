@@ -57,6 +57,16 @@
     state:                             absent
   when:                                reinstall
 
+- name:                                "SCS Install: install variables"
+  debug:
+    msg:                               "{{ sap_inifile }}"
+    verbosity:                         2
+
+- name:                                "SCS Install: install variables"
+  debug:
+    msg:                               "{{ bom.product_ids.scs }}"
+    verbosity:                         2
+
 
 # *====================================4=======================================8
 #   SAP SCS: Install

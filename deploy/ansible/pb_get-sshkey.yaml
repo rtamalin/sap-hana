@@ -44,7 +44,7 @@
 
 
   - name: Determine SSH key file path
-    ansible.builtin.set_fact:
+    set_fact:
       sshkey_path: >-
         {{ sshkey_file is abs |
            ternary(sshkey_file,

@@ -1,35 +1,33 @@
 ---
 
-# /*---------------------------------------------------------------------------8
-# |                                                                            |
-# | RHEL Clustering - Deploy HANA cluster resources
-# | Azure ref: https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability-rhel
-# | @TODO Subscribe to subscriptions/repos if required
-# | This code assumes the deployment is using RHEL SAP image
-# |                                                                            |
-# | SAP HANA Cluster resources
-# | https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability-rhel#create-sap-hana-cluster-resources
-# |                                                                            |
-# +------------------------------------4--------------------------------------*/
+# RHEL Clustering - Deploy HANA cluster resources
+# Azure ref: https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability-rhel
+
+# @TODO Subscribe to subscriptions/repos if required
+# This code assumes the deployment is using RHEL SAP image
+
+# SAP HANA Cluster resources
+# https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability-rhel#create-sap-hana-cluster-resources
 
 
-- name:                                Optimise the Pacemaker cluster for SAP HANA
+
+- name: Optimise the Pacemaker cluster for SAP HANA
   block:
-    - name:                            Enable Maintenance mode for the cluster
-      ansible.builtin.command:         pcs property set maintenance-mode=true
+    - name: Enable Maintenance mode for the cluster
+      ansible.builtin.shell: pcs property set maintenance-mode=true
 
-    - name:                            Ensure the SAP HANA Topology resource is created
+    - name: Ensure the SAP HANA Topology resource is created
       ansible.builtin.shell: >
-                                       pcs resource create SAPHanaTopology_{{ db_sid | upper }}_{{ hdb_instance_number }} SAPHanaTopology
-                                       SID={{ db_sid | upper }} InstanceNumber={{ hdb_instance_number }}
-                                       op start timeout=600
-                                       op stop timeout=300
-                                       op monitor interval=10 timeout=600
-                                       clone clone-max=2 clone-node-max=1 interleave=true
-      register:                        SAPHanaTopology
-      failed_when:                     SAPHanaTopology.rc > 1
+        pcs resource create SAPHanaTopology_{{ hdb_sid | upper }}_{{ hdb_instance_number }} SAPHanaTopology
+        SID={{ hdb_sid | upper }} InstanceNumber={{ hdb_instance_number }}
+        op start timeout=600
+        op stop timeout=300
+        op monitor interval=10 timeout=600
+        clone clone-max=2 clone-node-max=1 interleave=true
+      register:             SAPHanaTopology
+      failed_when:          SAPHanaTopology.rc > 1
 
-    - name:                            Ensure the SAP HANA resource is created
+    - name: Ensure the SAP HANA resource is created
       ansible.builtin.shell: >
                                        pcs resource create SAPHana_{{ db_sid | upper }}_{{ hdb_instance_number }} SAPHana
                                        SID={{ db_sid | upper }} InstanceNumber={{ hdb_instance_number }}
@@ -132,5 +130,5 @@
                                         '{{ secondary_instance.name }} {{ primary_instance_name }}' in hana_cluster_resource_check.stdout"
 
   when: ansible_hostname == primary_instance_name
-
-# End of HANA clustering resources
+    
+#End of HANA clustering resources 

@@ -1,7 +1,7 @@
 ---
 
 - name:     "SAP: File Permissions"
-  ansible.builtin.file:
+  file:
     path:   "{{ item.path }}"
     owner:  "{{ item.owner }}"
     group:  "{{ item.group }}"

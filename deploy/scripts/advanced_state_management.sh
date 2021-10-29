@@ -103,7 +103,7 @@ do
   case "$1" in
     -p | --parameterfile)                      parameterfile="$2"        ; shift 2 ;;
     -s | --subscription)                       subscription_id="$2"      ; shift 2 ;;
-    -a | --storage_account_name)                 storage_account_name="$2" ; shift 2 ;;
+    -a | --storage_account_name)               storage_account_name="$2" ; shift 2 ;;
     -k | --terraform_keyfile)                  key="$2"                  ; shift 2 ;;
     -t | --type)                               type="$2"                 ; shift 2 ;;
     -n | --tf_resource_name)                   moduleID="$2"             ; shift 2 ;;
@@ -183,11 +183,6 @@ then
     exit 67                                                                                             #addressee unknown
 fi
 
-if [ ! -z "${subscription_id}" ]
-then
-    $(az account set --sub "${subscription_id}")
-    account_set=1
-fi
 
 az_res=$(az resource show --ids "${resourceID}")
 return_value=$?
@@ -202,6 +197,12 @@ if [ 0 != $return_value ] ; then
     echo "#########################################################################################"
     unset TF_DATA_DIR
     exit $return_value
+fi
+
+if [ ! -z "${subscription_id}" ]
+then
+    $(az account set --sub "${subscription_id}")
+    account_set=1
 fi
 
 
@@ -266,7 +267,10 @@ if [ -n "${tf_resource}" ]; then
   fi
 fi
 
-terraform -chdir=${module_dir} import -var-file $(pwd)/"${parameterfile}" "${moduleID}" "${resourceID}"
+
+tfstate_parameter=" -var tfstate_resource_id=${tfstate_resource_id}"
+
+terraform -chdir=${module_dir} import -var-file $(pwd)/"${parameterfile}"  ${tfstate_parameter} "${moduleID}" "${resourceID}"
 
 return_value=$?
 if [ 0 != $return_value ] ; then

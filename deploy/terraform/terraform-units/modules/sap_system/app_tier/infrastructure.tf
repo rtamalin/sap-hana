@@ -70,8 +70,8 @@ resource "azurerm_lb_backend_address_pool" "scs" {
   count           = local.enable_scs_lb_deployment ? 1 : 0
   name            = format("%s%s%s", local.prefix, var.naming.separator, local.resource_suffixes.scs_alb_bepool)
   loadbalancer_id = azurerm_lb.scs[0].id
-
 }
+
 
 resource "azurerm_lb_probe" "scs" {
   provider            = azurerm.main
@@ -124,6 +124,7 @@ resource "azurerm_lb_rule" "scs" {
   backend_address_pool_id        = azurerm_lb_backend_address_pool.scs[0].id
   probe_id                       = azurerm_lb_probe.scs[0].id
   enable_floating_ip             = true
+  enable_tcp_reset               = true
 }
 
 # Create the ERS Load balancer rules only in High Availability configurations
@@ -140,6 +141,7 @@ resource "azurerm_lb_rule" "ers" {
   backend_address_pool_id        = azurerm_lb_backend_address_pool.scs[0].id
   probe_id                       = azurerm_lb_probe.scs[1].id
   enable_floating_ip             = true
+  enable_tcp_reset               = true
 }
 
 resource "azurerm_lb_rule" "clst" {
@@ -304,3 +306,24 @@ resource "azurerm_subnet_route_table_association" "subnet_sap_web" {
   subnet_id      = azurerm_subnet.subnet_sap_web[0].id
   route_table_id = var.route_table_id
 }
+
+resource "azurerm_private_dns_a_record" "scs" {
+  provider            = azurerm.deployer
+  count               = local.enable_scs_lb_deployment && length(local.dns_label) > 0 ? 1 : 0
+  name                = lower(format("%sscs%scl1", local.sid, local.scs_instance_number))
+  resource_group_name = local.dns_resource_group_name
+  zone_name           = local.dns_label
+  ttl                 = 300
+  records             = [try(azurerm_lb.scs[0].frontend_ip_configuration[0].private_ip_address, "")]
+}
+
+resource "azurerm_private_dns_a_record" "ers" {
+  provider            = azurerm.deployer
+  count               = local.enable_scs_lb_deployment && local.scs_high_availability && length(local.dns_label) > 0 ? 1 : 0
+  name                = lower(format("%sers%scl2", local.sid, local.ers_instance_number))
+  resource_group_name = local.dns_resource_group_name
+  zone_name           = local.dns_label
+  ttl                 = 300
+  records             = [try(azurerm_lb.scs[0].frontend_ip_configuration[1].private_ip_address, "")]
+}
+
