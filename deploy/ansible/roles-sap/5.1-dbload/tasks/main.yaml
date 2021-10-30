@@ -70,14 +70,14 @@
 # *====================================4=======================================8
 
 
-    - name:                            SAP DBLOAD install variables
+    - name:                            SAP DBLOAD variables
       ansible.builtin.debug:
         msg:
           - "{{ sap_inifile }}"
           - "{{ bom.product_ids.dbl }}"
         verbosity:                     2
 
-    - name:                            "SAP DBLOAD Install"
+    - name:                            "SAP DBLOAD"
       ansible.builtin.shell: |
                                        ./sapinst SAPINST_INPUT_PARAMETERS_URL=/usr/sap/install/downloads/{{ sap_inifile }}     \
                                                  SAPINST_EXECUTE_PRODUCT_ID={{ bom.product_ids.dbl }}                          \
@@ -93,7 +93,7 @@
       tags:
         - skip_ansible_lint
 
-    - name:                            "DBLOAD flag"
+    - name:                            "SAP DBLOAD flag"
       ansible.builtin.file:
         path:                          /etc/sap_deployment_automation/sap_deployment_dbload.txt
         state:                         touch
