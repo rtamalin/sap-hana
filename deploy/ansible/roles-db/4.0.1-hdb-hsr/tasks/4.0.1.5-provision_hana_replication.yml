@@ -44,7 +44,7 @@
       register:                        tenant_backup_file
       failed_when:                     not tenant_backup_file.stat.exists
       changed_when:                    false
-      when:                            
+      when:
         - hana_has_tenant_db is defined
         - hana_has_tenant_db
 
@@ -73,7 +73,7 @@
     - import_tasks:                    4.0.1.5.0-set_global_ini_values.yml
     - import_tasks:                   ../../../roles-misc/0.4-helpers/tasks/04.02-stop_hana.yml
     - import_tasks:                   ../../../roles-misc/0.4-helpers/tasks/04.01-start_hana.yml
-  when:                                ansible_hostname == primary_instance_name 
+  when:                                ansible_hostname == primary_instance_name
 
 - name:                                HSR - Ensure System Replication is configured command
   ansible.builtin.debug:
@@ -89,7 +89,6 @@
 
     - import_tasks:                   ../../../roles-misc/0.4-helpers/tasks/04.02-stop_hana.yml
 
-    # TODO: make replicationMode and operationMode configurable
     - name:                            HSR - Ensure Secondary node is registered as secondary in replication
       ansible.builtin.shell: >
         source ~/.bashrc ;
@@ -100,4 +99,4 @@
         - skip_ansible_lint
 
     - import_tasks:                    ../../../roles-misc/0.4-helpers/tasks/04.01-start_hana.yml
-  when:                                ansible_hostname == secondary_instance_name 
+  when:                                ansible_hostname == secondary_instance_name

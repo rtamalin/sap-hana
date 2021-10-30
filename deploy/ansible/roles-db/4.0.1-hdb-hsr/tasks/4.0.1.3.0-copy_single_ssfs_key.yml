@@ -20,6 +20,8 @@
         path:                          "{{ ssfs_file_path }}.bak"
         state:                         hard
       when:                            not ssfs_backup_result.stat.exists
+      tags:
+        - skip_ansible_lint
 
     - name:                            HSR - Ensure original {{ ssfs_file_path }} file is removed from the secondary node
       ansible.builtin.file:
@@ -27,18 +29,10 @@
         state:                         absent
   when:                                ansible_hostname != primary_instance_name
 
-- name:                                HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node
-  block:
-
-    # Note that we use the IP of the primary node and not its hostname, because
-    # it appears that the RTI attempts to resolve the hostname itself and fails.
-
-    - name:                            "HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node"
-      become_user:                     "{{ db_sid | lower }}adm"
-      become:                          true
-      ansible.builtin.shell: >         
-                                       export SSHPASS={{ main_password }};
-                                       sshpass -e scp -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no {{ db_sid | lower }}adm@{{ primary_instance_name }}:{{ ssfs_file_path }} {{ ssfs_file_path }}
-    
+- name:                                HSR - Ensure the primary node {{ ssfs_file_path }} file is placed on the secondary node (copy)
+  become_user:                         "{{ db_sid | lower }}adm"
+  become:                              true
+  ansible.builtin.copy:
+    src:                               "/tmp/{{ ssfs_file_path | basename }}"
+    dest:                              "{{ ssfs_file_path }}"
   when:                                ansible_hostname == secondary_instance_name
-

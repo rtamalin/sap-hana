@@ -1,20 +1,29 @@
 ---
 
-- name: HSR - Ensure backup directory exists for HANA database with System Identifier {{ hdb_sid }}
-  file:
-    path: "{{ hdb_sid_backup_dir }}"
-    state: directory
-    owner: "{{ hdb_sid_admin_user }}"
+# /*---------------------------------------------------------------------------8
+# |                                                                            |
+# |     Create HANA Backup                                                     |
+# |                                                                            |
+# +------------------------------------4--------------------------------------*/
 
-- name: HSR - Ensure backup is taken on primary node
+
+- name:                                HSR - Ensure backup directory exists for HANA database with System Identifier {{ hdb_sid }}
+  file:
+    path:                              "{{ db_sid_backup_dir }}"
+    state:                             directory
+    owner:                             "{{ db_sid_admin_user }}"
+  tags:
+    - skip_ansible_lint
+
+- name:                                HSR - Ensure backup is taken on primary node
   # If HSR is already enabled, we don't need to do this
-  become_user: "{{ hdb_sid_admin_user }}"
+  become_user:                          "{{ db_sid_admin_user }}"
   block:
     - name:                            "HSR - Check whether backup exists for SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.shell: >
-        . ~/.bashrc && {{ hdbsql_systemdb_command }} "{{ backup_exists_cmd_for_systemdb }}"
-      register: backup_exists_cmd_for_systemdb_result
-      changed_when: false
+                                       . ~/.bashrc && {{ hdbsql_systemdb_command }} "{{ backup_exists_cmd_for_systemdb }}"
+      register:                        backup_exists_cmd_for_systemdb_result
+      changed_when:                    false
 
     - name:                            "HSR - Debug: Check whether backup exists for SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.debug:
@@ -30,7 +39,7 @@
     - name:                            "HSR - Ensure backup exists for SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.set_fact:
         backup_systemdb:               "{{ ( backup_cmd_no_rows_found in backup_exists_cmd_for_systemdb_result.stdout) }}"
-    
+
     - name:                            "HSR - Debug: Check whether backup exists for SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.debug:
         var:                           backup_systemdb
@@ -59,7 +68,7 @@
           ansible.builtin.shell: >
             . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_cmd_for_tenant }}"
           when:                        backup_tenantdb
-      when:                            
+      when:
         - hana_has_tenant_db is defined
         - hana_has_tenant_db
 
