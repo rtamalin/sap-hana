@@ -54,6 +54,7 @@
       ansible.builtin.set_fact:
         tier:                          scs
         main_password:                 "{{ hostvars.localhost.sap_password }}"
+        scs_high_availability:         "{{ scs_high_availability }}"
       tags:
         - always
 

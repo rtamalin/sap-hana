@@ -7,7 +7,7 @@ component_medium=
 component_dirs=
 
 # Use single master password for all users, created during installation ( Default: n )
-use_master_password=n
+use_master_password=y
 
 # Directory root to search for components
 component_root={{ _rsp_component_root }}
@@ -63,10 +63,10 @@ install_ssh_key=y
 root_user=root
 
 # Root User Password For Remote Hosts
-root_password=
+root_password= {{ main_password }}
 
 # SAP Host Agent User (sapadm) Password
-sapadm_password=
+sapadm_password= {{ main_password }}
 
 # Directory containing a storage configuration
 storage_cfg=
@@ -120,7 +120,7 @@ max_mem=
 certificates_hostmap=
 
 # Master Password
-master_password=
+master_password={{ main_password }}
 
 # System Administrator Password
 password=

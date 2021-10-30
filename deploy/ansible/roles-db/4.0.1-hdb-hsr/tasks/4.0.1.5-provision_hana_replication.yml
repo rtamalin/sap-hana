@@ -6,6 +6,14 @@
 # |                                                                            |
 # +------------------------------------4--------------------------------------*/
 
+- name:                                DBG
+  debug:
+    msg: "source ~/.bashrc ;
+        {{ hdbnsutil_command }} -sr_register --remoteHost={{ primary_instance_name }}
+        --remoteInstance={{ hdb_instance_number }} --replicationMode={{ hana_replication_mode }}
+        --operationMode={{ hana_operation_mode }} --name=SITEB"
+
+
 
 - name:                                HSR - Ensure HANA 1.0 is configured for System Replication
   become_user:                         "{{ db_sid_admin_user }}"

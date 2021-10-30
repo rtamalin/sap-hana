@@ -39,6 +39,7 @@
 - name:                                HSR - Debug replication status
   ansible.builtin.debug:
     var:                               hana_system_replication_enabled
+    verbosity:                         2
 
 - name:                                HSR - Check on the primary node whether installed HANA is single container or multi-container
   block:

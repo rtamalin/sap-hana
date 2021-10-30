@@ -1,0 +1,3 @@
+---
+
+scs_virtual_hostname: "{% if not scs_high_availability %}{{ sap_sid | lower }}scs{{ scs_instance_number }}cl1{% else %}{{ query('inventory_hostnames', '{{ sap_sid|upper }}_SCS') | first }}{% endif %}"

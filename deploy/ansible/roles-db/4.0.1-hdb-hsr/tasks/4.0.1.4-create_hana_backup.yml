@@ -6,8 +6,7 @@
 # |                                                                            |
 # +------------------------------------4--------------------------------------*/
 
-
-- name:                                HSR - Ensure backup directory exists for HANA database with System Identifier {{ hdb_sid }}
+- name:                                "HSR - Ensure backup directory exists for HANA database with System Identifier {{ db_sid }}
   file:
     path:                              "{{ db_sid_backup_dir }}"
     state:                             directory
@@ -35,7 +34,6 @@
         var:                           backup_exists_cmd_for_systemdb_result.stdout
         verbosity:                     2
 
-
     - name:                            "HSR - Ensure backup exists for SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.set_fact:
         backup_systemdb:               "{{ ( backup_cmd_no_rows_found in backup_exists_cmd_for_systemdb_result.stdout) }}"
@@ -46,19 +44,19 @@
 
     - name:                            "HSR - Backup SYSTEMDB database for System Identifier {{ db_sid }}"
       ansible.builtin.shell: >
-        . ~/.bashrc && {{ hdbsql_systemdb_command }} "{{ backup_cmd_for_systemdb }}"
+                                       . ~/.bashrc && {{ hdbsql_systemdb_command }} "{{ backup_cmd_for_systemdb }}"
       vars:
-        # Note. Conditional bare variables deprecation notice is supressed here by ansible.cfg
+        # Note. Conditional bare variables deprecation notice is suppressed here by ansible.cfg
         backup_required:               "('{{ backup_cmd_no_rows_found }}' in backup_exists_cmd_for_systemdb_result.stdout)"
       when:                            backup_required
 
-    - name: HSR - Check if there is a tenant db needing backup
+    - name:                            HSR - Check if there is a tenant db needing backup
       block:
         - name:                        "HSR - Check whether backup exists for tenant {{ hana_tenant_database_name }} database for System Identifier {{ db_sid }}"
           ansible.builtin.shell: >
-            . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_exists_cmd_for_tenant }}"
-          register: backup_exists_cmd_for_tenant_result
-          changed_when: false
+                                       . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_exists_cmd_for_tenant }}"
+          register:                    backup_exists_cmd_for_tenant_result
+          changed_when:                false
 
         - name:                        "HSR - Check whether backup exists for tenant {{ hana_tenant_database_name }} database for System Identifier {{ db_sid }}"
           ansible.builtin.set_fact:
@@ -66,7 +64,7 @@
 
         - name:                        "HSR - Backup {{ hana_tenant_database_name }} database for System Identifier {{ db_sid }}"
           ansible.builtin.shell: >
-            . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_cmd_for_tenant }}"
+                                       . ~/.bashrc && {{ hdbsql_tenant_command }} "{{ backup_cmd_for_tenant }}"
           when:                        backup_tenantdb
       when:
         - hana_has_tenant_db is defined

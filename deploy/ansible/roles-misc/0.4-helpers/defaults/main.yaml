@@ -1,2 +1,7 @@
-# HANA utility commands
-sapcontrol_command: "sapcontrol -nr {{ hdb_instance_number }}"
+
+
+# /*---------------------------------------------------------------------------8
+# |                           HANA utility commands                            |
+# +------------------------------------4--------------------------------------*/
+
+sapcontrol_command:                    "sapcontrol -nr {{ hdb_instance_number }}"

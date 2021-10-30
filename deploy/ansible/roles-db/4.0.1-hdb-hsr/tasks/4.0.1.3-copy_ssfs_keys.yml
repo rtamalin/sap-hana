@@ -50,11 +50,12 @@
       notify:
         - restart sshd service
 
-    - name:                            HSR - Temporary changes to primary node
+    - name:                            HSR - Temporary changes to primary node (debug)
       ansible.builtin.debug:
         var:                           auth_changed
+        verbosity:                     2
 
-    - name:                            HSR - Temporary changes to primary node
+    - name:                            HSR - Temporary changes to primary node (save)
       ansible.builtin.set_fact:
         auth_is_changed:               "{{ auth_changed.changed | bool }}"
 

@@ -111,7 +111,7 @@
   loop:                                "{{ bom.materials.media|flatten(levels=1) }}"
   vars:
     ansible_python_interpreter:        "{{ python_version }}"
-  when:                                
+  when:
     - item.download is undefined or item.download
     - "distro_id == 'suse15'"
 
@@ -129,7 +129,7 @@
   retries:                             2
   delay:                               5
   loop:                                "{{ bom.materials.media|flatten(levels=1) }}"
-  when:                                
+  when:
     - item.download is undefined or item.download
     - distro_id != 'suse15'
 
