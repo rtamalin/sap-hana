@@ -38,6 +38,8 @@
   ansible.builtin.set_fact:
     scs_virtual_hostname:              "{{ sap_sid | lower }}scs{{ scs_instance_number }}cl1"
     ers_virtual_hostname:              "{{ sap_sid | lower }}ers{{ ers_instance_number }}cl2"
+  when:
+    - scs_high_availability
 
 - name:                                "Hostname: Setup Virtual host name resolution - SCS & ERS"
   ansible.builtin.blockinfile:
@@ -52,6 +54,5 @@
   when:
     - scs_high_availability
     - node_tier in ['hana', 'pas']
-
 
 ...
