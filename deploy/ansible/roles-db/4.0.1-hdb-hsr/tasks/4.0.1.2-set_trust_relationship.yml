@@ -1,7 +1,10 @@
 ---
 
-# Configure SSH Keys for inter-node communication as root
-
+# /*---------------------------------------------------------------------------8
+# |                                                                            |
+# |     Set trust relationship
+# |                                                                            |
+# +------------------------------------4--------------------------------------*/
 
 - name:                                HSR - Ensure ssh keys on both nodes
   block:
@@ -9,47 +12,40 @@
       ansible.builtin.stat:
         path:                          "~/.ssh/id_rsa"
       register:                        id_rsa_file_status
+      failed_when:                     false
 
     - name:                            HSR - Check for existence of id_rsa.pub file
       ansible.builtin.stat:
         path:                          "~/.ssh/id_rsa.pub"
       register:                        id_rsa_file_pub_status
+      failed_when:                     false
 
     - name:                            HSR - Ensure key pair files exist
       ansible.builtin.shell: >
                                        ssh-keygen -b 4096 -t rsa -f ~/.ssh/id_rsa -q -N ""
-      when:                            not id_rsa_file_status.stat.exists
-      args:
-        creates:                       /root/.ssh/id_rsa
-
-    - name:                            Ensure there is a public key for the root user SSH key
-      ansible.builtin.shell:           ssh-keygen -f /root/.ssh/id_rsa -y > /root/.ssh/id_rsa.pub
-      when:                            not id_rsa_file_pub_status.stat.exists
-      args:
-        creates:                       /root/.ssh/id_rsa.pub
+      when: not (id_rsa_file_status.stat.exists or id_rsa_file_pub_status.stat.exists)
 
     - name:                            HSR - Ensure the Public SSH key is stored in a variable
-      ansible.builtin.shell:           cat ~/.ssh/id_rsa.pub
-      register:                        "public_ssh_key" 
+      ansible.builtin.command:         cat ~/.ssh/id_rsa.pub
+      register:                        "public_ssh_key"
+      changed_when:                    false
 
-    - name:                            "HSR - Show key {{ ansible_hostname }}" 
+    - name:                            HSR - Show key {{ ansible_hostname }}
       ansible.builtin.debug:
         var:                           public_ssh_key.stdout
-        verbosity: 4
+        verbosity:                     4
 
     - name:                            HSR - Ensure the primary node public key is on the secondary node
       ansible.builtin.authorized_key:
         user:                          "root"
         key:                           "{{ hostvars[primary_instance_name].public_ssh_key.stdout }}"
-      when:                            ansible_hostname == secondary_instance_name
+      when: ansible_hostname == secondary_instance_name
 
     - name:                            HSR - Ensure the secondary node public key is on the primary node
       ansible.builtin.authorized_key:
         user:                          "root"
         key:                           "{{ hostvars[secondary_instance_name].public_ssh_key.stdout }}"
-      when: 
-        - ansible_hostname == primary_instance_name
-        - hostvars[secondary_instance_name].public_ssh_key is defined
+      when: ansible_hostname == primary_instance_name
 
     - name:                            HSR - Ensure trust relationship is working from primary to secondary
       ansible.builtin.shell: >
@@ -57,7 +53,7 @@
       register:                        primary_to_secondary_ssh_result
       changed_when:                    false
       failed_when:                     primary_to_secondary_ssh_result.stdout_lines[0] != secondary_instance_name
-      when:                            ansible_hostname == primary_instance_name
+      when: ansible_hostname == primary_instance_name
 
     - name:                            HSR - Ensure trust relationship is working from secondary to primary
       ansible.builtin.shell: >
@@ -65,6 +61,9 @@
       register:                        secondary_to_primary_ssh_result
       changed_when:                    false
       failed_when:                     secondary_to_primary_ssh_result.stdout_lines[0] != primary_instance_name
-      when: 
-        - ansible_hostname == secondary_instance_name
-        - hostvars[secondary_instance_name].public_ssh_key is defined
+      when: ansible_hostname == secondary_instance_name
+
+
+- name:                                HSR - prompt
+  ansible.builtin.pause:
+    prompt:                            "Press any key to continue "

@@ -6,14 +6,15 @@
   #   However, the python script returns a status of 15 (!), which breaks the pipeline. Consequently,
   #   no pipefail option and elect to skip Ansible linting of this task.
   ansible.builtin.shell: |
-                                       source ~/.bashrc
-                                       cdpy
-                                       (python systemReplicationStatus.py; echo) | grep -q 'overall system replication status: ACTIVE'
+    source ~/.bashrc
+    cdpy
+    (python systemReplicationStatus.py; echo) | grep -q 'overall system replication status: ACTIVE'
   register:                            grep_result
-  until:                               grep_result.rc == 0
+  until:                               grep_result.rc == 0 or grep_result.rc == 1
+  failed_when:                         grep_result.rc != 0 and grep_result.rc != 1
   changed_when:                        false
-  retries:                             30
-  delay:                               30
+  retries:                             10
+  delay:                               5
   when:                                ansible_hostname == primary_instance_name
   tags:
     - skip_ansible_lint
@@ -22,17 +23,3 @@
   ansible.builtin.debug:
     var:                               grep_result
     verbosity:                         2
-
-- name:                            HSR - Reset temporary changes to primary node
-  ansible.builtin.lineinfile:
-    state:                         present
-    dest:                          /etc/ssh/sshd_config
-    regexp:                        'PasswordAuthentication yes'
-    line:                          'PasswordAuthentication no'
-  become:                          true
-  notify:
-    - restart sshd service
-  when:
-    - auth_is_changed is defined
-    - auth_is_changed
-    - ansible_hostname == primary_instance_name
