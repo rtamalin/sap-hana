@@ -53,6 +53,6 @@
     marker:                           "# {mark} ASCS/ERS Entries {{ scs_virtual_hostname }}"
   when:
     - scs_high_availability
-    - node_tier in ['hana', 'pas']
+    - node_tier in ['hana', 'pas', 'app', 'web']
 
 ...

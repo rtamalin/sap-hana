@@ -44,7 +44,7 @@
       register:                        tenant_backup_file
       failed_when:                     not tenant_backup_file.stat.exists
       changed_when:                    false
-      when:                            
+      when:
         - hana_has_tenant_db is defined
         - hana_has_tenant_db
 
@@ -73,7 +73,7 @@
     - import_tasks:                    4.0.1.5.0-set_global_ini_values.yml
     - import_tasks:                   ../../../roles-misc/0.4-helpers/tasks/04.02-stop_hana.yml
     - import_tasks:                   ../../../roles-misc/0.4-helpers/tasks/04.01-start_hana.yml
-  when:                                ansible_hostname == primary_instance_name 
+  when:                                ansible_hostname == primary_instance_name
 
 - name:                                HSR - Ensure System Replication is configured command on secondary
   ansible.builtin.debug:
@@ -100,13 +100,6 @@
         - skip_ansible_lint
 
     - import_tasks:                    ../../../roles-misc/0.4-helpers/tasks/04.01-start_hana.yml
-  when:                                
-    - ansible_hostname == secondary_instance_name 
+  when:
+    - ansible_hostname == secondary_instance_name
     - not hana_system_replication_enabled
-#hdbnsutil -sr_register --remoteHost=rh8dxdb00l0d22 --remoteInstance=00 --replicationMode=sync  --operationMode=logreplay --name=SITEB
-
-#sshpass -e seWdqb17uEjcf cp xdbadm@rh8dxdb00l0d22:usr/sap/XDB/SYS/global/security/rsecssfs/data/SSFS_XDB.DAT /usr/sap/XDB/SYS/global/security/rsecssfs/data/SSFS_XDB.DAT
-
-- name:                                HSR - prompt
-  ansible.builtin.pause:
-    prompt:                            "Press any key to continue "

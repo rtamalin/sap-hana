@@ -35,7 +35,6 @@
   failed_when:                         hana_process_list_result.rc != 3
   changed_when:                        false
 
-
 - name:                                HSR - Check whether replication has already been set up
   become_user:                         "{{ db_sid_admin_user }}"
   ansible.builtin.shell: |
@@ -44,8 +43,9 @@
                                        python systemReplicationStatus.py | grep 'this system is not a system replication site'
   register:                            hana_replication_status
   failed_when:                         false
+  changed_when:                        false
 
-- name:                                HSR - Debug replication status 
+- name:                                HSR - Debug replication status
   ansible.builtin.debug:
     var:                               hana_replication_status
     verbosity:                         2
@@ -54,7 +54,7 @@
   ansible.builtin.set_fact:
     hana_system_replication_enabled:   "{{ hana_replication_status.rc != 0 }}"
 
-- name:                                HSR - Debug replication status 
+- name:                                HSR - Debug replication status
   ansible.builtin.debug:
     var:                               hana_system_replication_enabled
     verbosity:                         2
@@ -99,7 +99,7 @@
       # At the moment it's sufficient to check for a missing SYSTEMDB, since the
       # code will cope with a missing tenant DB.
       when: not hana_has_system_db
-  when: 
+  when:
     - ansible_hostname == primary_instance_name
     - not hana_system_replication_enabled
 
@@ -110,9 +110,9 @@
                                        source ~/.bashrc ;
                                        {{ hdbsql_systemdb_command }} '{{ dummy_cmd }}'
   changed_when:                        false
-  when: 
-  - ansible_hostname == primary_instance_name
-  - not hana_system_replication_enabled
+  when:
+    - ansible_hostname == primary_instance_name
+    - not hana_system_replication_enabled
 
 - name:                                HSR - Check that HANA DB SYSTEM user can access the tenant database {{ hana_tenant_database_name }}
   # If HSR is already enabled, we cannot read from the secondary node
@@ -123,7 +123,7 @@
   changed_when:                        false
   when:
     - hana_has_tenant_db is defined and hana_has_tenant_db
-    - ansible_hostname == primary_instance_name 
+    - ansible_hostname == primary_instance_name
     - not hana_system_replication_enabled
 
 - name:                                HSR - Check HANA log mode is set to normal
@@ -135,7 +135,7 @@
   register:                            log_mode_status
   failed_when:                         log_mode_status.rc != 0 or ("normal" not in log_mode_status.stdout)
   changed_when:                        false
-  when: 
+  when:
     - ansible_hostname == primary_instance_name
     - not hana_system_replication_enabled
   tags:

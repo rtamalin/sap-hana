@@ -32,11 +32,6 @@
   loop:
     - { file: 'SSFS_{{ db_sid | upper }}.DAT', folder: '/usr/sap/{{ db_sid | upper }}/SYS/global/xsa/security/ssfs/data/' }
     - { file: 'SSFS_{{ db_sid | upper }}.KEY', folder: '/usr/sap/{{ db_sid | upper }}/SYS/global/xsa/security/ssfs/key/' }
-  when:   
+  when:
     - ansible_hostname == primary_instance_name
     - hostvars[primary_instance_name]['primary_xsa_file_result'].stat.exists
-
-
-- name:                                HSR - prompt
-  ansible.builtin.pause:
-    prompt:                            "Press any key to continue "
