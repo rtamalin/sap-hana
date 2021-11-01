@@ -81,14 +81,12 @@ PS3='Please select playbook: '
 options=(
 
         # Special menu entries
-        "BOM Validator"
         "BOM Downloader"
         "Quit"
 )
 
 # List of all possible playbooks
 all_playbooks=(
-        ${cmd_dir}/playbook_bom_validator.yaml
         ${cmd_dir}/playbook_bom_downloader.yaml
 )
 
