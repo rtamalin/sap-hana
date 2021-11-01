@@ -15,9 +15,9 @@
   register:                            rscagentpatch
   become:                              true
   when:
-    - distro_full_id == "suse12.1" 
+    - distro_full_id == "suse12.1"
 
-- name:                                "SLES - Update SAP resource agents - Ref - Bugzilla 1036486 - SLES 12 SP1" 
+- name:                                "SLES - Update SAP resource agents - Ref - Bugzilla 1036486 - SLES 12 SP1"
   ansible.builtin.command:             sudo zypper in -t patch SUSE-SLE-HA-12-SP1-2017-885=1
   when:
     - distro_full_id == "suse12.1"

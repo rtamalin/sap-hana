@@ -96,7 +96,7 @@
 # If Microsoft supplied BOM template found
 - name:                                "Deploy parameter file install template for {{ node_tier | upper }} tier"
   ansible.builtin.template:
-    src:                               "{% if microsoft_supplied_bom_template.stat.exists %}{{ microsoft_supplied_bom_template.stat.path }}{% else %}{{ microsoft_supplied_bom_template_archive.stat.path }}{% endif %}" 
+    src:                               "{% if microsoft_supplied_bom_template.stat.exists %}{{ microsoft_supplied_bom_template.stat.path }}{% else %}{{ microsoft_supplied_bom_template_archive.stat.path }}{% endif %}"
     dest:                              /usr/sap/install/downloads/{{ sap_inifile }}
     mode:                              0644
     force:                             true

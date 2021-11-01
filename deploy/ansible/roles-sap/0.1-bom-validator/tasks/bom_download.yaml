@@ -33,10 +33,10 @@
   delegate_to:                         localhost
   register:                            azresult
   ignore_errors:                       true
-  failed_when:                         
-   - azresult.rc != 0 
-   - azresult.stderr is defined
-   - azresult.stderr.find("BlobAlreadyExists") == -1
+  failed_when:
+    - azresult.rc != 0
+    - azresult.stderr is defined
+    - azresult.stderr.find("BlobAlreadyExists") == -1
   when:
     - item.archive is defined
 

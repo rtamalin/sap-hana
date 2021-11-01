@@ -42,7 +42,7 @@
       ansible.builtin.debug:
         var:                            ensa2
 
-  when: 
+  when:
     - inventory_hostname == primary_instance_name
     - 1 == 2
 

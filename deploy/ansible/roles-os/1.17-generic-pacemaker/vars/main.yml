@@ -28,7 +28,7 @@ cluster_quorum:
 # |                                                                            |
 # +------------------------------------4--------------------------------------*/
 
-cluster_SAPHana_timeouts:
+cluster_sap_hana_timeouts:
   start:                              3600
   stop:                               3600
   monitor_master:                     700

@@ -13,7 +13,7 @@ cluster_quorum:
 
 # These are the default timeouts used for the SAP SCS OS clustering. Depending on the
 # SAP SCS System, these may need to be adjusted if the operation takes longer than expected.
-cluster_SAPSCS_timeouts:
+cluster_sap_scs_timeouts:
   start:          60s
   stop:           60s
   monitor_master: 700

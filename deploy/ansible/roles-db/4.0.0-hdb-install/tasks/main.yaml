@@ -97,7 +97,7 @@
         main_password:                 " {{ main_password }}"
 
     - name:                            "SAP HANA: Execute hdblcm on {{ ansible_hostname }}"
-      ansible.builtin.command:         "./hdblcm --batch --action=install  --configfile='{{ dir_params }}/hdbserver_{{ ansible_hostname }}_{{ sap_sid }}_install.rsp' 
+      ansible.builtin.command:         "./hdblcm --batch --action=install  --configfile='{{ dir_params }}/hdbserver_{{ ansible_hostname }}_{{ sap_sid }}_install.rsp'
                                          --batch"
       args:
         chdir:                         "/usr/sap/install/CD_HDBSERVER/SAP_HANA_DATABASE"
@@ -119,7 +119,7 @@
       ansible.builtin.file:
         path:                          /etc/sap_deployment_automation/sap_deployment_hdb.txt
         state:                         touch
-        mode:                          0755        
+        mode:                          0755
 
   when:
     - not hana_installed.stat.exists

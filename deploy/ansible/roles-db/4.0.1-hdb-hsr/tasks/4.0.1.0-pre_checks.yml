@@ -37,13 +37,13 @@
 
 - name:                                HSR - Check whether replication has already been set up
   become_user:                         "{{ db_sid_admin_user }}"
-  ansible.builtin.shell: |
-                                       source ~/.bashrc
-                                       cdpy
-                                       python systemReplicationStatus.py | grep 'this system is not a system replication site'
+  become:                              true
+  ansible.builtin.shell: >
+                                       source ~/.bashrc ;
+                                       hdbnsutil -sr_state | grep 'attached: true'
   register:                            hana_replication_status
-  failed_when:                         false
   changed_when:                        false
+  failed_when:                         hana_replication_status.rc != 1
 
 - name:                                HSR - Debug replication status
   ansible.builtin.debug:
@@ -52,12 +52,11 @@
 
 - name:                                HSR - Ensure current replication status is known
   ansible.builtin.set_fact:
-    hana_system_replication_enabled:   "{{ hana_replication_status.rc != 0 }}"
+    hana_system_replication_enabled:   "{{ hana_replication_status.rc == 0 }}"
 
 - name:                                HSR - Debug replication status
   ansible.builtin.debug:
-    var:                               hana_system_replication_enabled
-    verbosity:                         2
+    msg:                               "HSR Replication status: {{ hana_system_replication_enabled }}"
 
 - name:                                HSR - Check on the primary node whether installed HANA is single container or multi-container
   block:

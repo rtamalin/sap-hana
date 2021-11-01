@@ -208,5 +208,6 @@ module "output_files" {
   sap_mnt               = module.common_infrastructure.sapmnt_path
   sap_transport         = module.common_infrastructure.saptransport_path
   ers_lb_ip             = module.app_tier.ers_lb_ip
+  bom_name              = var.bom_name
 
 }

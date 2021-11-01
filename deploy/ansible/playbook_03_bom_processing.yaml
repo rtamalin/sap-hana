@@ -2,33 +2,32 @@
 # |                                                                            |
 # |                         PREPARATION FOR BOM PROCESSING                         |
 # |                                                                            |
+# |                         RESET LOGGING                                      |
+# |                                                                            |
 # +------------------------------------4--------------------------------------*/
 ---
 
-- hosts: localhost
-  name: Get Storage account details from KeyVault
-  remote_user:    "{{ orchestration_ansible_user }}"
-  become:         false
-  become_user:    root
-  gather_facts:   true
+- hosts:                               localhost
+  name:                                Get Storage account details from KeyVault
+  gather_facts:                        false
   vars_files:
     - vars/ansible-input-api.yaml                               # API Input template with defaults
   tasks:
 
-    - name: Set 'sa' tier
+    - name:                            Set 'sa' tier
       ansible.builtin.set_fact:
-        tier:  sa
+        tier:                          sa
 
     - block:
-        - name: Remove .step3 flag
+        - name:                        Remove .step3 flag
           ansible.builtin.file:
-            path: "{{ _workspace_directory }}/.step3"
-            state: absent
+            path:                      "{{ _workspace_directory }}/.step3"
+            state:                     absent
 
-        - name: Include 0.3.sap-installation-media-storage-details role
+        - name:                        Include 0.3.sap-installation-media-storage-details role
           ansible.builtin.include_role:
-            name:     roles-misc/0.3.sap-installation-media-storage-details
-            public:   true
+            name:                      roles-misc/0.3.sap-installation-media-storage-details
+            public:                    true
           tags:
             - 0.3.sap-installation-media-storage-details
 
@@ -38,32 +37,15 @@
 # |                                                                            |
 # +------------------------------------4--------------------------------------*/
 
-- hosts: localhost
-  name: Remove logger
-  remote_user:    "{{ orchestration_ansible_user }}"
-  become:         no
-  become_user:    root
-  gather_facts:   yes
+- hosts:                               "{{ sap_sid|upper }}_SCS"
+
+  name:                                BOM Processing
+  remote_user:                         "{{ orchestration_ansible_user }}"
+  become:                              true
+  become_user:                         root
+  gather_facts:                        true
   vars_files:
     - vars/ansible-input-api.yaml                               # API Input template with defaults
-  tasks:
-  - ansible.builtin.file:
-      path: "{{ _workspace_directory }}/.step3"
-      state: absent
-
-
-
-
-- hosts:          "{{ sap_sid|upper }}_SCS"
-
-  name:           BOM Processing
-  remote_user:    "{{ orchestration_ansible_user }}"
-  become:         true
-  become_user:    root
-  gather_facts:   true
-  vars_files:
-    - vars/ansible-input-api.yaml                               # API Input template with defaults
-
 
   tasks:
 # -------------------------------------+---------------------------------------8
@@ -74,17 +56,15 @@
 
     - name: Set facts
       ansible.builtin.set_fact:
-        tier:                         preparation
-        sapbits_location_base_path:   "{{ hostvars.localhost.sapbits_location_base_path }}"
-        sapbits_sas_token:            "{{ hostvars.localhost.sapbits_sas_token }}"
+        tier:                          preparation
+        sapbits_location_base_path:    "{{ hostvars.localhost.sapbits_location_base_path }}"
+        sapbits_sas_token:             "{{ hostvars.localhost.sapbits_sas_token }}"
 
-    - block:
-        - name: Include the 3.3-bom-processing role
+    - name:                            3.3-bom-processing role
+      block:
+        - name:                        Include the 3.3-bom-processing role
           ansible.builtin.include_role:
-            name:     roles-sap/3.3-bom-processing
-          # vars:
-          #   sapbits_location_base_path: "{{ hostvars.localhost.sapbits-location-base-path }}"
-          #   sapbits_sas_token:          "{{ hostvars.localhost.sapbits_sas_token }}"
+            name:                      roles-sap/3.3-bom-processing
           tags:
             - 3.3-bom-processing
 
@@ -95,21 +75,18 @@
 # +------------------------------------4--------------------------------------*/
 
 
-- hosts: localhost
-  name: Log results
-  remote_user:    "{{ orchestration_ansible_user }}"
-  become:         false
-  become_user:    root
-  gather_facts:   false
+- hosts:                               localhost
+  name:                                Log results
+  gather_facts:                        false
   vars_files:
     - vars/ansible-input-api.yaml                               # API Input template with defaults
 
   tasks:
-    - name: Create .step3 flag
+    - name:                            Create .step3 flag
       ansible.builtin.file:
-        path:     "{{ _workspace_directory }}/.step3"
-        state:    touch
-        mode:     0755
+        path:                          "{{ _workspace_directory }}/.step3"
+        state:                         touch
+        mode:                          0755
 
 ...
 # /*---------------------------------------------------------------------------8

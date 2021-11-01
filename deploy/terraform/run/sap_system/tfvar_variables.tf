@@ -547,4 +547,8 @@ variable "hana_dual_nics" {
   default = true
 }
 
+variable "bom_name" {
+  default = ""
+}
+
 

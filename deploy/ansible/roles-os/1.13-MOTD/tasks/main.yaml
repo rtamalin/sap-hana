@@ -41,7 +41,7 @@
 #
 # -------------------------------------+---------------------------------------8
 - name:                                Update motd banners
-  ansible.builtin.copy:                
+  ansible.builtin.copy:
     src:                               files/motd
     dest:                              /etc/motd
     owner:                             root

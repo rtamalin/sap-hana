@@ -33,7 +33,7 @@
 # If Microsoft supplied BOM found
 - name:                                Register Microsoft Supplied BOM {{ bom_name }}
   ansible.builtin.include_vars:
-    file:                              "{% if microsoft_supplied_bom.stat.exists %}{{ microsoft_supplied_bom.stat.path }}{% else %}{{ microsoft_supplied_bom_archive.stat.path }}{% endif %}" 
+    file:                              "{% if microsoft_supplied_bom.stat.exists %}{{ microsoft_supplied_bom.stat.path }}{% else %}{{ microsoft_supplied_bom_archive.stat.path }}{% endif %}"
     name:                              bom
   when:                                microsoft_supplied_bom.stat.exists or microsoft_supplied_bom_archive.stat.exists
 

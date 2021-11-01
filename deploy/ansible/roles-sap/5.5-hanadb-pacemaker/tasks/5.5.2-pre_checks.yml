@@ -53,11 +53,11 @@
 - name:                                "HANA PCM Install: check if deployed"
   ansible.builtin.stat:
     path:                              /etc/sap_deployment_automation/sap_deployment_hana_pcm.txt
-  register:                            hanaPCM
+  register:                            hana_pacemaker
 
 - name:                                Check if a cluster has already been prepared (save)
   ansible.builtin.set_fact:
-    hana_cluster_existence_check:      "{{ hanaPCM.stat.exists }}"
+    hana_cluster_existence_check:      "{{ hana_pacemaker.stat.exists }}"
 
 - name:                                Check if a cluster has already been prepared (show)
   ansible.builtin.debug:

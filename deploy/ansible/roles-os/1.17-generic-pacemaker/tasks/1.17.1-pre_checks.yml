@@ -41,11 +41,11 @@
   failed_when:                         false
 
 - name:                                Save settings
-  ansible.builtin.set_fact: 
+  ansible.builtin.set_fact:
     cluster_existence_check:           "{{ cluster_existence_check_result.rc | int }}"
 
 - name:                                Check if a cluster has already been prepared
-  ansible.builtin.debug: 
+  ansible.builtin.debug:
     var:                               cluster_existence_check
     verbosity:                         2
 
@@ -56,5 +56,3 @@
     verbosity:                         2
 
 ...
-
-

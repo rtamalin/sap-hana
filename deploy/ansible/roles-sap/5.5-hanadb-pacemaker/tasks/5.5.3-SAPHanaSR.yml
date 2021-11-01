@@ -12,7 +12,6 @@
   when:
     - hdb_version[0:2] == "2."
   block:
-      
 
     - name:                            Ensure a list of package version is available for checking the SAPHanaSR package version
       ansible.builtin.package_facts:
@@ -28,7 +27,7 @@
 
     - name:                            Check if "myHooks" file exists in /hana/shared directory
       ansible.builtin.stat:            path=/hana/shared/myHooks
-      register:                        myHooks_stat
+      register:                        my_hooks_stat
 
     - name:                            copy SAPHanaSR.py (SUSE)
       ansible.builtin.copy:
@@ -40,7 +39,7 @@
         mode:                          '0644'
       when:
         - ansible_os_family | upper == "SUSE"
-        - not myHooks_stat.stat.exists
+        - not my_hooks_stat.stat.exists
 
     - name:                            copy SAPHanaSR.py (RHEL)
       ansible.builtin.copy:
@@ -52,7 +51,7 @@
         mode:                          '0644'
       when:
         - ansible_os_family | upper == "REDHAT"
-        - not myHooks_stat.stat.exists
+        - not my_hooks_stat.stat.exists
 
     - name:                            Change ownership of the directory
       ansible.builtin.file:

@@ -25,8 +25,8 @@
                                       op stop timeout=300
                                       op monitor interval=10 timeout=600
                                       clone clone-max=2 clone-node-max=1 interleave=true
-      register:                       SAPHanaTopology
-      failed_when:                    SAPHanaTopology.rc > 1
+      register:                       sap_hana_topology
+      failed_when:                    sap_hana_topology.rc > 1
 
     - name:                            Ensure the SAP HANA resource is created
       ansible.builtin.shell: >
@@ -34,15 +34,15 @@
                                        SID={{ db_sid | upper }} InstanceNumber={{ hdb_instance_number }}
                                        PREFER_SITE_TAKEOVER=true DUPLICATE_PRIMARY_TIMEOUT=7200
                                        AUTOMATED_REGISTER=false
-                                       op start timeout={{ cluster_SAPHana_timeouts.start }}
-                                       op stop timeout={{ cluster_SAPHana_timeouts.stop }}
-                                       op monitor interval=59 role="Master" timeout={{ cluster_SAPHana_timeouts.monitor_master }}
-                                       op monitor interval=61 role="Slave" timeout={{ cluster_SAPHana_timeouts.monitor_slave }}
-                                       op promote timeout={{ cluster_SAPHana_timeouts.promote }}
-                                       op demote timeout={{ cluster_SAPHana_timeouts.demote }}
+                                       op start timeout={{ cluster_sap_hana_timeouts.start }}
+                                       op stop timeout={{ cluster_sap_hana_timeouts.stop }}
+                                       op monitor interval=59 role="Master" timeout={{ cluster_sap_hana_timeouts.monitor_master }}
+                                       op monitor interval=61 role="Slave" timeout={{ cluster_sap_hana_timeouts.monitor_slave }}
+                                       op promote timeout={{ cluster_sap_hana_timeouts.promote }}
+                                       op demote timeout={{ cluster_sap_hana_timeouts.demote }}
                                        master notify=true clone-max=2 clone-node-max=1 interleave=true
-      register:                        SAPHana
-      failed_when:                     SAPHana.rc > 1
+      register:                        sap_hana
+      failed_when:                     sap_hana.rc > 1
       when:                            ansible_distribution_major_version == "7"
 
     - name:                            Ensure the SAP HANA resource is created
@@ -51,15 +51,15 @@
                                        SID={{ db_sid | upper }} InstanceNumber={{ hdb_instance_number }}
                                        PREFER_SITE_TAKEOVER=true DUPLICATE_PRIMARY_TIMEOUT=7200
                                        AUTOMATED_REGISTER=false
-                                       op start timeout={{ cluster_SAPHana_timeouts.start }}
-                                       op stop timeout={{ cluster_SAPHana_timeouts.stop }}
-                                       op monitor interval=59 role="Master" timeout={{ cluster_SAPHana_timeouts.monitor_master }}
-                                       op monitor interval=61 role="Slave" timeout={{ cluster_SAPHana_timeouts.monitor_slave }}
-                                       op promote timeout={{ cluster_SAPHana_timeouts.promote }}
-                                       op demote timeout={{ cluster_SAPHana_timeouts.demote }}
+                                       op start timeout={{ cluster_sap_hana_timeouts.start }}
+                                       op stop timeout={{ cluster_sap_hana_timeouts.stop }}
+                                       op monitor interval=59 role="Master" timeout={{ cluster_sap_hana_timeouts.monitor_master }}
+                                       op monitor interval=61 role="Slave" timeout={{ cluster_sap_hana_timeouts.monitor_slave }}
+                                       op promote timeout={{ cluster_sap_hana_timeouts.promote }}
+                                       op demote timeout={{ cluster_sap_hana_timeouts.demote }}
                                        promotable meta notify=true clone-max=2 clone-node-max=1 interleave=true
-      register:                        SAPHana
-      failed_when:                     SAPHana.rc > 1
+      register:                        sap_hana
+      failed_when:                     sap_hana.rc > 1
       when:                            ansible_distribution_major_version == "8"
 
 
@@ -116,7 +116,7 @@
     - name:                            Ensure Cluster resources are started
       ansible.builtin.shell:           pcs status | grep '^Started:'
       register:                        hana_pcs_cluster_resource_check
-    
+
     - name:                            Ensure Cluster resources are started
       ansible.builtin.debug:
         var:                           hana_pcs_cluster_resource_check
@@ -126,10 +126,8 @@
       register:                        hana_cluster_resource_check
       retries:                         30
       delay:                           10
-      until:                           "'{{ primary_instance_name }}' in 
-                                        hana_cluster_resource_check.stdout or 
-                                        '{{ secondary_instance.name }}' in hana_cluster_resource_check.stdout"
+      until:                           "'{{ primary_instance_name }}' in hana_cluster_resource_check.stdout or '{{ secondary_instance.name }}' in hana_cluster_resource_check.stdout"
 
   when: ansible_hostname == primary_instance_name
-    
-#End of HANA clustering resources 
+
+# End of HANA clustering resources

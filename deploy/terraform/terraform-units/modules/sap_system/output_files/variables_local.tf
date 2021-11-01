@@ -154,10 +154,14 @@ variable "sap_transport" {
   default     = ""
 }
 
-
 variable "database_admin_ips" {
   description = "List of Admin NICs for the DB VMs"
 }
+
+variable "bom_name" {
+  default = ""
+}
+
 
 locals {
 

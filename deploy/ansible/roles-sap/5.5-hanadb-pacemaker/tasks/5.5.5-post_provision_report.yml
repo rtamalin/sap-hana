@@ -57,3 +57,4 @@
   ansible.builtin.file:
     path:                              /etc/sap_deployment_automation/sap_deployment_hana_pcm.txt
     state:                             touch
+    mode:                              0755

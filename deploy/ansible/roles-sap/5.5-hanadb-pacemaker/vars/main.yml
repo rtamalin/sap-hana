@@ -13,7 +13,7 @@ cluster_quorum:
 
 # These are the default timeouts used for the SAP HANA OS clustering. Depending on the
 # SAP HANA System, these may need to be adjusted if the operation takes longer than expected.
-cluster_SAPHana_timeouts:
+cluster_sap_hana_timeouts:
   start: 3600
   stop: 3600
   monitor_master: 700

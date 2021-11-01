@@ -39,7 +39,7 @@
         tasks_from:                    bom-register
       vars:
         bom_name:                      "{{ bom_base_name }}"
-    
+
     - name:                            "APP Install: Include roles-sap/3.3.1-bom-utility role"
       ansible.builtin.include_role:
         name:                          roles-sap/3.3.1-bom-utility
@@ -63,7 +63,7 @@
         sap_appVirtualHostname:        "{{ inventory_hostname }}"
       tags:
         - skip_ansible_lint
-    
+
 # *====================================4=======================================8
 #   SAP APP: Install
 # 2230669 - System Provisioning Using a Parameter Input File

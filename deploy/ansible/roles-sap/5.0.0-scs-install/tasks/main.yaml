@@ -34,10 +34,10 @@
 - name:                                "SCS Install"
   block:
 
-    - name:                                "SCS Install: Set BOM facts"
+    - name:                            "SCS Install: Set BOM facts"
       ansible.builtin.set_fact:
-        sap_inifile:                       "{{ bom_base_name }}-scs-{{ ansible_hostname }}.params"
-        sap_inifile_template:              "{{ bom_base_name }}-scs-inifile-param.j2"
+        sap_inifile:                   "{{ bom_base_name }}-scs-{{ ansible_hostname }}.params"
+        sap_inifile_template:          "{{ bom_base_name }}-scs-inifile-param.j2"
     # Returns bom object
 
     - name:                            "SCS Install: Include 3.3.1-bom-utility role"
@@ -91,8 +91,8 @@
                                        ./sapinst SAPINST_INPUT_PARAMETERS_URL=/usr/sap/install/downloads/{{ sap_inifile }}     \
                                                  SAPINST_EXECUTE_PRODUCT_ID={{ bom.product_ids.scs }}                          \
                                                  SAPINST_SKIP_DIALOGS=true                                                     \
-                                                 SAPINST_START_GUISERVER=false                                                 
-                                                 
+                                                 SAPINST_START_GUISERVER=false
+
       args:
         chdir:                         /usr/sap/install/SWPM
         creates:                       /etc/sap_deployment_automation/sap_deployment_scs.txt

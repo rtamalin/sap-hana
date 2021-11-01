@@ -122,9 +122,7 @@
   when:
     - tier == "sapos"
 
-
-# Debug testing end of line 
-
+# Debug testing end of line
 
 # CREATE LOGICAL VOLUMES BASED ON VGCREATEDLIST
 # -------------------------------------+---------------------------------------8

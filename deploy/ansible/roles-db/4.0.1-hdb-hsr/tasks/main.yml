@@ -13,4 +13,4 @@
     - import_tasks: 4.0.1.5-provision_hana_replication.yml
     - import_tasks: 4.0.1.6-post_checks.yml
 
-  when:                                not hana_system_replication_enabled
+#  when:                                not hana_system_replication_enabled

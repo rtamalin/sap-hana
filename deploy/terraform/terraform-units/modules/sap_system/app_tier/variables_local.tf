@@ -614,7 +614,7 @@ locals {
   app_zonal_deployment = length(local.app_zones) > 0 ? true : false
   app_zone_count       = length(local.app_zones)
   //If we deploy more than one server in zone put them in an availability set unless specified otherwise
-  use_app_avset = local.application_server_count > 0 && !var.application.app_no_avset ? !local.app_zonal_deployment || local.application_server_count != local.app_zone_count : false
+  use_app_avset = local.application_server_count > 0 && !var.application.app_no_avset ? true : false
 
   scs_zones            = try(var.application.scs_zones, [])
   scs_zonal_deployment = length(local.scs_zones) > 0 ? true : false

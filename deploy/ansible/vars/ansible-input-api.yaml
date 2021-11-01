@@ -21,8 +21,8 @@ bom_base_name:                ""                                                
 target_media_location:        "/usr/sap/install"                                        # Default
 sapbits_sas_token:            ""                                                        # Optional
 sapbits_access_key:           ""                                                        # Optional
-S_user:                       ""
-S_password:                   ""
+s_user:                       ""
+s_password:                   ""
 download_directory:           "/mnt/downloads"
 
 # SAP Configuration for templates and install

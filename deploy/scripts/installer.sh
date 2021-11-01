@@ -399,7 +399,11 @@ then
     if [ -z "${deployer_tfstate_key}" ]; then
         deployer_tfstate_key_parameter=" "
     else
-        deployer_tfstate_key_parameter=" -var deployer_tfstate_key=${deployer_tfstate_key}"
+        if [ "${deployment_system}" != sap_system ] ; then
+            deployer_tfstate_key_parameter=" -var deployer_tfstate_key=${deployer_tfstate_key}"
+        else
+            deployer_tfstate_key_parameter=" "
+        fi
     fi
     
 else
