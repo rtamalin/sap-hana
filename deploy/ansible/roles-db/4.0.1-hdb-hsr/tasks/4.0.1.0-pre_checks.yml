@@ -39,6 +39,7 @@
   become_user:                         "{{ db_sid_admin_user }}"
   become:                              true
   ansible.builtin.shell: >
+                                       set -o pipefail
                                        source ~/.bashrc ;
                                        hdbnsutil -sr_state | grep 'attached: true'
   register:                            hana_replication_status
