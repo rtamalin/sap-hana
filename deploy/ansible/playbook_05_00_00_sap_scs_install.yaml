@@ -13,12 +13,9 @@
 
 - hosts:                               localhost
   name:                                Get SPN from KeyVault
-  remote_user:    "{{ orchestration_ansible_user }}"
-  become:         false
-  become_user:    root
-  gather_facts:   true
+  gather_facts:                        true
   vars_files:
-    - vars/ansible-input-api.yaml                               # API Input template with defaults
+    - vars/ansible-input-api.yaml      # API Input template with defaults
 
 # -------------------------------------+---------------------------------------8
 #
@@ -49,7 +46,6 @@
         name:                          roles-misc/0.2-kv-secrets
       tags:
         - kv-secrets
-
 
 # /*---------------------------------------------------------------------------8
 # |                                                                            |
@@ -112,7 +108,7 @@
   become_user:                         root
   gather_facts:                        true
   vars_files:
-    - vars/ansible-input-api.yaml                               # API Input template with defaults
+    - vars/ansible-input-api.yaml      # API Input template with defaults
 
   tasks:
 # -------------------------------------+---------------------------------------8
@@ -202,7 +198,6 @@
         state:                         touch
         mode:                          0755
 ...
-
 
 # /*----------------------------------------------------------------------------8
 # |                                    END                                      |
