@@ -551,4 +551,6 @@ variable "bom_name" {
   default = ""
 }
 
-
+variable "no_spn" {
+  default = false
+}
