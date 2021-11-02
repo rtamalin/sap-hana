@@ -309,7 +309,7 @@ scs_server_count=1
 scs_high_availability=false
 
 # scs_instance_number
-scs_instance_number="01"
+scs_instance_number="00"
 
 # ers_instance_number
 ers_instance_number="02"
@@ -460,3 +460,6 @@ webdispatcher_server_count=0
 #anchor_vm_nic_ips=["","",""]
 # anchor_vm_use_DHCP is a boolean flag controlling if Azure subnet provided IP addresses should be used (true)
 #anchor_vm_use_DHCP=true
+
+# This is an optional parameter providing the SAP BOM Name
+bom_name="S41909SPS03_v0006ms"

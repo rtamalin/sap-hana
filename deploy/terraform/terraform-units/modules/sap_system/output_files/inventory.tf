@@ -267,7 +267,7 @@ locals {
     trimspace(split(":", strValue)[0]) => trimspace(substr(strValue, length(split(":", strValue)[0]) + 1, -1))
   })
 
-  bom = coalesce(var.bom_name, lookup(local.itemvalues, "bom_base_name", ""))
+  bom = trimspace(coalesce(var.bom_name, lookup(local.itemvalues, "bom_base_name", "")," "))
 
   token = lookup(local.itemvalues, "sapbits_sas_token", "")
 }
