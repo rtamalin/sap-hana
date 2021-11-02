@@ -112,7 +112,7 @@ options=(
         # Special menu entries
         "BOM Download"
         "Install SAP (1-7)"
-        "Post SAP Install (8-12)"
+        "Post SAP Install (8-10)"
         "All Playbooks"
         "Quit"
 )
@@ -162,7 +162,7 @@ do
         "${options[-2]}")   # Run through all playbooks
                 playbooks+=( "${all_playbooks[@]}" );;
         "${options[-3]}")   # Run through post installation playbooks
-                playbooks+=( "${all_playbooks[@]:7:6}" );;
+                playbooks+=( "${all_playbooks[@]:7:3}" );;
         "${options[-4]}")   # Run through first 7 playbooks i.e.  SAP installation
                 playbooks+=( "${all_playbooks[@]:0:7}" );;
         *)
