@@ -64,22 +64,22 @@
 
     - name:                            "Install HANA"
       block:
-        - name:                            Setting the DB facts
+        - name:                        Setting the DB facts
           ansible.builtin.set_fact:
-            tier:                          hdb                                     # Actions for HANA DB Serve
-            main_password:                 "{{ hostvars.localhost.sap_password }}"
+            tier:                      hdb                                     # Actions for HANA DB Serve
+            main_password:             "{{ hostvars.localhost.sap_password }}"
           tags:
             - always
 
-        - name:                            Show SAP password
+        - name:                        Show SAP password
           ansible.builtin.debug:
-            msg:                           "{{ hostvars.localhost.sap_password }}"
-            verbosity:                     2
+            msg:                       "{{ hostvars.localhost.sap_password }}"
+            verbosity:                 2
 
         - block:
-            - name:                        Include 4.0.0-hdb-install role
+            - name:                    Include 4.0.0-hdb-install role
               ansible.builtin.include_role:
-                name:                      roles-db/4.0.0-hdb-install
+                name:                  roles-db/4.0.0-hdb-install
           tags:
             - 4.0.0-hdb-install
 
@@ -88,7 +88,7 @@
 
         - name:                        Setting the DB facts
           ansible.builtin.set_fact:
-            tier:                      fencing
+            tier:                      ha
             main_password:             "{{ hostvars.localhost.sap_password }}"
             password_ha_db_cluster:    "{{ hostvars.localhost.db_cluster_password }}"
 
