@@ -496,7 +496,7 @@ variable "scs_instance_number" {
 }
 
 variable "ers_instance_number" {
-  default = "01"
+  default = "02"
 }
 
 /* 

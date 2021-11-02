@@ -51,7 +51,10 @@ location="westeurope"
 # for the brownfield scenario the Azure resource identifier for the subnet must be specified
 
 # The network logical name is mandatory - it is used in the naming convention and should map to the workload virtual network logical name 
-network_name="SAP01"
+network_logical_name="SAP01"
+
+# The name is optional - it can be used to override the default naming
+#network_name=""
 
 # network_arm_id is an optional parameter that if provided specifies Azure resource identifier for the existing Virtual Network
 #network_arm_id=""

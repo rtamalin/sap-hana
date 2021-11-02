@@ -162,6 +162,13 @@ variable "bom_name" {
   default = ""
 }
 
+variable "scs_instance_number" {
+  default = "00"
+}
+
+variable "ers_instance_number" {
+  default = "02"
+}
 
 locals {
 

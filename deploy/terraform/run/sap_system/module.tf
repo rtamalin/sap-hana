@@ -209,5 +209,7 @@ module "output_files" {
   sap_transport         = module.common_infrastructure.saptransport_path
   ers_lb_ip             = module.app_tier.ers_lb_ip
   bom_name              = var.bom_name
+  scs_instance_number   = var.scs_instance_number
+  ers_instance_number   = var.ers_instance_number
 
 }

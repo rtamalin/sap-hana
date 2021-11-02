@@ -203,9 +203,18 @@ resource "local_file" "sap-parameters_yml" {
     db_ha         = var.db_ha
     dns           = local.dns_label
     bom           = local.bom
-    sap_mnt       = length(trimspace(var.sap_mnt)) > 0 ? format("sap_mnt:                       %s", var.sap_mnt) : ""
-    sap_transport = length(trimspace(var.sap_transport)) > 0 ? format("sap_trans:                     %s", var.sap_transport) : ""
-    platform      = length(local.hdb_vms) > 0 ? "HANA" : upper(local.anydb_vms[0].platform)
+    sap_mnt = length(trimspace(var.sap_mnt)) > 0 ? (
+      format("sap_mnt:                       %s", var.sap_mnt)) : (
+      ""
+    )
+    sap_transport = length(trimspace(var.sap_transport)) > 0 ? (
+      format("sap_trans:                     %s", var.sap_transport)) : (
+      ""
+    )
+    platform            = length(local.hdb_vms) > 0 ? "HANA" : upper(local.anydb_vms[0].platform)
+    scs_instance_number = var.scs_instance_number
+    ers_instance_number = var.ers_instance_number
+
     }
   )
   filename             = format("%s/sap-parameters.yaml", path.cwd)
@@ -258,7 +267,7 @@ locals {
     trimspace(split(":", strValue)[0]) => trimspace(substr(strValue, length(split(":", strValue)[0]) + 1, -1))
   })
 
-  bom = coalesce(var.bom_name,lookup(local.itemvalues, "bom_base_name", ""))
+  bom = coalesce(var.bom_name, lookup(local.itemvalues, "bom_base_name", ""))
 
   token = lookup(local.itemvalues, "sapbits_sas_token", "")
 }
